@@ -11,11 +11,6 @@ import dashboardRoutes from 'routes/dashboard.jsx'
 import { style } from 'variables/Variables.jsx'
 
 class Dashboard extends Component {
-	constructor(props) {
-		super(props)
-		this.componentDidMount = this.componentDidMount.bind(this)
-	}
-
 	componentDidUpdate(e) {
 		if (
 			window.innerWidth < 993 &&
