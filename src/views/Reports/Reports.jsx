@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, ButtonGroup, Dropdown, MenuItem } from 'react-bootstrap'
 import './reports.scss'
+import SearchBar from './components/SearchBar/SearchBar'
 
 const rateOptions = [
 	{
@@ -85,6 +86,9 @@ class Reports extends Component {
 	render() {
 		return (
 			<div className="content reports">
+				<div className={'reports__search-bar'}>
+					<SearchBar />
+				</div>
 				<div className={'reports__filters'}>
 					<div className={'left-container'}>
 						<p>Realtime View</p>
