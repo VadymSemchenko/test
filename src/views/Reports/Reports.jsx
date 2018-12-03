@@ -1,13 +1,5 @@
 import React, { Component } from 'react'
-import {
-	Button,
-	ButtonGroup,
-	Col,
-	Dropdown,
-	Grid,
-	MenuItem,
-	Row
-} from 'react-bootstrap'
+import { Button, ButtonGroup, Dropdown, MenuItem } from 'react-bootstrap'
 import './reports.scss'
 
 const rateOptions = [
@@ -42,7 +34,7 @@ class Reports extends Component {
 	}
 
 	renderRefreshRateDropdown = () => (
-		<div className={'reports__refresh-container'}>
+		<div className={'reports__filters-refresh'}>
 			<p>Refresh: </p>
 			<Dropdown id={'dropdown-refresh-rate'}>
 				<Dropdown.Toggle id="dropdown-basic">
@@ -67,7 +59,7 @@ class Reports extends Component {
 	renderFilterButtons = () => {
 		const { filter } = this.state
 		return (
-			<ButtonGroup className={'reports__filter-buttons'}>
+			<ButtonGroup className={'reports__filters-buttons'}>
 				<Button
 					onClick={() => this.changeFilter(0)}
 					bsStyle={filter === 0 ? 'primary' : 'default'}
@@ -93,20 +85,15 @@ class Reports extends Component {
 	render() {
 		return (
 			<div className="content reports">
-				<Grid fluid>
-					<Row>{/*<SearchComponent/>*/}</Row>
-					<Row>
-						<Col xs={12} sm={3}>
-							<p>Realtime View</p>
-						</Col>
-						<Col sm={9} xs={12}>
-							<div className={'right-container'}>
-								{this.renderRefreshRateDropdown()}
-								{this.renderFilterButtons()}
-							</div>
-						</Col>
-					</Row>
-				</Grid>
+				<div className={'reports__filters'}>
+					<div className={'left-container'}>
+						<p>Realtime View</p>
+					</div>
+					<div className={'right-container'}>
+						{this.renderRefreshRateDropdown()}
+						{this.renderFilterButtons()}
+					</div>
+				</div>
 			</div>
 		)
 	}

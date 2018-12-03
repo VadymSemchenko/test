@@ -1,6 +1,12 @@
 @import '../../assets/sass/lbd/variables';
+@import '../../assets/sass/lbd/mixins';
 
 .reports {
+}
+
+@mixin space-vertical($margin) {
+	margin-top: $margin;
+	margin-bottom: $margin;
 }
 
 .reports {
@@ -8,32 +14,67 @@
 		line-height: 1;
 		margin: 0;
 	}
-	.right-container {
+	&__filters {
 		display: flex;
-		justify-content: flex-end;
 		align-items: center;
+		align-content: space-between;
 
-		@media (max-width: 768px) {
+		@include respond-to($tablet-portrait) {
+			display: block;
+		}
+
+		.right-container {
+			display: flex;
+			flex: 1;
+			justify-content: flex-end;
+			align-items: center;
+
+			@include respond-to($tablet-portrait) {
+				justify-content: flex-start;
+				@include space-vertical(8px);
+			}
+
+			@include respond-to($phone) {
+				display: block;
+			}
+		}
+
+		.left-container {
+			display: flex;
 			justify-content: flex-start;
-			margin-top: 8px;
-			margin-bottom: 8px;
-		}
-	}
-	&__filter-buttons {
-		margin-left: 32px;
-		.btn {
-			min-width: 80px;
-		}
-	}
+			align-items: center;
 
-	&__refresh-container {
-		display: flex;
-		align-items: center;
-		p {
-			margin-right: 8px;
+			@include respond-to($phone) {
+				justify-content: center;
+			}
 		}
-		.dropdown-toggle {
-			min-width: 120px;
+
+		&-buttons {
+			margin-left: 32px;
+			.btn {
+				min-width: 80px;
+			}
+			@include respond-to($phone) {
+				display: flex;
+				margin-left: 0;
+				justify-content: center;
+			}
+		}
+
+		&-refresh {
+			display: flex;
+			align-items: center;
+			p {
+				margin-right: 8px;
+			}
+			.dropdown-toggle {
+				min-width: 120px;
+			}
+
+			@include respond-to($phone) {
+				justify-content: center;
+				@include space-vertical(8px);
+			}
 		}
 	}
 }
