@@ -97,6 +97,7 @@ class Reports extends Component {
 							{this.renderFilterButtons()}
 						</Col>
 					</Row>
+					<Row>{/*<ReportsTableHeader/>*/}</Row>
 				</Grid>
 			</div>
 		)
