@@ -9,6 +9,7 @@ import {
 	Row
 } from 'react-bootstrap'
 import './reports.scss'
+import SearchBar from './components/SearchBar/SearchBar'
 
 const rateOptions = [
 	{
@@ -66,7 +67,9 @@ class Reports extends Component {
 		return (
 			<div className="content report">
 				<Grid fluid>
-					<Row>{/*<SearchComponent/>*/}</Row>
+					<Row>
+						<SearchBar />
+					</Row>
 					<Row
 						style={{
 							display: 'flex',
