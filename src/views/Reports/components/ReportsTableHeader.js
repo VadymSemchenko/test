@@ -1,8 +1,9 @@
 import React from 'react'
+import './reports-table-header.scss'
 
 export default function ReportsTableHeader() {
 	return (
-		<div className={'table-header'}>
+		<div className={'reports-table-header header'}>
 			<div>Policy</div>
 			<div>Source</div>
 			<div>Service</div>
