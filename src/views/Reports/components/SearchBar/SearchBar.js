@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown, MenuItem } from 'react-bootstrap'
+import { Dropdown, Glyphicon, MenuItem } from 'react-bootstrap'
 import './search-bar.scss'
 
 export default class SearchBar extends React.Component {
@@ -29,7 +29,7 @@ export default class SearchBar extends React.Component {
 						))}
 					</Dropdown.Menu>
 				</Dropdown>
-				<img className={'small-icon'} />
+				<Glyphicon className={'small-icon'} glyph="search" />
 				<input
 					placeholder={'Search'}
 					value={this.state.value}
