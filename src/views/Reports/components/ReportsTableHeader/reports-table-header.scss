@@ -1,4 +1,4 @@
-@import '../../../assets/sass/lbd/variables';
+@import '../../../../assets/sass/lbd/variables';
 
 .reports-table-header {
 	&.header {
@@ -10,6 +10,7 @@
 		margin-top: 16px;
 		border-radius: 2px;
 		div {
+			flex: 1;
 			color: white;
 			text-transform: uppercase;
 			font-size: 12px;
