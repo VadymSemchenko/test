@@ -1,6 +1,39 @@
-.report {
+@import '../../assets/sass/lbd/variables';
+
+.reports {
+}
+
+.reports {
 	p {
 		line-height: 1;
 		margin: 0;
+	}
+	.right-container {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+
+		@media (max-width: 768px) {
+			justify-content: flex-start;
+			margin-top: 8px;
+			margin-bottom: 8px;
+		}
+	}
+	&__filter-buttons {
+		margin-left: 32px;
+		.btn {
+			min-width: 80px;
+		}
+	}
+
+	&__refresh-container {
+		display: flex;
+		align-items: center;
+		p {
+			margin-right: 8px;
+		}
+		.dropdown-toggle {
+			min-width: 120px;
+		}
 	}
 }
