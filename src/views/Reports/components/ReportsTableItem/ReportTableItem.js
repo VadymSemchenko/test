@@ -1,6 +1,6 @@
 import moment from 'moment'
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import './reports-table-item.scss'
 
 const STATUS = [
@@ -15,71 +15,60 @@ export default function ReportsTableItem({ data }) {
 
 	return (
 		<div className={'reports-table-item item'}>
-			<div>
-				<img className={'small-icon'} />
-				<img className={'small-icon'} />
-				<p className={'medium'}>{moment(data.date).format('MM/DD/YYYY')}</p>
-				<p className={'medium'}>{moment(data.date).format('HH:mm:ss')}</p>
+			<div className={'field field__policy'}>
+				<img alt={'arrow-icon'} className={'small-icon'} />
+				<img alt={'policy-icon'} className={'small-icon'} />
+				<div>
+					<p className={'medium'}>{moment(data.date).format('MM/DD/YYYY')}</p>
+					<p className={'medium'}>{moment(data.date).format('HH:mm:ss')}</p>
+				</div>
 			</div>
-			<div>
+			<div className={'field field__source'}>
 				<p className={'small'}>{data.source}</p>
 			</div>
-			<div>
-				<img className={'small-icon'} />
-				<p className={'medium'}>{`${data.service.tcp ? 'TCP' : 'UDP'}/${
-					data.service.port
-				}`}</p>
-				<p className={'small'}>{`(${data.service.protocol})`}</p>
+			<div className={'field field__service'}>
+				<img alt={'service-icon'} className={'small-icon'} />
+				<div>
+					<p className={'medium strong'}>{`${
+						data.service.tcp ? 'TCP' : 'UDP'
+					}/${data.service.port}`}</p>
+					<p className={'small'}>{`(${data.service.protocol})`}</p>
+				</div>
 			</div>
-			<div>
-				<img className={'small-icon'} />
-				<p className={'medium'}>{data.application}</p>
+			<div className={'vertical-divider vertical-divider--big'} />
+			<div className={'field field__application'}>
+				<img alt={'application-icon'} className={'small-icon'} />
+				<p className={'medium strong'}>{data.application}</p>
 			</div>
-			<div>
+			<div className={'field field__destination'}>
 				<p className={'small'}>{data.destination}</p>
 			</div>
-			<div>
+			<div className={'field field__actions'}>
 				{data.actions.map(action => (
-					<div key={`action-item-index-${action}`}>
-						<img className={'small-icon'} />
+					<div className={'action'} key={`action-item-index-${action}`}>
+						<img alt={'icon'} className={'small-icon'} />
 						<p className={'medium'}>{action}</p>
 					</div>
 				))}
 			</div>
-			<div>
+			<div className={'field field__alert'}>
 				{data.alert ? (
-					<div>
-						<img className={'small-icon'} />
+					<React.Fragment>
+						<img alt={'alert-icon'} className={'small-icon'} />
 						<p className={'medium'}>{data.alert}</p>
-					</div>
+					</React.Fragment>
 				) : (
-					<p>-</p>
+					<p className={'strong'}>-</p>
 				)}
 			</div>
-			<div>
-				<img className={'small-icon'} />
+			<div className={'field field__status'}>
+				<img alt={'status-icon'} className={'small-icon'} />
 				<p className={'medium'}>{status.name}</p>
 			</div>
 		</div>
 	)
 }
 
-// ReportsTableItem.propTypes = {
-//   data: PropTypes.object.shape({
-//     id: PropTypes.string.isRequired,
-//     date: PropTypes.string.isRequired,
-//     policy: PropTypes.string,
-//     source: PropTypes.string.isRequired,
-//     service: PropTypes.object.shape({
-//       protocol: PropTypes.string.isRequired,
-//       port: PropTypes.number.isRequired,
-//       tcp: PropTypes.bool.isRequired,
-//       status: PropTypes.string
-//     }).isRequired,
-//     application: PropTypes.string.isRequired,
-//     destination: PropTypes.string.isRequired,
-//     actions: PropTypes.arrayOf(PropTypes.string).isRequired(),
-//     alert: PropTypes.string,
-//     status: PropTypes.string.isRequired
-//   }).isRequired
-// }
+ReportsTableItem.propTypes = {
+	data: PropTypes.object.isRequired
+}

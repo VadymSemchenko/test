@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Button, ButtonGroup, Dropdown, MenuItem } from 'react-bootstrap'
-import './reports.scss'
 import ReportsTableHeader from './components/ReportsTableHeader/ReportsTableHeader'
 import ReportsTableItem from './components/ReportsTableItem/ReportTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
+import './reports.scss'
 
 const rateOptions = [
 	{
@@ -100,27 +100,48 @@ class Reports extends Component {
 						{this.renderFilterButtons()}
 					</div>
 				</div>
-				<div className={'reports__table'}>
-					<ReportsTableHeader />
-					<ReportsTableItem
-						data={{
-							id: '123',
-							date: '2008-09-15T15:53:00',
-							policy: '',
-							source: 'jardance.Xeoma-Cloud.com',
-							service: {
-								protocol: 'http',
-								port: 80,
-								tcp: true,
+				<div className={'reports__table-container'}>
+					<div className={'reports__table'}>
+						<ReportsTableHeader />
+						<ReportsTableItem
+							data={{
+								id: '123',
+								date: '2008-09-15T15:53:00',
+								policy: '',
+								source: 'jardance.Xeoma-Cloud.com',
+								service: {
+									protocol: 'http',
+									port: 80,
+									tcp: true,
+									status: 'active'
+								},
+								application: 'browsing',
+								destination: 'jardance.Xeoma-Cloud.com',
+								actions: ['Allow', 'URL'],
+								alert: 'threat',
 								status: 'active'
-							},
-							application: 'browsing',
-							destination: 'jardance.Xeoma-Cloud.com',
-							actions: ['Allow', 'URL'],
-							alert: 'threat',
-							status: 'active'
-						}}
-					/>
+							}}
+						/>
+						<ReportsTableItem
+							data={{
+								id: '123',
+								date: '2017-09-15T15:53:00',
+								policy: '',
+								source: 'jardance.Xeoma-Cloud.com',
+								service: {
+									protocol: 'http',
+									port: 443,
+									tcp: true,
+									status: 'active'
+								},
+								application: 'browsing',
+								destination: 'jardance.Xeoma-Cloud.com',
+								actions: ['Allow', 'URL'],
+								alert: false,
+								status: 'completed'
+							}}
+						/>
+					</div>
 				</div>
 			</div>
 		)

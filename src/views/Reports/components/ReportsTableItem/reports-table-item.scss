@@ -3,12 +3,26 @@
 		background-color: white;
 		border-radius: 2px;
 		border: 1px solid #ebebeb;
-		padding: 16px;
+		padding: 8px 16px;
 		margin-top: 16px;
 		display: flex;
 		flex-direction: row;
-		justify-content: space-between;
-		div {
+		align-items: center;
+		.vertical-divider {
+			width: 1px;
+			background-color: #dedede;
+
+			&--small {
+			}
+
+			&--big {
+				height: 40px;
+				margin-right: 32px;
+			}
+		}
+		.field {
+			flex: 1;
+			align-content: center;
 			font-size: 12px;
 			color: #a1a1a1;
 			p {
@@ -21,11 +35,45 @@
 				&.normal {
 					font-size: 16px;
 				}
+				&.strong {
+					font-weight: bold;
+				}
+			}
+
+			&__policy {
+				display: flex;
+				align-items: center;
+			}
+			&__source,
+			&__destination {
+				text-align: center;
+			}
+			&__service,
+			&__application {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			&__status,
+			&__alert {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			&__actions {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				.action {
+					display: flex;
+					align-items: center;
+				}
 			}
 		}
 		.small-icon {
 			height: 20px;
 			width: 20px;
+			margin: 4px;
 		}
 	}
 }
