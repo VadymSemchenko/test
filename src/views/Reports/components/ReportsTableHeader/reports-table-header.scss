@@ -1,0 +1,25 @@
+@import '../../../../assets/sass/lbd/variables';
+
+.reports-table-header {
+	&.header {
+		background-color: $wedge-primary-color;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		padding: 16px;
+		margin-top: 16px;
+		border-radius: 2px;
+		.empty {
+			width: 1px;
+			margin-right: 32px;
+		}
+		div.field {
+			flex: 1;
+			align-content: center;
+			color: white;
+			text-transform: uppercase;
+			font-size: 12px;
+			font-weight: bold;
+		}
+	}
+}
