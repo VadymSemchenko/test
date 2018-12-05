@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
 import { Button, ButtonGroup, Dropdown, MenuItem } from 'react-bootstrap'
+import { connect } from 'react-redux'
+import {
+	createErrorMessageSelector,
+	createLoadingSelector
+} from '../../store/utils/selectors'
 import ReportsTableHeader from './components/ReportsTableHeader/ReportsTableHeader'
 import ReportsTableItem from './components/ReportsTableItem/ReportTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
@@ -148,4 +153,21 @@ class Reports extends Component {
 	}
 }
 
-export default Reports
+const loadingSelector = createLoadingSelector(['GET_REPORTS'])
+const errorSelector = createErrorMessageSelector(['GET_REPORTS'])
+const mapStateToProps = state => {
+	return {
+		isLoading: loadingSelector(state),
+		items: state.reports.items,
+		error: errorSelector(state)
+	}
+}
+
+const mapDispatchToProps = () => {
+	return {}
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Reports)
