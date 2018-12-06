@@ -8,12 +8,12 @@ const LoadableReports = Loadable({
 
 const dashboardRoutes = [
 	{
-		path: '/reports',
+		path: '/ecosystems/reports',
 		name: 'Reports',
 		icon: 'pe-7s-note2',
 		component: LoadableReports
 	},
-	{ redirect: true, path: '/', to: '/reports', name: 'Reports' }
+	{ redirect: true, path: '/', to: '/ecosystems/reports', name: 'Reports' }
 ]
 
 export default dashboardRoutes
