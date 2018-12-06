@@ -4,10 +4,9 @@ import React from 'react'
 import './reports-table-header.scss'
 
 const FIELDS = [
-	{ name: 'Policy' },
+	{ name: 'Policy', center: true },
 	{ name: 'Source', center: true },
 	{ name: 'Service', center: true },
-	{ divider: true, index: 0 },
 	{ name: 'Application', center: true },
 	{ name: 'Destination', center: true },
 	{ name: 'Action', center: true },
