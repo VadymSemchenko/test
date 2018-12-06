@@ -123,7 +123,7 @@ class Reports extends Component {
 								application: 'browsing',
 								destination: 'jardance.Xeoma-Cloud.com',
 								actions: ['Allow', 'URL'],
-								alert: 'threat',
+								alert: 'Threat',
 								status: 'active'
 							}}
 						/>
