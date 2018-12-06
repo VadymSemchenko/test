@@ -135,25 +135,6 @@ class Reports extends Component {
 								/>
 							)}
 						</MediaQuery>
-						<ReportsTableItem
-							data={{
-								id: '123',
-								date: '2017-09-15T15:53:00',
-								policy: '',
-								source: 'jardance.Xeoma-Cloud.com',
-								service: {
-									protocol: 'http',
-									port: 443,
-									tcp: true,
-									status: 'active'
-								},
-								application: 'browsing',
-								destination: 'jardance.Xeoma-Cloud.com',
-								actions: ['Allow', 'URL'],
-								alert: false,
-								status: 'completed'
-							}}
-						/>
 					</div>
 				</div>
 			</div>

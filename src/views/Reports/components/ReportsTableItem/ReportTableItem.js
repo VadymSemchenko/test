@@ -178,7 +178,7 @@ StatusField.propTypes = {
 }
 
 AlertField.propTypes = {
-	alert: PropTypes.string.isRequired
+	alert: PropTypes.any.isRequired
 }
 
 ActionsField.propTypes = {
@@ -213,7 +213,7 @@ PolicyField.propTypes = {
 }
 
 TableItemContainer.propTypes = {
-	children: PropTypes.element.isRequired
+	children: PropTypes.array.isRequired
 }
 
 ReportsTableItem.propTypes = {
