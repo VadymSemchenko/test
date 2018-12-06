@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, ButtonGroup, Dropdown, MenuItem } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import MediaQuery from 'react-responsive'
 import {
 	createErrorMessageSelector,
 	createLoadingSelector
@@ -107,45 +108,33 @@ class Reports extends Component {
 				</div>
 				<div className={'reports__table-container'}>
 					<div className={'reports__table'}>
-						<ReportsTableHeader />
-						<ReportsTableItem
-							data={{
-								id: '123',
-								date: '2008-09-15T15:53:00',
-								policy: '',
-								source: 'jardance.Xeoma-Cloud.com',
-								service: {
-									protocol: 'http',
-									port: 80,
-									tcp: true,
-									status: 'active'
-								},
-								application: 'browsing',
-								destination: 'jardance.Xeoma-Cloud.com',
-								actions: ['Allow', 'URL'],
-								alert: 'threat',
-								status: 'active'
-							}}
-						/>
-						<ReportsTableItem
-							data={{
-								id: '123',
-								date: '2017-09-15T15:53:00',
-								policy: '',
-								source: 'jardance.Xeoma-Cloud.com',
-								service: {
-									protocol: 'http',
-									port: 443,
-									tcp: true,
-									status: 'active'
-								},
-								application: 'browsing',
-								destination: 'jardance.Xeoma-Cloud.com',
-								actions: ['Allow', 'URL'],
-								alert: false,
-								status: 'completed'
-							}}
-						/>
+						<MediaQuery minWidth={992}>
+							<ReportsTableHeader />
+						</MediaQuery>
+						<MediaQuery maxWidth={991}>
+							{matches => (
+								<ReportsTableItem
+									responsive={matches}
+									data={{
+										id: '123',
+										date: '2008-09-15T15:53:00',
+										policy: '',
+										source: 'jardance.Xeoma-Cloud.com',
+										service: {
+											protocol: 'http',
+											port: 80,
+											tcp: true,
+											status: 'active'
+										},
+										application: 'browsing',
+										destination: 'jardance.Xeoma-Cloud.com',
+										actions: ['Allow', 'URL'],
+										alert: 'Threat',
+										status: 'active'
+									}}
+								/>
+							)}
+						</MediaQuery>
 					</div>
 				</div>
 			</div>
