@@ -1,7 +1,8 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { HashRouter, Route, Switch } from 'react-router-dom'
-import indexRoutes from './routes'
+import Dashboard from './layouts/Dashboard/Dashboard'
+import Ecosystems from './layouts/Ecosystems/Ecosystems'
 import configureStore from './store'
 
 const store = configureStore()
@@ -11,9 +12,8 @@ export default function App() {
 		<Provider store={store}>
 			<HashRouter>
 				<Switch>
-					{indexRoutes.map((prop, key) => {
-						return <Route to={prop.path} component={prop.component} key={key} />
-					})}
+					<Route path={'/'} exact component={Ecosystems} />
+					<Route path={'/ecosystems'} component={Dashboard} />
 				</Switch>
 			</HashRouter>
 		</Provider>
