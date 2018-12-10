@@ -26,12 +26,12 @@ const rateOptions = [
 		text: 'Freeze'
 	},
 	{
-		value: 10,
-		text: '10 seconds'
+		value: 30,
+		text: '30 seconds'
 	},
 	{
-		value: 20,
-		text: '[20s] Every minute'
+		value: 60,
+		text: 'Every minute'
 	}
 ]
 
