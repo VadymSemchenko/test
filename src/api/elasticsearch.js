@@ -6,16 +6,31 @@ const elasticsearch = axios.create({
 
 const REPORTS_INDEX = 'elastictest'
 
-export function fetchReports(query) {
-	return elasticsearch
+export async function fetchReports(query) {
+	const hits = await elasticsearch
 		.post(`${REPORTS_INDEX}/_search`, query)
 		.then(response => {
 			return response.data.hits.hits
 		})
-		.map(report => report._source)
+	return hits
+		.map(report => ({ ...report._source, id: report._id }))
 		.map(report => {
 			return {
-				eventDate: report.EventDatetime
+				id: report._id,
+				date: report.EventDatetime,
+				policy: report.PolicyID,
+				source: report.SourceID,
+				service: {
+					protocol: '',
+					port: report.DestinationPort,
+					tcp: 'UDP',
+					status: ''
+				},
+				application: '',
+				destination: report.DestinationID,
+				actions: [report.EventAction],
+				alert: 'Threat',
+				status: 'active'
 			}
 		})
 }

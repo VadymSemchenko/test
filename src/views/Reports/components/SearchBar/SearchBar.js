@@ -20,7 +20,6 @@ export default class SearchBar extends React.Component {
 					<Dropdown.Toggle bsStyle={'primary'} id="dropdown-basic">
 						{'All'}
 					</Dropdown.Toggle>
-
 					<Dropdown.Menu>
 						{['All', 'Some', 'Any'].map(rate => (
 							<MenuItem active={rate === 'All'} key={`rate-index-item-${rate}`}>

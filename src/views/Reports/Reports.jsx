@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
-import { Button, ButtonGroup, Dropdown, MenuItem } from 'react-bootstrap'
+import {
+	Button,
+	ButtonGroup,
+	Dropdown,
+	Glyphicon,
+	MenuItem
+} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import MediaQuery from 'react-responsive'
 import {
@@ -11,6 +17,7 @@ import ReportsTableItem from './components/ReportsTableItem/ReportTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './reports.scss'
 import { fetchReports, fetchNewest, fetchOlder } from './scenario-actions'
+import PropTypes from 'prop-types'
 
 const rateOptions = [
 	{
@@ -18,33 +25,55 @@ const rateOptions = [
 		text: 'Freeze'
 	},
 	{
-		value: 30,
-		text: '30 seconds'
+		value: 10,
+		text: '10 seconds'
 	},
 	{
-		value: 60,
-		text: 'Every minute'
+		value: 20,
+		text: '[20s] Every minute'
 	}
 ]
 
 class Reports extends Component {
-	state = {
-		rate: { value: 0, text: 'Never' },
-		filter: 0
+	constructor(props) {
+		super(props)
+		this.state = {
+			rate: { value: 0, text: 'Freeze' },
+			filter: 0
+		}
 	}
 
 	componentDidMount() {
 		this.props.fetchReports()
+		this.startSyncingInterval()
+	}
+
+	startSyncingInterval = () => {
+		const rateTime = this.state.rate.value
+		if (this.refreshInterval) {
+			clearInterval(this.refreshInterval)
+		}
+		if (rateTime !== 0) {
+			this.refreshInterval = setInterval(() => {
+				this.props.fetchNewest()
+			}, rateTime * 1000)
+		}
 	}
 
 	handleChangeRefreshRate = rate => {
-		this.setState({ rate })
+		this.setState({ rate }, () => {
+			this.startSyncingInterval()
+		})
 	}
 
 	changeFilter = val => {
 		this.setState({
 			filter: val
 		})
+	}
+
+	handleRefresh = () => {
+		this.props.fetchReports()
 	}
 
 	renderRefreshRateDropdown = () => (
@@ -96,6 +125,17 @@ class Reports extends Component {
 		)
 	}
 
+	renderReports = matches => {
+		const { items } = this.props
+		return items.map(item => (
+			<ReportsTableItem
+				key={`reports-table-item-${item.id}-${item.date}`}
+				responsive={matches}
+				data={item}
+			/>
+		))
+	}
+
 	render() {
 		return (
 			<div className="content reports">
@@ -108,6 +148,11 @@ class Reports extends Component {
 					</div>
 					<div className={'right-container'}>
 						{this.renderRefreshRateDropdown()}
+						<Glyphicon
+							className={'small-icon refresh-button'}
+							glyph="repeat"
+							onClick={this.handleRefresh}
+						/>
 						{this.renderFilterButtons()}
 					</div>
 				</div>
@@ -117,28 +162,7 @@ class Reports extends Component {
 							<ReportsTableHeader />
 						</MediaQuery>
 						<MediaQuery maxWidth={991}>
-							{matches => (
-								<ReportsTableItem
-									responsive={matches}
-									data={{
-										id: '123',
-										date: '2008-09-15T15:53:00',
-										policy: '',
-										source: 'jardance.Xeoma-Cloud.com',
-										service: {
-											protocol: 'http',
-											port: 80,
-											tcp: true,
-											status: 'active'
-										},
-										application: 'browsing',
-										destination: 'jardance.Xeoma-Cloud.com',
-										actions: ['Allow', 'URL'],
-										alert: 'Threat',
-										status: 'active'
-									}}
-								/>
-							)}
+							{matches => this.renderReports(matches)}
 						</MediaQuery>
 					</div>
 				</div>
@@ -147,12 +171,22 @@ class Reports extends Component {
 	}
 }
 
-const loadingSelector = createLoadingSelector(['GET_REPORTS'])
-const errorSelector = createErrorMessageSelector(['GET_REPORTS'])
+Reports.propTypes = {
+	fetchReports: PropTypes.func.isRequired,
+	fetchNewest: PropTypes.func.isRequired,
+	items: PropTypes.array.isRequired
+}
+
+Reports.defaultProps = {
+	items: []
+}
+
+const loadingSelector = createLoadingSelector(['FETCHING_REPORTS'])
+const errorSelector = createErrorMessageSelector(['FETCHING_REPORTS'])
 const mapStateToProps = state => {
 	return {
-		isLoading: loadingSelector(state),
 		items: state.reports.items,
+		isLoading: loadingSelector(state),
 		error: errorSelector(state)
 	}
 }

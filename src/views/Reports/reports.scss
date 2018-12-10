@@ -49,6 +49,16 @@
 			justify-content: flex-end;
 			align-items: center;
 
+			.refresh-button {
+				font-size: 16px;
+				margin-left: 8px;
+				cursor: pointer;
+				color: #636363;
+				&:hover {
+					color: #212121;
+				}
+			}
+
 			@include respond-to($tablet-portrait) {
 				justify-content: flex-start;
 				@include space-vertical(8px);

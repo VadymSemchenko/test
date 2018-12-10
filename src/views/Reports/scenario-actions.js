@@ -1,39 +1,51 @@
 import * as ES from '../../api/elasticsearch'
+import {
+	fetchingReportsFailed,
+	fetchingReportsStarted,
+	fetchingReportsSuccess
+} from '../../store/reports/actions'
 
 const REPORTS_PER_PAGE = process.env.REACT_APP_REPORTS_PER_PAGE || 50
 
 export function fetchReports() {
-	return async (dispatch, getState) => {
+	return async dispatch => {
 		try {
-			// dispatch(fetchingReportsStart())
+			dispatch(fetchingReportsStarted())
 			const reports = await ES.fetchReports({
 				query: {
-					match_all: {}
+					bool: {
+						must: {
+							match_all: {}
+						}
+					}
 				},
 				sort: {
 					EventDatetime: { order: 'desc' }
 				},
 				size: REPORTS_PER_PAGE
 			})
-			// dispatch(fetchingReportsSuccess())
+			dispatch(fetchingReportsSuccess(reports))
 		} catch (err) {
-			console.log(err)
-			// dispatch(fetchingReportsFailed())
+			dispatch(fetchingReportsFailed())
 		}
 	}
 }
 
 export function fetchNewest() {
-	return (dispatch, getState) => {
+	return async (dispatch, getState) => {
 		const element = getState().reports.items[0]
 		try {
-			// dispatch(fetchingReportsStart())
-			ES.fetchReports({
+			dispatch(fetchingReportsStarted())
+			const results = await ES.fetchReports({
 				query: {
-					match_all: {},
-					range: {
-						EventDatetime: {
-							lt: element.eventDate
+					bool: {
+						must: { match_all: {} },
+						filter: {
+							range: {
+								EventDatetime: {
+									gt: element.date
+								}
+							}
 						}
 					}
 				},
@@ -42,27 +54,28 @@ export function fetchNewest() {
 				},
 				size: REPORTS_PER_PAGE
 			})
-			// dispatch(fetchingReportsSuccess())
+			dispatch(fetchingReportsSuccess(results))
 		} catch (err) {
-			console.log(err)
-			// dispatch(fetchingReportsFailed())
+			dispatch(fetchingReportsFailed())
 		}
 	}
 }
 
 export function fetchOlder() {
-	return (dispatch, getState) => {
+	return async (dispatch, getState) => {
 		const element = getState().reports.items[
 			getState().reports.items.length - 1
 		]
 		try {
-			// dispatch(fetchingReportsStart())
-			ES.fetchReports({
+			dispatch(fetchingReportsStarted())
+			const results = await ES.fetchReports({
 				query: {
 					match_all: {},
-					range: {
-						EventDatetime: {
-							lt: element.eventDate
+					filter: {
+						range: {
+							EventDatetime: {
+								lt: element.date
+							}
 						}
 					}
 				},
@@ -71,10 +84,9 @@ export function fetchOlder() {
 				},
 				size: REPORTS_PER_PAGE
 			})
-			// dispatch(fetchingReportsSuccess())
+			dispatch(fetchingReportsSuccess(results))
 		} catch (err) {
-			console.log(err)
-			// dispatch(fetchingReportsFailed())
+			dispatch(fetchingReportsFailed())
 		}
 	}
 }
