@@ -23,6 +23,8 @@ export function fetchingReportsSuccess(results, append = false) {
 export function fetchingReportsFailed(err) {
 	return {
 		type: FETCHING_REPORTS_FAILURE,
-		payload: err
+		payload: {
+			message: err
+		}
 	}
 }

@@ -1,5 +1,5 @@
 import { FETCHING_REPORTS_SUCCESS } from './action-types'
-import sortBy from 'lodash/sortBy'
+import orderBy from 'lodash/orderBy'
 
 const initialState = {
 	reports: {
@@ -15,7 +15,7 @@ export function reportsReducer(state = initialState, { type, payload }) {
 				: payload.results
 			return {
 				...state,
-				items: sortBy(items, 'date')
+				items: orderBy(items, ['date'], ['desc'])
 			}
 		}
 		default:

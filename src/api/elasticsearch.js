@@ -16,7 +16,7 @@ export async function fetchReports(query) {
 		.map(report => ({ ...report._source, id: report._id }))
 		.map(report => {
 			return {
-				id: report._id,
+				id: report.id,
 				date: report.EventDatetime,
 				policy: report.PolicyID,
 				source: report.SourceID,

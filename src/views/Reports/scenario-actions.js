@@ -20,7 +20,7 @@ export function fetchReports() {
 					}
 				},
 				sort: {
-					EventDatetime: { order: 'desc' }
+					EventDatetime: { order: 'asc' }
 				},
 				size: REPORTS_PER_PAGE
 			})
@@ -54,7 +54,7 @@ export function fetchNewest() {
 				},
 				size: REPORTS_PER_PAGE
 			})
-			dispatch(fetchingReportsSuccess(results))
+			dispatch(fetchingReportsSuccess(results, true))
 		} catch (err) {
 			dispatch(fetchingReportsFailed())
 		}
@@ -70,11 +70,13 @@ export function fetchOlder() {
 			dispatch(fetchingReportsStarted())
 			const results = await ES.fetchReports({
 				query: {
-					match_all: {},
-					filter: {
-						range: {
-							EventDatetime: {
-								lt: element.date
+					bool: {
+						must: { match_all: {} },
+						filter: {
+							range: {
+								EventDatetime: {
+									lt: element.date
+								}
 							}
 						}
 					}
@@ -84,7 +86,7 @@ export function fetchOlder() {
 				},
 				size: REPORTS_PER_PAGE
 			})
-			dispatch(fetchingReportsSuccess(results))
+			dispatch(fetchingReportsSuccess(results, true))
 		} catch (err) {
 			dispatch(fetchingReportsFailed())
 		}

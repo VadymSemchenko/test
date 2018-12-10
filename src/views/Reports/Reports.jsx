@@ -8,6 +8,7 @@ import {
 } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import MediaQuery from 'react-responsive'
+import Loader from '../../components/Loader/Loader'
 import {
 	createErrorMessageSelector,
 	createLoadingSelector
@@ -137,6 +138,7 @@ class Reports extends Component {
 	}
 
 	render() {
+		console.log(this.props.isLoading)
 		return (
 			<div className="content reports">
 				<div className={'reports__search-bar'}>
@@ -166,6 +168,16 @@ class Reports extends Component {
 						</MediaQuery>
 					</div>
 				</div>
+				{this.props.items.length != 0 && !this.props.isLoading && (
+					<p onClick={this.props.fetchOlder} className={'reports__more-button'}>
+						Load older reports
+					</p>
+				)}
+				{this.props.isLoading && (
+					<div className={'loader-container'}>
+						<Loader />
+					</div>
+				)}
 			</div>
 		)
 	}
@@ -174,7 +186,9 @@ class Reports extends Component {
 Reports.propTypes = {
 	fetchReports: PropTypes.func.isRequired,
 	fetchNewest: PropTypes.func.isRequired,
-	items: PropTypes.array.isRequired
+	fetchOlder: PropTypes.func.isRequired,
+	items: PropTypes.array.isRequired,
+	isLoading: PropTypes.bool.isRequired
 }
 
 Reports.defaultProps = {
