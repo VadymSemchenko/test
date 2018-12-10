@@ -9,6 +9,7 @@ import ReportsTableHeader from './components/ReportsTableHeader/ReportsTableHead
 import ReportsTableItem from './components/ReportsTableItem/ReportTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './reports.scss'
+import { fetchReports, fetchNewest, fetchOlder } from './scenario-actions'
 
 const rateOptions = [
 	{
@@ -29,6 +30,10 @@ class Reports extends Component {
 	state = {
 		rate: { value: 0, text: 'Never' },
 		filter: 0
+	}
+
+	componentDidMount() {
+		this.props.fetchReports()
 	}
 
 	handleChangeRefreshRate = rate => {
@@ -163,8 +168,12 @@ const mapStateToProps = state => {
 	}
 }
 
-const mapDispatchToProps = () => {
-	return {}
+const mapDispatchToProps = dispatch => {
+	return {
+		fetchReports: () => dispatch(fetchReports()),
+		fetchNewest: () => dispatch(fetchNewest()),
+		fetchOlder: () => dispatch(fetchOlder())
+	}
 }
 
 export default connect(
