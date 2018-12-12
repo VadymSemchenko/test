@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Navbar } from 'react-bootstrap'
+import { Route, Switch } from 'react-router-dom'
 import logo from '../../assets/img/PNG/Acreto_Logo.png'
 import HeaderLinks from '../../components/Header/HeaderLinks'
+import EcosystemsPage from '../../views/Ecosystems/Ecosystems'
 import './ecosystems.scss'
 
 class Ecosystems extends Component {
@@ -12,21 +14,6 @@ class Ecosystems extends Component {
 			sidebarExists: false
 		}
 	}
-
-	// componentDidUpdate (e) {
-	//   if (
-	//     window.innerWidth < 993 &&
-	//     e.history.location.pathname !== e.location.pathname &&
-	//     document.documentElement.className.indexOf('nav-open') !== -1
-	//   ) {
-	//     document.documentElement.classList.toggle('nav-open')
-	//   }
-	//   if (e.history.action === 'PUSH') {
-	//     document.documentElement.scrollTop = 0
-	//     document.scrollingElement.scrollTop = 0
-	//     this.refs.mainPanel.scrollTop = 0
-	//   }
-	// }
 
 	mobileSidebarToggle(e) {
 		if (this.state.sidebarExists === false) {
@@ -72,8 +59,12 @@ class Ecosystems extends Component {
 
 	renderContent() {
 		return (
-			<div className={'ecosystems__container'}>
-				<div style={{ width: '100%' }}>{/*Content here*/}</div>
+			<div>
+				<div style={{ width: '100%' }}>
+					<Switch>
+						<Route path={'/'} component={EcosystemsPage} />
+					</Switch>
+				</div>
 			</div>
 		)
 	}
