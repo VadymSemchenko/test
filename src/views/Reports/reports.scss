@@ -14,6 +14,11 @@
 		line-height: 1;
 		margin: 0;
 	}
+	.loader-container {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
 
 	&__table-container {
 		display: flex;
@@ -29,6 +34,14 @@
 			width: 100%;
 			flex: 1;
 		}
+	}
+
+	&__more-button {
+		text-decoration: underline;
+		font-size: 12px;
+		text-align: center;
+		text-transform: uppercase;
+		cursor: pointer;
 	}
 
 	&__search-bar {
@@ -48,6 +61,16 @@
 			flex: 1;
 			justify-content: flex-end;
 			align-items: center;
+
+			.refresh-button {
+				font-size: 16px;
+				margin-left: 8px;
+				cursor: pointer;
+				color: #636363;
+				&:hover {
+					color: #212121;
+				}
+			}
 
 			@include respond-to($tablet-portrait) {
 				justify-content: flex-start;

@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
-import { Button, ButtonGroup, Dropdown, MenuItem } from 'react-bootstrap'
+import {
+	Button,
+	ButtonGroup,
+	Dropdown,
+	Glyphicon,
+	MenuItem
+} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import MediaQuery from 'react-responsive'
+import Loader from '../../components/Loader/Loader'
 import {
 	createErrorMessageSelector,
 	createLoadingSelector
@@ -10,6 +17,8 @@ import ReportsTableHeader from './components/ReportsTableHeader/ReportsTableHead
 import ReportsTableItem from './components/ReportsTableItem/ReportTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './reports.scss'
+import { fetchReports, fetchNewest, fetchOlder } from './scenario-actions'
+import PropTypes from 'prop-types'
 
 const rateOptions = [
 	{
@@ -27,19 +36,45 @@ const rateOptions = [
 ]
 
 class Reports extends Component {
-	state = {
-		rate: { value: 0, text: 'Never' },
-		filter: 0
+	constructor(props) {
+		super(props)
+		this.state = {
+			rate: { value: 0, text: 'Freeze' },
+			filter: 0
+		}
+	}
+
+	componentDidMount() {
+		this.props.fetchReports()
+		this.startSyncingInterval()
+	}
+
+	startSyncingInterval = () => {
+		const rateTime = this.state.rate.value
+		if (this.refreshInterval) {
+			clearInterval(this.refreshInterval)
+		}
+		if (rateTime !== 0) {
+			this.refreshInterval = setInterval(() => {
+				this.props.fetchNewest()
+			}, rateTime * 1000)
+		}
 	}
 
 	handleChangeRefreshRate = rate => {
-		this.setState({ rate })
+		this.setState({ rate }, () => {
+			this.startSyncingInterval()
+		})
 	}
 
 	changeFilter = val => {
 		this.setState({
 			filter: val
 		})
+	}
+
+	handleRefresh = () => {
+		this.props.fetchReports()
 	}
 
 	renderRefreshRateDropdown = () => (
@@ -91,7 +126,19 @@ class Reports extends Component {
 		)
 	}
 
+	renderReports = matches => {
+		const { items } = this.props
+		return items.map(item => (
+			<ReportsTableItem
+				key={`reports-table-item-${item.id}-${item.date}`}
+				responsive={matches}
+				data={item}
+			/>
+		))
+	}
+
 	render() {
+		console.log(this.props.isLoading)
 		return (
 			<div className="content reports">
 				<div className={'reports__search-bar'}>
@@ -103,6 +150,11 @@ class Reports extends Component {
 					</div>
 					<div className={'right-container'}>
 						{this.renderRefreshRateDropdown()}
+						<Glyphicon
+							className={'small-icon refresh-button'}
+							glyph="repeat"
+							onClick={this.handleRefresh}
+						/>
 						{this.renderFilterButtons()}
 					</div>
 				</div>
@@ -112,48 +164,53 @@ class Reports extends Component {
 							<ReportsTableHeader />
 						</MediaQuery>
 						<MediaQuery maxWidth={991}>
-							{matches => (
-								<ReportsTableItem
-									responsive={matches}
-									data={{
-										id: '123',
-										date: '2008-09-15T15:53:00',
-										policy: '',
-										source: 'jardance.Xeoma-Cloud.com',
-										service: {
-											protocol: 'http',
-											port: 80,
-											tcp: true,
-											status: 'active'
-										},
-										application: 'browsing',
-										destination: 'jardance.Xeoma-Cloud.com',
-										actions: ['Allow', 'URL'],
-										alert: 'Threat',
-										status: 'active'
-									}}
-								/>
-							)}
+							{matches => this.renderReports(matches)}
 						</MediaQuery>
 					</div>
 				</div>
+				{this.props.items.length != 0 && !this.props.isLoading && (
+					<p onClick={this.props.fetchOlder} className={'reports__more-button'}>
+						Load older reports
+					</p>
+				)}
+				{this.props.isLoading && (
+					<div className={'loader-container'}>
+						<Loader />
+					</div>
+				)}
 			</div>
 		)
 	}
 }
 
-const loadingSelector = createLoadingSelector(['GET_REPORTS'])
-const errorSelector = createErrorMessageSelector(['GET_REPORTS'])
+Reports.propTypes = {
+	fetchReports: PropTypes.func.isRequired,
+	fetchNewest: PropTypes.func.isRequired,
+	fetchOlder: PropTypes.func.isRequired,
+	items: PropTypes.array.isRequired,
+	isLoading: PropTypes.bool.isRequired
+}
+
+Reports.defaultProps = {
+	items: []
+}
+
+const loadingSelector = createLoadingSelector(['FETCHING_REPORTS'])
+const errorSelector = createErrorMessageSelector(['FETCHING_REPORTS'])
 const mapStateToProps = state => {
 	return {
-		isLoading: loadingSelector(state),
 		items: state.reports.items,
+		isLoading: loadingSelector(state),
 		error: errorSelector(state)
 	}
 }
 
-const mapDispatchToProps = () => {
-	return {}
+const mapDispatchToProps = dispatch => {
+	return {
+		fetchReports: () => dispatch(fetchReports()),
+		fetchNewest: () => dispatch(fetchNewest()),
+		fetchOlder: () => dispatch(fetchOlder())
+	}
 }
 
 export default connect(
