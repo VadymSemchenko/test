@@ -2,6 +2,7 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
 import UserIcon from '../../../../assets/img/PNG/Acreto_Icon 04.png'
+import cs from 'classnames'
 import './ecosystem-item.scss'
 
 function NspItem({ nsp }) {
@@ -13,7 +14,13 @@ function NspItem({ nsp }) {
 	)
 }
 
-export default function EcosystemItem({ ecosystem }) {
+export default function EcosystemItem({ ecosystem, onClick }) {
+	const handleClick = () => {
+		if (!ecosystem.disabled) {
+			onClick()
+		}
+	}
+
 	const renderNsps = nsps => {
 		if (nsps.length <= 4) {
 			return (
@@ -23,11 +30,8 @@ export default function EcosystemItem({ ecosystem }) {
 					))}
 					{Array(4 - nsps.length)
 						.fill(4 - nsps.length)
-						.map(index => (
-							<div
-								className={'empty'}
-								key={`nsps-list-empty- index-${index}`}
-							/>
+						.map((i, index) => (
+							<div className={'empty'} key={`nsps-list-empty-index-${index}`} />
 						))}
 				</React.Fragment>
 			)
@@ -48,12 +52,15 @@ export default function EcosystemItem({ ecosystem }) {
 	}
 
 	return (
-		<div className={'ecosystem-item'}>
+		<div
+			onClick={handleClick}
+			className={cs({ 'ecosystem-item': true, disabled: ecosystem.disabled })}
+		>
 			<div className={'item-header'}>
 				<div className={'item-header__caption'}>
 					<h2 className={'item-header__name'}>{ecosystem.name}</h2>
 					<p className={'item-header__subtitle'}>
-						{moment(ecosystem.lastLogin).fromNow()}
+						{moment(ecosystem.lastSeen).fromNow()}
 					</p>
 				</div>
 			</div>
@@ -66,7 +73,7 @@ export default function EcosystemItem({ ecosystem }) {
 					<div className={'owner'}>
 						<img src={UserIcon} alt={'user-icon'} className={'owner__icon'} />
 						<div className={'divider'} />
-						<p className={'owner__name'}>{ecosystem.owner}</p>
+						<p className={'owner__name'}>{ecosystem.owner.fullName}</p>
 					</div>
 				</div>
 				<div className={'charts-container'}>
@@ -110,5 +117,6 @@ NspItem.propTypes = {
 }
 
 EcosystemItem.propTypes = {
-	ecosystem: PropTypes.object.isRequired
+	ecosystem: PropTypes.object.isRequired,
+	onClick: PropTypes.func.isRequired
 }

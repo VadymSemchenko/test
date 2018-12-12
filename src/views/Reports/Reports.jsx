@@ -26,7 +26,7 @@ const rateOptions = [
 		text: 'Freeze'
 	},
 	{
-		value: 30,
+		value: 5,
 		text: '30 seconds'
 	},
 	{
@@ -40,7 +40,8 @@ class Reports extends Component {
 		super(props)
 		this.state = {
 			rate: { value: 0, text: 'Freeze' },
-			filter: 0
+			filter: 0,
+			interval: null
 		}
 	}
 
@@ -49,15 +50,22 @@ class Reports extends Component {
 		this.startSyncingInterval()
 	}
 
+	componentWillUnmount() {
+		clearInterval(this.state.interval)
+	}
+
 	startSyncingInterval = () => {
 		const rateTime = this.state.rate.value
-		if (this.refreshInterval) {
-			clearInterval(this.refreshInterval)
+		if (this.state.interval) {
+			clearInterval(this.state.interval)
 		}
 		if (rateTime !== 0) {
-			this.refreshInterval = setInterval(() => {
+			const interval = setInterval(() => {
 				this.props.fetchNewest()
 			}, rateTime * 1000)
+			this.setState({
+				interval
+			})
 		}
 	}
 
@@ -138,7 +146,6 @@ class Reports extends Component {
 	}
 
 	render() {
-		console.log(this.props.isLoading)
 		return (
 			<div className="content reports">
 				<div className={'reports__search-bar'}>
@@ -168,7 +175,7 @@ class Reports extends Component {
 						</MediaQuery>
 					</div>
 				</div>
-				{this.props.items.length != 0 && !this.props.isLoading && (
+				{this.props.items.length !== 0 && !this.props.isLoading && (
 					<p onClick={this.props.fetchOlder} className={'reports__more-button'}>
 						Load older reports
 					</p>

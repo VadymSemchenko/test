@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Loader from '../../components/Loader/Loader'
 import {
 	createErrorMessageSelector,
 	createLoadingSelector
@@ -14,19 +15,35 @@ class Ecosystems extends Component {
 		this.props.fetchEcosystems()
 	}
 
+	handleClick = ecosystem => {
+		this.props.openEcosystem(ecosystem)
+	}
+
 	render() {
-		const { ecosystems } = this.props
+		const { ecosystems, isLoading } = this.props
+		if (isLoading) {
+			return (
+				<div className={'loader-container'}>
+					<Loader />
+				</div>
+			)
+		}
 		return (
 			<div className={'ecosystems'}>
 				{ecosystems.map((eco, index) => (
 					<EcosystemItem
 						ecosystem={eco}
+						onClick={() => this.handleClick(eco)}
 						key={`ecosystems-list-index-${index}`}
 					/>
 				))}
 			</div>
 		)
 	}
+}
+
+Ecosystems.defaultProps = {
+	ecosystems: []
 }
 
 Ecosystems.propTypes = {
@@ -37,12 +54,12 @@ Ecosystems.propTypes = {
 	openEcosystem: PropTypes.func.isRequired
 }
 
-const loadingSelector = createLoadingSelector(['GET_ECOSYSTEMS'])
-const errorSelector = createErrorMessageSelector(['GET_ECOSYSTEMS'])
+const loadingSelector = createLoadingSelector(['FETCHING_ECOSYSTEMS'])
+const errorSelector = createErrorMessageSelector(['FETCHING_ECOSYSTEMS'])
 const mapStateToProps = state => {
 	return {
 		isLoading: loadingSelector(state),
-		ecosystems: [{}, {}, {}], //state.ecosystems.items,
+		ecosystems: state.ecosystems.items,
 		error: errorSelector(state)
 	}
 }
