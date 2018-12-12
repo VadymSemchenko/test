@@ -8,6 +8,7 @@
     "chartist": "0.10.1",
     "classnames": "latest",
     "elasticsearch-browser": "^15.2.0",
+    "history": "^4.7.2",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "node-sass": "4.6.1",
