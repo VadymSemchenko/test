@@ -1,4 +1,8 @@
-// export function fetchEcosystems() {
+export function fetchEcosystems() {
+	return dispatch => {
+		return dispatch
+	}
+}
 // 	return dispatch => {
 // 		try {
 //
@@ -6,7 +10,11 @@
 // 	}
 // }
 //
-// export function openEcosystem(ecosystem) {
+export function openEcosystem(ecosystem) {
+	return dispatch => {
+		return { ecosystem, dispatch }
+	}
+}
 // 	return dispatch => {
 // 		try {
 // 		} catch (err) {}
