@@ -9,7 +9,7 @@ export function fetchEcosystems() {
 // 		} catch (err) {}
 // 	}
 // }
-//
+
 export function openEcosystem(ecosystem) {
 	return dispatch => {
 		return { ecosystem, dispatch }

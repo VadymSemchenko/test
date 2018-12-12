@@ -1,3 +1,4 @@
+import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
 import UserIcon from '../../../../assets/img/PNG/Acreto_Icon 04.png'
@@ -12,7 +13,7 @@ function NspItem({ nsp }) {
 	)
 }
 
-export default function EcosystemItem() {
+export default function EcosystemItem({ ecosystem }) {
 	const renderNsps = nsps => {
 		if (nsps.length <= 4) {
 			return (
@@ -46,55 +47,56 @@ export default function EcosystemItem() {
 		}
 	}
 
-	const fakeNsps = [
-		{
-			name: 'us-west-1'
-		},
-		{
-			name: 'eu-east-1'
-		},
-		{
-			name: 'au-central-1'
-		},
-		{
-			name: 'test-nsp-3'
-		},
-		{
-			name: 'test-nsp-3'
-		}
-	]
-
 	return (
 		<div className={'ecosystem-item'}>
 			<div className={'item-header'}>
 				<div className={'item-header__caption'}>
-					<h2 className={'item-header__name'}>Surveilance</h2>
-					<p className={'item-header__subtitle'}>5 days ago</p>
+					<h2 className={'item-header__name'}>{ecosystem.name}</h2>
+					<p className={'item-header__subtitle'}>
+						{moment(ecosystem.lastLogin).fromNow()}
+					</p>
 				</div>
 			</div>
 			<div className={'item-content'}>
 				<p className={'title'}>Associated NSP</p>
-				<div className={'nsp__container'}>{renderNsps(fakeNsps)}</div>
+				<div className={'nsp__container'}>
+					{renderNsps(ecosystem.nsps || [])}
+				</div>
 				<div className={'owner-container'}>
 					<div className={'owner'}>
 						<img src={UserIcon} alt={'user-icon'} className={'owner__icon'} />
 						<div className={'divider'} />
-						<p className={'owner__name'}>Peter Anderson</p>
+						<p className={'owner__name'}>{ecosystem.owner}</p>
 					</div>
 				</div>
 				<div className={'charts-container'}>
 					<div className={'utilization'}>
-						<img className={'chart'} />
+						<div className={'abs-container'}>
+							<img alt={'utilization-chart'} className={'chart'} />
+							<div className={'value-container'}>
+								<p className={'value'}>{ecosystem.utilization || 3}</p>
+							</div>
+						</div>
 						<p>Utilization</p>
 					</div>
 					<div className={'divider'} />
 					<div className={'threat'}>
-						<img className={'chart'} />
+						<div className={'abs-container'}>
+							<img alt={'threat-chart'} className={'chart'} />
+							<div className={'value-container'}>
+								<p className={'value'}>{ecosystem.threat || 9}</p>
+							</div>
+						</div>
 						<p>Threat</p>
 					</div>
 					<div className={'divider'} />
 					<div className={'down'}>
-						<img className={'chart'} />
+						<div className={'abs-container'}>
+							<img alt={'down-chart'} className={'chart'} />
+							<div className={'value-container'}>
+								<p className={'value'}>{ecosystem.down || '40%'}</p>
+							</div>
+						</div>
 						<p>Down</p>
 					</div>
 				</div>
