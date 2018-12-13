@@ -8,7 +8,7 @@ const rest = axios.create({
 	baseURL: process.env.REACT_APP_API_URL
 })
 
-if (process.env.REACT_APP_MOCK_ECOSYSTEMS) {
+if (process.env.REACT_APP_ENABLE_MOCK) {
 	const mock = new MockAdapter(rest)
 	mock.onGet('/ecosystems').reply(200, ecosystemsExampleData)
 }
