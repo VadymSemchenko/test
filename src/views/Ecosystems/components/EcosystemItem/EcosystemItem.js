@@ -2,13 +2,21 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
 import UserIcon from '../../../../assets/img/PNG/Acreto_Icon 04.png'
+import ThreatImage from '../../../../assets/img/PNG/Ecosystem_Threat Index-Graph.png'
+import UtilizationImage from '../../../../assets/img/PNG/Ecosystem_Utilization-Green-Graph.png'
+import DownImage from '../../../../assets/img/PNG/Ecosystem_Down-Pie Chart.png'
 import cs from 'classnames'
 import './ecosystem-item.scss'
+import { getIconForRegionName } from '../../../../variables/Icons'
 
 function NspItem({ nsp }) {
 	return (
 		<div className={'nsp'}>
-			<img alt={nsp.name} className={'nsp__image'} />
+			<img
+				alt={nsp.name}
+				src={getIconForRegionName(nsp.name)}
+				className={'nsp__image'}
+			/>
 			<p className={'nsp__name'}>{nsp.name}</p>
 		</div>
 	)
@@ -79,7 +87,11 @@ export default function EcosystemItem({ ecosystem, onClick }) {
 				<div className={'charts-container'}>
 					<div className={'utilization'}>
 						<div className={'abs-container'}>
-							<img alt={'utilization-chart'} className={'chart'} />
+							<img
+								alt={'utilization-chart'}
+								src={UtilizationImage}
+								className={'chart'}
+							/>
 							<div className={'value-container'}>
 								<p className={'value'}>{ecosystem.utilization || 3}</p>
 							</div>
@@ -89,7 +101,7 @@ export default function EcosystemItem({ ecosystem, onClick }) {
 					<div className={'divider'} />
 					<div className={'threat'}>
 						<div className={'abs-container'}>
-							<img alt={'threat-chart'} className={'chart'} />
+							<img alt={'threat-chart'} src={ThreatImage} className={'chart'} />
 							<div className={'value-container'}>
 								<p className={'value'}>{ecosystem.threat || 9}</p>
 							</div>
@@ -99,9 +111,15 @@ export default function EcosystemItem({ ecosystem, onClick }) {
 					<div className={'divider'} />
 					<div className={'down'}>
 						<div className={'abs-container'}>
-							<img alt={'down-chart'} className={'chart'} />
-							<div className={'value-container'}>
-								<p className={'value'}>{ecosystem.down || '40%'}</p>
+							<img
+								alt={'down-chart'}
+								src={DownImage}
+								className={'chart circle'}
+							/>
+							<div className={'value-container circle'}>
+								<p className={'value'}>
+									{ecosystem.down ? `${ecosystem.down}%` : '40%'}
+								</p>
 							</div>
 						</div>
 						<p>Down</p>
