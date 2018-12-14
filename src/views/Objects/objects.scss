@@ -1,0 +1,32 @@
+@import '../../assets/sass/lbd/variables';
+@import '../../assets/sass/lbd/mixins';
+
+.reports {
+}
+
+@mixin space-vertical($margin) {
+	margin-top: $margin;
+	margin-bottom: $margin;
+}
+
+.objects {
+	p {
+		line-height: 1;
+		margin: 0;
+	}
+	.loader-container {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	&__table-container {
+	}
+	&__table-content {
+		min-width: 700px;
+	}
+
+	&__search-bar {
+		margin-bottom: 16px;
+	}
+}

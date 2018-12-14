@@ -2,8 +2,6 @@ import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import ecosystemsExampleData from './mocks/fetch_ecosystems'
 
-// This sets the mock adapter on the default instance
-
 const rest = axios.create({
 	baseURL: process.env.REACT_APP_API_URL
 })
