@@ -13,7 +13,7 @@ import CompletedIcon from '../../../../assets/img/PNG/Acreto_Icon 27.png'
 import TimetoutIcon from '../../../../assets/img/PNG/Acreto_Icon 28.png'
 import PolicyIcon from '../../../../assets/img/PNG/policy_icon.png'
 
-import './reports-table-item.scss'
+import './objects-table-item.scss'
 
 const STATUS = [
 	{ slug: 'active', name: 'Active', icon: ActiveIcon },
@@ -34,7 +34,7 @@ const getIconForAction = action => {
 }
 
 function TableItemContainer({ children }) {
-	return <div className={'reports-table-item item'}>{children}</div>
+	return <div className={'objects-table-item item'}>{children}</div>
 }
 
 function Field({ children, extraClass = '' }) {
