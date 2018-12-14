@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
 	Button,
@@ -7,18 +8,27 @@ import {
 	MenuItem
 } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import MediaQuery from 'react-responsive'
 import Loader from '../../components/Loader/Loader'
+import Table from '../../components/Table/Table'
 import {
 	createErrorMessageSelector,
 	createLoadingSelector
 } from '../../store/utils/selectors'
-import ReportsTableHeader from './components/ReportsTableHeader/ReportsTableHeader'
 import ReportsTableItem from './components/ReportsTableItem/ReportTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './reports.scss'
-import { fetchReports, fetchNewest, fetchOlder } from './scenario-actions'
-import PropTypes from 'prop-types'
+import { fetchNewest, fetchOlder, fetchReports } from './scenario-actions'
+
+const FIELDS = [
+	{ name: 'Policy', center: true },
+	{ name: 'Source', center: true },
+	{ name: 'Service', center: true },
+	{ name: 'Application', center: true },
+	{ name: 'Destination', center: true },
+	{ name: 'Action', center: true },
+	{ name: 'Alert', center: true },
+	{ name: 'Status', center: true }
+]
 
 const rateOptions = [
 	{
@@ -165,16 +175,13 @@ class Reports extends Component {
 						{this.renderFilterButtons()}
 					</div>
 				</div>
-				<div className={'reports__table-container'}>
-					<div className={'reports__table'}>
-						<MediaQuery minWidth={992}>
-							<ReportsTableHeader />
-						</MediaQuery>
-						<MediaQuery maxWidth={991}>
-							{matches => this.renderReports(matches)}
-						</MediaQuery>
-					</div>
-				</div>
+				<Table.Container root={'reports'}>
+					<Table.Content
+						root={'reports'}
+						headerComponent={<Table.Header items={FIELDS} />}
+						renderItems={this.renderReports}
+					/>
+				</Table.Container>
 				{this.props.items.length !== 0 && !this.props.isLoading && (
 					<p onClick={this.props.fetchOlder} className={'reports__more-button'}>
 						Load older reports
