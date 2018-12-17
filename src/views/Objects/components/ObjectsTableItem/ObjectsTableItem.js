@@ -13,6 +13,8 @@ import CompletedIcon from '../../../../assets/img/PNG/Acreto_Icon 27.png'
 import TimetoutIcon from '../../../../assets/img/PNG/Acreto_Icon 28.png'
 import PolicyIcon from '../../../../assets/img/PNG/policy_icon.png'
 
+import { getIconForRegionName } from '../../../../variables/Icons'
+
 import './objects-table-item.scss'
 
 const STATUS = [
@@ -50,37 +52,45 @@ function ResponsiveField({ children, title, extraClass = '' }) {
 	)
 }
 
-function PolicyField({ date }) {
+function BasicObjectInfo({ data }) {
 	return (
 		<React.Fragment>
-			<img
-				src={ArrowLeftBottomIcon}
-				alt={'arrow-icon'}
-				className={'small-icon'}
-			/>
-			<img src={PolicyIcon} alt={'policy-icon'} className={'small-icon'} />
-			<div>
-				<p className={'medium'}>{moment(date).format('DD/MM/YYYY')}</p>
-				<p className={'medium'}>{moment(date).format('HH:mm:ss')}</p>
+			<div className={'objectinfo__button'}>
+				{data.id}
+			</div>
+			<p className={'objectinfo__title medium strong'}>{ data.name }</p>
+			<div className={'objectinfo__type-container'}>
+        <img src={ServiceIcon} alt={'type-icon'} className={'small-icon'} />
+				<p className={'medium'}>{`${data.type} / ${data.category}`}</p>
 			</div>
 		</React.Fragment>
 	)
 }
 
 function SmallTextField({ text }) {
-	return <p className={'small'}>{text}</p>
+  return <p className={'small'}>{text}</p>
 }
 
-function ServiceField({ service }) {
+function TextField({ text, strong, size }) {
+  return <p className={`${size} ${strong ? 'strong': ''}`}>{text}</p>
+}
+
+function NspInfo({ data }) {
 	return (
 		<React.Fragment>
-			<img src={ServiceIcon} alt={'service-icon'} className={'small-icon'} />
-			<div>
-				<p className={'medium strong'}>{`${service.tcp ? 'TCP' : 'UDP'}/${
-					service.port
-				}`}</p>
-				<p className={'small'}>{`(${service.protocol})`}</p>
+			<div className={'primary-container'}>
+        <img src={getIconForRegionName(data[0].name)} alt={'region-icon'} className={'region-icon'} />
+				<div className={'divider big'}/>
+				<div className={'flex-column'}>
+					<p className={'small strong nsp-name'}>{ data[0].name }</p>
+					<div className={'flex-row'}>
+						<p className={'small strong'}>{data[0].ping} <span className={'unit'}>ms</span></p>
+						<div className={'divider small'}/>
+						<p className={'small strong'}>{`${data[0].loss}% `}<span className={'unit'}>Loss</span></p>
+					</div>
+				</div>
 			</div>
+			<p className={'more'}>{ data.length > 1 && `+${data.length - 1} more`}</p>
 		</React.Fragment>
 	)
 }
@@ -139,36 +149,26 @@ function StatusField({ status }) {
 	)
 }
 
-export default function ReportsTableItem({ data, responsive = false }) {
+export default function ObjectTableItem({ data, responsive = false }) {
 	const status = STATUS.find(s => s.slug === data.status)
 
+	console.log(data.profile_group)
 	const WrapperComponent = responsive ? ResponsiveField : Field
 	return (
 		<TableItemContainer>
-			<WrapperComponent title={'Policy'} extraClass={'field__policy'}>
-				<PolicyField date={data.date} />
+			<WrapperComponent title={'Object'} extraClass={'field__info'}>
+				<BasicObjectInfo data={data}/>
 			</WrapperComponent>
-			<WrapperComponent title={'Source'} extraClass={'field__source'}>
-				<SmallTextField text={data.source} />
+			<WrapperComponent title={'Profile Group'} extraClass={'field__profile'}>
+        <TextField text={data.profile_group.name} size={'medium'} strong={true}/>
 			</WrapperComponent>
-			<WrapperComponent title={'Service'} extraClass={'field__service'}>
-				<ServiceField service={data.service} />
+			<WrapperComponent title={'Primary NSP'} extraClass={'field__nsp'}>
+        <NspInfo data={data.nsps}/>
 			</WrapperComponent>
 			<WrapperComponent title={'Application'} extraClass={'field__application'}>
-				<ApplicationField application={data.application} />
+        <BasicObjectInfo data={data}/>
 			</WrapperComponent>
-			<WrapperComponent title={'Destination'} extraClass={'field__destination'}>
-				<SmallTextField text={data.destination} />
-			</WrapperComponent>
-			<WrapperComponent title={'Actions'} extraClass={'field__actions'}>
-				<ActionsField actions={data.actions} />
-			</WrapperComponent>
-			<WrapperComponent title={'Alert'} extraClass={'field__alert'}>
-				<AlertField alert={data.alert} />
-			</WrapperComponent>
-			<WrapperComponent title={'Status'} extraClass={'field__status'}>
-				<StatusField status={status} />
-			</WrapperComponent>
+
 		</TableItemContainer>
 	)
 }
@@ -189,7 +189,7 @@ ApplicationField.propTypes = {
 	application: PropTypes.string.isRequired
 }
 
-ServiceField.propTypes = {
+NspInfo.propTypes = {
 	service: PropTypes.object.isRequired
 }
 
@@ -207,16 +207,21 @@ Field.propTypes = {
 SmallTextField.propTypes = {
 	text: PropTypes.string.isRequired
 }
+TextField.propTypes = {
+  text: PropTypes.string.isRequired,
+	strong: PropTypes.bool,
+	size: PropTypes.oneOf(['small', 'medium', 'big'])
+}
 
-PolicyField.propTypes = {
-	date: PropTypes.string.isRequired
+BasicObjectInfo.propTypes = {
+	data: PropTypes.string.isRequired
 }
 
 TableItemContainer.propTypes = {
 	children: PropTypes.array.isRequired
 }
 
-ReportsTableItem.propTypes = {
+ObjectTableItem.propTypes = {
 	data: PropTypes.object.isRequired,
 	responsive: PropTypes.bool.isRequired
 }

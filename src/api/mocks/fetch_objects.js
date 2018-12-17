@@ -42,6 +42,10 @@ export default [
 			type: 'Hard', // String or enum ID (need to define) [HARD, SOFT]
 			date: moment() // Date time ISO-8601 or another one
 		},
+    profile_group: {
+      id: 'qrefdw232-13rqf', // UUID
+      name: 'Profile Group #1' // String
+    },
 		asset_value: 50, // Number
 		gateway_type: 'vGateway', // or IPSEC (string or enum ID)
 		description: 'Lorem ipsum', // Long string

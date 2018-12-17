@@ -1,0 +1,26 @@
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-item {
+  background-color: white;
+  border-radius: 2px;
+  border: 1px solid #ebebeb;
+  padding: 8px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  @media only screen and (max-width: 992px) {
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+  }
+}

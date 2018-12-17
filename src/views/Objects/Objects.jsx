@@ -7,8 +7,10 @@ import {
 	createErrorMessageSelector,
 	createLoadingSelector
 } from '../../store/utils/selectors'
+import ObjectsTableItem from './components/ObjectsTableItem/ObjectsTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './objects.scss'
+import { fetchObjects } from './scenario-actions'
 
 const FIELDS = [
 	{ name: 'Object', center: true },
@@ -18,18 +20,19 @@ const FIELDS = [
 ]
 
 class Objects extends Component {
-	componentDidMount() {}
+	componentDidMount() {
+		this.props.fetchObjects()
+	}
 
 	renderObjects = () => {
-		// const { } = this.props
-		return null
-		// items.map(item => (
-		//   <ReportsTableItem
-		//     key={ `reports-table-item-${item.id}-${item.date}` }
-		//     responsive={ matches }
-		//     data={ item }
-		//   />
-		// ))
+		const { items } = this.props
+		return items.map(item => (
+		  <ObjectsTableItem
+		    key={ `objects-table-item-${item.id}-${item.name}` }
+		    responsive={ false }
+		    data={ item }
+		  />
+		))
 	}
 
 	render() {
@@ -56,6 +59,7 @@ class Objects extends Component {
 }
 
 Objects.propTypes = {
+	fetchObjects: PropTypes.func.isRequired,
 	items: PropTypes.array.isRequired,
 	isLoading: PropTypes.bool.isRequired
 }
@@ -68,14 +72,25 @@ const loadingSelector = createLoadingSelector(['FETCHING_OBJECTS'])
 const errorSelector = createErrorMessageSelector(['FETCHING_OBJECTS'])
 const mapStateToProps = state => {
 	return {
-		items: state.reports.items,
+		items: objectsSelector(state),
 		isLoading: loadingSelector(state),
 		error: errorSelector(state)
 	}
 }
 
-const mapDispatchToProps = () => {
-	return {}
+const objectsSelector = state => {
+	const ecosystem = state.ecosystems.currentEcosystem
+	if(ecosystem) {
+		return state.objects[ecosystem] ? state.objects[ecosystem].objects : []
+	}
+
+	return []
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		fetchObjects: () => dispatch(fetchObjects())
+	}
 }
 
 export default connect(
