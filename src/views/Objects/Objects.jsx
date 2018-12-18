@@ -10,6 +10,7 @@ import {
 	createErrorMessageSelector,
 	createLoadingSelector
 } from '../../store/utils/selectors'
+import NewObjectType from '../Modals/NewObjectType'
 import ObjectsTableItem from './components/ObjectsTableItem/ObjectsTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './objects.scss'
@@ -26,7 +27,7 @@ Modal.setAppElement('#modal-root')
 
 class Objects extends Component {
 	state = {
-		createModalOpened: false
+		createModalOpened: true
 	}
 
 	openModal = () => {
@@ -75,7 +76,9 @@ class Objects extends Component {
 					isOpen={this.state.createModalOpened}
 					onClose={this.closeModal}
 					title="Example Modal"
-				/>
+				>
+					<NewObjectType />
+				</WedgeModal>
 			</div>
 		)
 	}
