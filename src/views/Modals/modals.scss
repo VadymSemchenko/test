@@ -1,46 +1,47 @@
 @import '../../assets/sass/common.scss';
 
 .modal {
-	&__content {
-		padding: 16px;
+  &__content {
+    padding: 16px;
 
-		&.padded {
-			padding: 32px;
-		}
+    &.padded {
+      padding: 32px;
+    }
 
-		p {
-			color: #7f97a0;
-			&.big {
-				font-size: 24px;
-			}
-		}
+    p {
+      color: #7f97a0;
+      &.big {
+        font-size: 24px;
+      }
+    }
 
-		.option-container {
-			@extend .flex-row;
-			align-items: center;
-			.option {
-				flex: 1;
-			}
-			.type-icon {
-				width: 32px;
-				height: 32px;
-				margin-right: 16px;
-			}
-			.icon {
-				font-size: 32px;
-				color: #7f97a0;
-			}
-		}
+    .option-container {
+      @extend .flex-row;
+      align-items: center;
+      cursor: pointer;
+      .option {
+        flex: 1;
+      }
+      .type-icon {
+        width: 32px;
+        height: 32px;
+        margin-right: 16px;
+      }
+      .icon {
+        font-size: 32px;
+        color: #7f97a0;
+      }
+    }
 
-		.divider {
-			background-color: #efefef;
+    .divider {
+      background-color: #efefef;
 
-			&-horizontal {
-				margin-top: 16px;
-				margin-bottom: 16px;
-				height: 1px;
-				width: 100%;
-			}
-		}
-	}
+      &-horizontal {
+        margin-top: 16px;
+        margin-bottom: 16px;
+        height: 1px;
+        width: 100%;
+      }
+    }
+  }
 }
