@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import Modal from 'react-modal'
 import { connect } from 'react-redux'
 import AddButton from '../../components/AddButton/AddButton'
 import Loader from '../../components/Loader/Loader'
 import Table from '../../components/Table/Table'
+import WedgeModal from '../../components/WedgeModal/WedgeModal'
 import {
 	createErrorMessageSelector,
 	createLoadingSelector
@@ -20,7 +22,21 @@ const FIELDS = [
 	{ name: 'Status', center: true }
 ]
 
+Modal.setAppElement('#modal-root')
+
 class Objects extends Component {
+	state = {
+		createModalOpened: false
+	}
+
+	openModal = () => {
+		this.setState({ createModalOpened: true })
+	}
+
+	closeModal = () => {
+		this.setState({ createModalOpened: false })
+	}
+
 	componentDidMount() {
 		this.props.fetchObjects()
 	}
@@ -42,7 +58,7 @@ class Objects extends Component {
 				<div className={'objects__search-bar'}>
 					<SearchBar />
 				</div>
-				<AddButton onClick={() => {}}>Add New Object</AddButton>
+				<AddButton onClick={this.openModal}>Add New Object</AddButton>
 				<Table.Container root={'objects'}>
 					<Table.Content
 						root={'objects'}
@@ -55,6 +71,11 @@ class Objects extends Component {
 						<Loader />
 					</div>
 				)}
+				<WedgeModal
+					isOpen={this.state.createModalOpened}
+					onClose={this.closeModal}
+					title="Example Modal"
+				/>
 			</div>
 		)
 	}

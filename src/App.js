@@ -5,6 +5,7 @@ import Dashboard from './layouts/Dashboard/Dashboard'
 import Ecosystems from './layouts/Ecosystems/Ecosystems'
 import history from './history'
 import configureStore from './store'
+import './reset.scss'
 
 const store = configureStore()
 

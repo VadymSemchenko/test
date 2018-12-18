@@ -115,7 +115,7 @@ export default function ObjectTableItem({ data, responsive = false }) {
 }
 
 NspInfo.propTypes = {
-	data: PropTypes.object.isRequired
+	data: PropTypes.array.isRequired
 }
 
 ResponsiveField.propTypes = {
