@@ -24,14 +24,14 @@ class Objects extends Component {
 		this.props.fetchObjects()
 	}
 
-	renderObjects = () => {
+	renderObjects = matches => {
 		const { items } = this.props
 		return items.map(item => (
-		  <ObjectsTableItem
-		    key={ `objects-table-item-${item.id}-${item.name}` }
-		    responsive={ false }
-		    data={ item }
-		  />
+			<ObjectsTableItem
+				key={`objects-table-item-${item.id}-${item.name}`}
+				responsive={matches}
+				data={item}
+			/>
 		))
 	}
 
@@ -80,7 +80,7 @@ const mapStateToProps = state => {
 
 const objectsSelector = state => {
 	const ecosystem = state.ecosystems.currentEcosystem
-	if(ecosystem) {
+	if (ecosystem) {
 		return state.objects[ecosystem] ? state.objects[ecosystem].objects : []
 	}
 
