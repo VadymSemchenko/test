@@ -1,12 +1,4 @@
-.flex-row {
-	display: flex;
-	flex-direction: row;
-}
-
-.flex-column {
-	display: flex;
-	flex-direction: column;
-}
+@import '../../../../assets/sass/common.scss';
 
 .ecosystem-item {
 	background-color: white;
@@ -140,7 +132,6 @@
 			align-items: center;
 			&__image {
 				height: 32px;
-				//width: 32px;
 				max-width: 60px;
 				margin-bottom: 8px;
 			}
