@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import AddButton from '../../components/AddButton/AddButton'
 import Loader from '../../components/Loader/Loader'
 import Table from '../../components/Table/Table'
 import {
@@ -41,6 +42,7 @@ class Objects extends Component {
 				<div className={'objects__search-bar'}>
 					<SearchBar />
 				</div>
+				<AddButton onClick={() => {}}>Add New Object</AddButton>
 				<Table.Container root={'objects'}>
 					<Table.Content
 						root={'objects'}
