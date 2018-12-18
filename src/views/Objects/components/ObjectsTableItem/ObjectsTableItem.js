@@ -8,10 +8,6 @@ import { getIconForRegionName } from '../../../../variables/Icons'
 
 import './objects-table-item.scss'
 
-// const STATUS = [
-//   { slug: 'connected', name: 'Connected', icon: ActiveIcon },
-// ]
-
 function TableItemContainer({ children }) {
 	return <div className={'objects-table-item item'}>{children}</div>
 }
@@ -80,7 +76,6 @@ function NspInfo({ data }) {
 }
 
 function StatusInfo({ data }) {
-	// const status = STATUS.find(s => s.slug === data.status)
 	return (
 		<div className={'statusinfo'}>
 			<div className={'centered-row'}>
