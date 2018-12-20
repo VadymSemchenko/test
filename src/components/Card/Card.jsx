@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 export class Card extends Component {
 	render() {
@@ -12,28 +13,19 @@ export class Card extends Component {
 						<p className="category">{this.props.category}</p>
 					</div>
 				)}
-				<div
-					className={
-						'content' +
-						(this.props.ctAllIcons ? ' all-icons' : '') +
-						(this.props.ctTableFullWidth ? ' table-full-width' : '') +
-						(this.props.ctTableResponsive ? ' table-responsive' : '') +
-						(this.props.ctTableUpgrade ? ' table-upgrade' : '')
-					}
-				>
-					{this.props.children}
-
-					<div className="footer">
-						{this.props.legend}
-						{this.props.stats != null ? <hr /> : ''}
-						<div className="stats">
-							<i className={this.props.statsIcon} /> {this.props.stats}
-						</div>
-					</div>
-				</div>
+				<div className={'content'}>{this.props.children}</div>
 			</div>
 		)
 	}
+}
+
+Card.propTypes = {
+	header: PropTypes.bool,
+	plain: PropTypes.bool,
+	hCenter: PropTypes.bool,
+	title: PropTypes.string,
+	category: PropTypes.string,
+	children: PropTypes.element
 }
 
 Card.defaultProps = {

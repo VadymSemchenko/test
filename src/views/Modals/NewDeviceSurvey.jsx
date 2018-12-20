@@ -1,8 +1,11 @@
 import React from 'react'
+import { Button } from 'react-bootstrap'
+import { Map, TileLayer } from 'react-leaflet'
 import AddButton from '../../components/AddButton/AddButton'
 import Card from '../../components/Card/Card'
 import Form from '../../components/Form/Form'
 import './modals.scss'
+import 'leaflet/dist/leaflet.css'
 
 const CATEGORIES = [
 	{
@@ -15,9 +18,9 @@ const CATEGORIES = [
 	}
 ]
 
-export default function NewObjectType() {
+function NewDeviceSurvey() {
 	return (
-		<div className={'modal__content padded new-object-type'}>
+		<div className={'modal__content padded new-device-survey'}>
 			<Card header={false}>
 				<div className={'form-row'}>
 					<Form.Group label={'Name'}>
@@ -72,7 +75,45 @@ export default function NewObjectType() {
 						rows={4}
 					/>
 				</Form.Group>
+
+				<Form.Group label={'Location'}>
+					<Form.Select
+						placeholder={'Select location value'}
+						options={CATEGORIES}
+					/>
+				</Form.Group>
+
+				<div className={'form-row'}>
+					<Form.Group label={''}>
+						<Form.Text placeholder={'Latitude'} />
+					</Form.Group>
+					<Form.Group label={''}>
+						<Form.Text placeholder={'Longitude'} />
+					</Form.Group>
+				</div>
+
+				<Map
+					style={{ height: '300px', width: '100%' }}
+					center={[51.505, -0.09]}
+					zoom={13}
+				>
+					<TileLayer
+						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+					/>
+				</Map>
 			</Card>
 		</div>
 	)
 }
+
+export function Footer() {
+	return (
+		<div className={'survey__footer'}>
+			<Button bsStyle={'primary'}>Add</Button>
+		</div>
+	)
+}
+
+NewDeviceSurvey.Footer = Footer
+export default NewDeviceSurvey

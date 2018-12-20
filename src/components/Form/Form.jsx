@@ -1,9 +1,10 @@
 import React from 'react'
 import { Button, ButtonGroup } from 'react-bootstrap'
 import Select from 'react-select'
+import PropTypes from 'prop-types'
 import './form.scss'
 
-function FormGroup({ children, label, center = false, full = true }) {
+function FormGroup({ children, label, center = false, full = false }) {
 	return (
 		<div
 			className={`form__group${center ? '-center' : ''} ${full ? 'full' : ''}`}
@@ -12,6 +13,13 @@ function FormGroup({ children, label, center = false, full = true }) {
 			{children}
 		</div>
 	)
+}
+
+FormGroup.propTypes = {
+	children: PropTypes.element,
+	label: PropTypes.string,
+	center: PropTypes.bool,
+	full: PropTypes.bool
 }
 
 function TextInput({ placeholder, value, onChange = () => {}, ...rest }) {
@@ -33,6 +41,12 @@ function TextInput({ placeholder, value, onChange = () => {}, ...rest }) {
 	}
 }
 
+TextInput.propTypes = {
+	placeholder: PropTypes.string,
+	value: PropTypes.string,
+	onChange: PropTypes.func
+}
+
 function ToggleButton({ selectedClass, selected, onChange, options }) {
 	return (
 		<ButtonGroup className={''}>
@@ -50,6 +64,13 @@ function ToggleButton({ selectedClass, selected, onChange, options }) {
 			))}
 		</ButtonGroup>
 	)
+}
+
+ToggleButton.propTypes = {
+	selectedClass: PropTypes.string,
+	selected: PropTypes.any,
+	onChange: PropTypes.func,
+	options: PropTypes.array
 }
 
 const colourStyles = {
@@ -70,10 +91,19 @@ function SelectInput({ placeholder, value, onChange = () => {}, options }) {
 			className={'form__input form__select'}
 			name="color"
 			placeholder={placeholder}
+			value={value}
+			onChange={onChange}
 			options={options}
 			styles={colourStyles}
 		/>
 	)
+}
+
+SelectInput.propTypes = {
+	placeholder: PropTypes.string,
+	value: PropTypes.any,
+	onChange: PropTypes.func,
+	options: PropTypes.array
 }
 
 export default {
