@@ -2,9 +2,9 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import './add-button.scss'
 
-export default function AddButton({ children, onClick }) {
+export default function AddButton({ className, children, onClick }) {
 	return (
-		<div className={'add-button'} onClick={onClick}>
+		<div className={`${className} add-button`} onClick={onClick}>
 			<div className={'square'}>+</div>
 			<p className={'text'}>{children}</p>
 		</div>
@@ -13,5 +13,6 @@ export default function AddButton({ children, onClick }) {
 
 AddButton.propTypes = {
 	children: PropTypes.string.isRequired,
-	onClick: PropTypes.func.isRequired
+	onClick: PropTypes.func.isRequired,
+	className: PropTypes.string
 }

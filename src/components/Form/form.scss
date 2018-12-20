@@ -1,0 +1,45 @@
+@import '../../assets/sass/common.scss';
+
+.form {
+	&__group {
+		@extend .flex-column;
+		justify-content: flex-start;
+
+		&-center {
+			@extend .flex-column;
+			justify-content: center;
+		}
+	}
+	&__label {
+		font-size: 16px;
+		color: #899fa6;
+	}
+	&__textinput {
+		margin-top: 16px;
+		margin-bottom: 16px;
+		background-color: transparent;
+		border: 0;
+		border-bottom: 1px #f3f3f3 solid;
+		padding: 4px 8px;
+
+		::placeholder {
+			color: #899fa6;
+		}
+		&.multiline {
+			word-break: break-word;
+		}
+	}
+	&__select {
+		flex: 1;
+		margin-bottom: 16px;
+		background-color: transparent;
+		border: 0;
+		border-bottom: 1px #f3f3f3 solid;
+		padding: 4px 0;
+	}
+
+	&__toggle {
+		min-width: 100px;
+		padding: 8px 16px;
+	}
+}

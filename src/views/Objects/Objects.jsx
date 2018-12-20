@@ -10,7 +10,7 @@ import {
 	createErrorMessageSelector,
 	createLoadingSelector
 } from '../../store/utils/selectors'
-import NewObjectType from '../Modals/NewObjectType'
+import NewDeviceSurvey from '../Modals/NewDeviceSurvey'
 import ObjectsTableItem from './components/ObjectsTableItem/ObjectsTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './objects.scss'
@@ -75,9 +75,10 @@ class Objects extends Component {
 				<WedgeModal
 					isOpen={this.state.createModalOpened}
 					onClose={this.closeModal}
+					footer={<NewDeviceSurvey.Footer />}
 					title="Example Modal"
 				>
-					<NewObjectType />
+					<NewDeviceSurvey />
 				</WedgeModal>
 			</div>
 		)
