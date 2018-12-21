@@ -1,3 +1,4 @@
+import 'leaflet/dist/leaflet.css'
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import { Map, TileLayer } from 'react-leaflet'
@@ -5,7 +6,6 @@ import AddButton from '../../components/AddButton/AddButton'
 import Card from '../../components/Card/Card'
 import Form from '../../components/Form/Form'
 import './modals.scss'
-import 'leaflet/dist/leaflet.css'
 
 const CATEGORIES = [
 	{
@@ -27,10 +27,13 @@ function NewDeviceSurvey() {
 						<Form.Text placeholder={'Name'} />
 					</Form.Group>
 					<Form.Group label={'Profile Group'}>
-						<Form.Select
-							placeholder={'Select profile group'}
-							options={CATEGORIES}
-						/>
+						<div className={'flex-row baseline'}>
+							<Form.Select
+								placeholder={'Select profile group'}
+								options={CATEGORIES}
+							/>
+							<AddButton className={'space-left'} onClick={() => {}} />
+						</div>
 					</Form.Group>
 				</div>
 				<div className={'form-row'}>
@@ -38,10 +41,7 @@ function NewDeviceSurvey() {
 						<Form.Select placeholder={'Select category'} options={CATEGORIES} />
 					</Form.Group>
 					<Form.Group label={'Type'}>
-						<div className={'flex-row baseline'}>
-							<Form.Select placeholder={'Select type'} options={CATEGORIES} />
-							<AddButton className={'space-left'} onClick={() => {}} />
-						</div>
+						<Form.Select placeholder={'Select type'} options={CATEGORIES} />
 					</Form.Group>
 				</div>
 				<Form.Group label={'Asset value'}>
@@ -57,7 +57,7 @@ function NewDeviceSurvey() {
 					<Form.Group center={true} label={''}>
 						<Form.Toggle
 							selected={0}
-							selectedClass={'expire-selected'}
+							selectedClass={'toggle-selected'}
 							onChange={() => {}}
 							options={[
 								{ value: 0, label: 'Hard' },
