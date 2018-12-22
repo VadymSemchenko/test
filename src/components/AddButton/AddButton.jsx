@@ -6,7 +6,7 @@ export default function AddButton({ className, children, onClick }) {
 	return (
 		<div className={`${className} add-button`} onClick={onClick}>
 			<div className={'square'}>+</div>
-			<p className={'text'}>{children}</p>
+			{children && <p className={'text'}>{children}</p>}
 		</div>
 	)
 }

@@ -124,8 +124,8 @@ function NewGatewaySurvey() {
 					<div className={'local-networks--container'}>
 						<table>
 							<tr>
-								<th>Network</th>
-								<th>Next Hop</th>
+								<th className={'network'}>Network</th>
+								<th className={'hop'}>Next Hop</th>
 								<th className={'last'} />
 							</tr>
 							{[{ network: '192.168.3.0/32', hop: '192.168.3.200' }].map(
@@ -140,8 +140,12 @@ function NewGatewaySurvey() {
 								)
 							)}
 							<tr className={'new-entry'}>
-								<td className={'network'}>192.168.0.3/32</td>
-								<td className={'hop'}>192.168.3.200</td>
+								<td>
+									<Form.Text extraClass={'light'} placeholder={'Network'} />
+								</td>
+								<td>
+									<Form.Text extraClass={'light'} placeholder={'Next hop'} />
+								</td>
 								<td className={'last'}>
 									<AddButton onClick={() => {}} />
 								</td>

@@ -1,7 +1,7 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import { Button, ButtonGroup } from 'react-bootstrap'
 import Select from 'react-select'
-import PropTypes from 'prop-types'
 import './form.scss'
 
 function FormGroup({
@@ -37,9 +37,9 @@ function TextInput({ placeholder, value, onChange = () => {}, ...rest }) {
 		value,
 		placeholder,
 		onChange: e => onChange(e.target.value),
-		className: `form__input form__textinput ${
-			rest.multiline ? 'multiline' : ''
-		}`,
+		className: `form__input form__textinput 
+    ${rest.multiline ? 'multiline' : ''} 
+    ${rest.extraClass}`,
 		...rest
 	}
 

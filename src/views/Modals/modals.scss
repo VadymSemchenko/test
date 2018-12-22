@@ -129,14 +129,31 @@
 					color: #869da7;
 
 					&.network {
-						width: 256px;
+						width: 200px;
+						padding: 4px 8px;
 					}
 					&.hop {
-						width: 128px;
+						width: 100px;
+						padding: 4px 8px;
+					}
+
+					@media only screen and (max-width: 992px) {
+						&.network {
+							width: 92px;
+							padding: 4px 8px;
+						}
+						&.hop {
+							width: 92px;
+							padding: 4px 8px;
+						}
+						& .form__textinput {
+							width: 92px;
+						}
 					}
 
 					&.last {
 						width: fit-content;
+						padding: 4px 8px;
 					}
 				}
 			}
