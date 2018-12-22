@@ -11,6 +11,7 @@ import {
 	createLoadingSelector
 } from '../../store/utils/selectors'
 import NewDeviceSurvey from '../Modals/NewDeviceSurvey'
+import NewGatewaySurvey from '../Modals/NewGatewaySurvey'
 import ObjectsTableItem from './components/ObjectsTableItem/ObjectsTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './objects.scss'
@@ -78,7 +79,8 @@ class Objects extends Component {
 					footer={<NewDeviceSurvey.Footer />}
 					title="Example Modal"
 				>
-					<NewDeviceSurvey />
+					{/*<NewDeviceSurvey />*/}
+					<NewGatewaySurvey />
 				</WedgeModal>
 			</div>
 		)

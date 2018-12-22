@@ -1,15 +1,23 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import { Button, ButtonGroup } from 'react-bootstrap'
 import Select from 'react-select'
-import PropTypes from 'prop-types'
 import './form.scss'
 
-function FormGroup({ children, label, center = false, full = false }) {
+function FormGroup({
+	children,
+	label,
+	center = false,
+	full = false,
+	self = false
+}) {
 	return (
 		<div
-			className={`form__group${center ? '-center' : ''} ${full ? 'full' : ''}`}
+			className={`form__group${center ? '-center' : ''} ${full ? 'full' : ''} ${
+				self ? 'self' : ''
+			}`}
 		>
-			<p className={'form__group-label'}>{label}</p>
+			<p className={'form__label'}>{label}</p>
 			{children}
 		</div>
 	)
@@ -19,7 +27,8 @@ FormGroup.propTypes = {
 	children: PropTypes.element,
 	label: PropTypes.string,
 	center: PropTypes.bool,
-	full: PropTypes.bool
+	full: PropTypes.bool,
+	self: PropTypes.bool
 }
 
 function TextInput({ placeholder, value, onChange = () => {}, ...rest }) {
@@ -28,9 +37,9 @@ function TextInput({ placeholder, value, onChange = () => {}, ...rest }) {
 		value,
 		placeholder,
 		onChange: e => onChange(e.target.value),
-		className: `form__input form__textinput ${
-			rest.multiline ? 'multiline' : ''
-		}`,
+		className: `form__input form__textinput 
+    ${rest.multiline ? 'multiline' : ''} 
+    ${rest.extraClass}`,
 		...rest
 	}
 
@@ -82,6 +91,10 @@ const colourStyles = {
 	indicatorSeparator: styles => ({
 		...styles,
 		width: 0
+	}),
+	menu: styles => ({
+		...styles,
+		zIndex: 401
 	})
 }
 
