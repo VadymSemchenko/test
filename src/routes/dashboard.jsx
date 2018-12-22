@@ -20,10 +20,17 @@ const dashboardRoutes = [
 		component: LoadableReports
 	},
 	{
-		path: '/ecosystems/:id/objects',
-		name: 'Objects',
+		nested: true,
+		name: 'Elements',
 		icon: 'pe-7s-albums',
-		component: LoadableObjects
+		paths: [
+			{
+				path: '/ecosystems/:id/objects',
+				name: 'Objects',
+				icon: 'pe-7s-albums',
+				component: LoadableObjects
+			}
+		]
 	},
 	{ redirect: true, path: '/', to: '/ecosystems/:id/reports', name: 'Reports' }
 ]

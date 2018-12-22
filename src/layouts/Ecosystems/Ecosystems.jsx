@@ -15,6 +15,10 @@ class Ecosystems extends Component {
 		}
 	}
 
+	componentDidMount() {
+		document.documentElement.classList.remove('nav-open')
+	}
+
 	mobileSidebarToggle(e) {
 		if (this.state.sidebarExists === false) {
 			this.setState({
@@ -46,7 +50,7 @@ class Ecosystems extends Component {
 					<Navbar fluid>
 						<Navbar.Header>
 							<Navbar.Brand>{123}</Navbar.Brand>
-							<Navbar.Toggle onClick={this.mobileSidebarToggle} />
+							{/*<Navbar.Toggle onClick={this.mobileSidebarToggle} />*/}
 						</Navbar.Header>
 						<Navbar.Collapse>
 							<HeaderLinks />

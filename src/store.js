@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === `development`) {
 		duration: true,
 		diff: true
 	})
-	middlewares.push(logger)
+	// middlewares.push(logger)
 }
 
 export default (initialState = {}) => {

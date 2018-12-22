@@ -27,7 +27,7 @@ Modal.setAppElement('#modal-root')
 
 class Objects extends Component {
 	state = {
-		createModalOpened: true
+		createModalOpened: false
 	}
 
 	openModal = () => {
