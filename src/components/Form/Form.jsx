@@ -9,13 +9,14 @@ function FormGroup({
 	label,
 	center = false,
 	full = false,
-	self = false
+	self = false,
+	...rest
 }) {
 	return (
 		<div
 			className={`form__group${center ? '-center' : ''} ${full ? 'full' : ''} ${
 				self ? 'self' : ''
-			}`}
+			} ${rest.extraClass || ''}`}
 		>
 			<p className={'form__label'}>{label}</p>
 			{children}
@@ -39,7 +40,7 @@ function TextInput({ placeholder, value, onChange = () => {}, ...rest }) {
 		onChange: e => onChange(e.target.value),
 		className: `form__input form__textinput 
     ${rest.multiline ? 'multiline' : ''} 
-    ${rest.extraClass}`,
+    ${rest.extraClass || ''}`,
 		...rest
 	}
 
