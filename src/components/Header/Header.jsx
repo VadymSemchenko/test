@@ -22,13 +22,10 @@ class Header extends Component {
 		}
 		e.preventDefault()
 		document.documentElement.classList.toggle('nav-open')
-		const node = document.createElement('div')
-		node.id = 'bodyClick'
-		node.onclick = function() {
-			this.parentElement.removeChild(this)
-			document.documentElement.classList.toggle('nav-open')
-		}
-		document.body.appendChild(node)
+	}
+
+	componentWillUnmount() {
+		document.documentElement.classList.remove('nav-open')
 	}
 
 	getBrand() {

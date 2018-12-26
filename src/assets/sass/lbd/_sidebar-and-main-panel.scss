@@ -1,3 +1,5 @@
+@import '_variables.scss';
+
 .sidebar {
 	position: fixed;
 	top: 0;
@@ -91,14 +93,19 @@
 	}
 
 	.nav {
-		margin-top: 20px;
+		//margin-top: 20px;
 
 		li {
 			> a {
-				color: #ffffff;
-				margin: 5px 15px;
+				color: #a1a1a1;
+				padding: 12px 20px;
+				border-left: 4px transparent solid;
 				opacity: 0.86;
-				border-radius: 4px;
+			}
+			&.nested {
+				> a {
+					padding: 12px 20px 12px 44px;
+				}
 			}
 
 			&:hover > a,
@@ -106,22 +113,23 @@
 			&.open > a:focus,
 			&.open > a:hover {
 				background: rgba(255, 255, 255, 0.13);
+				border-left: 4px $wedge-primary-color solid;
 				opacity: 1;
+				color: #ffffff;
 			}
 
 			&.active > a {
 				color: #ffffff;
 				opacity: 1;
-				background: rgba(255, 255, 255, 0.23);
+				border-left: 4px $wedge-primary-color solid;
 			}
 		}
 
 		p {
 			margin: 0;
 			line-height: 30px;
-			font-size: 12px;
+			font-size: 14px;
 			font-weight: 600;
-			text-transform: uppercase;
 		}
 
 		.caret {
@@ -131,9 +139,9 @@
 		}
 
 		i {
-			font-size: 28px;
+			font-size: 24px;
 			float: left;
-			margin-right: 15px;
+			margin-right: 12px;
 			line-height: 30px;
 			width: 30px;
 			text-align: center;
