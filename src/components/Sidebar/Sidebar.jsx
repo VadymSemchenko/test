@@ -56,23 +56,36 @@ class Sidebar extends Component {
 						{dashboardRoutes.map((prop, key) => {
 							if (!prop.redirect) {
 								if (prop.nested) {
-									return prop.paths.map((path, nestedKey) => {
-										return (
-											<li
-												className={`${this.activeRoute(path.path)} nested`}
-												key={nestedKey}
-											>
-												<NavLink
-													to={path.path.replace(':id', this.props.ecosystem)}
-													className="nav-link"
-													activeClassName="active"
-												>
-													<i className={path.icon} />
-													<p>{path.name}</p>
-												</NavLink>
+									return (
+										<React.Fragment key={key}>
+											<li>
+												<a href={'#'} className={'nav-link root'}>
+													<i className={prop.icon} />
+													<p>{prop.name}</p>
+												</a>
 											</li>
-										)
-									})
+											{prop.paths.map((path, nestedKey) => {
+												return (
+													<li
+														className={`${this.activeRoute(path.path)} nested`}
+														key={nestedKey}
+													>
+														<NavLink
+															to={path.path.replace(
+																':id',
+																this.props.ecosystem
+															)}
+															className="nav-link"
+															activeClassName="active"
+														>
+															<i className={path.icon} />
+															<p>{path.name}</p>
+														</NavLink>
+													</li>
+												)
+											})}
+										</React.Fragment>
+									)
 								}
 								return (
 									<li className={this.activeRoute(prop.path)} key={key}>

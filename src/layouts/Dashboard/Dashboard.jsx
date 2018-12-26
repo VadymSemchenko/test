@@ -21,16 +21,15 @@ class Dashboard extends Component {
 		if (e.history.action === 'PUSH') {
 			document.documentElement.scrollTop = 0
 			document.scrollingElement.scrollTop = 0
-			this.refs.mainPanel.scrollTop = 0
 		}
 	}
 
 	render() {
 		return (
 			<div className="wrapper">
-				<NotificationSystem ref="notificationSystem" style={style} />
+				<NotificationSystem style={style} />
 				<Sidebar {...this.props} />
-				<div id="main-panel" className="main-panel" ref="mainPanel">
+				<div id="main-panel" className="main-panel">
 					<Header {...this.props} />
 					<Switch>
 						{dashboardRoutes.map((prop, key) => {
@@ -48,7 +47,7 @@ class Dashboard extends Component {
 								return <Redirect from={prop.path} to={prop.to} key={key} />
 							}
 							if (prop.nested) {
-								prop.paths.map((r, nkey) => (
+								return prop.paths.map((r, nkey) => (
 									<Route path={r.path} component={r.component} key={nkey} />
 								))
 							}
