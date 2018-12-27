@@ -24,6 +24,7 @@
 .space-left {
 	margin-left: 16px;
 }
+
 .space-above {
 	margin-top: 16px;
 }
@@ -46,5 +47,19 @@
 		flex-direction: column;
 		justify-content: space-between;
 		padding: 16px;
+	}
+}
+
+.coming-soon {
+	display: flex;
+	justify-content: center;
+	min-height: 75vh;
+	&__container {
+	}
+	img {
+		width: 512px;
+		@media only screen and (max-width: 992px) {
+			width: 320px;
+		}
 	}
 }

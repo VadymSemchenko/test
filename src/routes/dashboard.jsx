@@ -12,6 +12,31 @@ const LoadableObjects = Loadable({
 	loading: () => <Loader /> // eslint-disable-line react/display-name
 })
 
+const LoadableContentList = Loadable({
+	loader: () => import('../views/ContentList/ContentList'),
+	loading: () => <Loader /> // eslint-disable-line react/display-name
+})
+
+const LoadableUsers = Loadable({
+	loader: () => import('../views/Users/Users'),
+	loading: () => <Loader /> // eslint-disable-line react/display-name
+})
+
+const LoadableGovernance = Loadable({
+	loader: () => import('../views/Governance/Governance'),
+	loading: () => <Loader /> // eslint-disable-line react/display-name
+})
+
+const LoadableSecurity = Loadable({
+	loader: () => import('../views/Security/Security'),
+	loading: () => <Loader /> // eslint-disable-line react/display-name
+})
+
+const LoadableAddressTranslation = Loadable({
+	loader: () => import('../views/AddressTranslation/AddressTranslation'),
+	loading: () => <Loader /> // eslint-disable-line react/display-name
+})
+
 const dashboardRoutes = [
 	{
 		nested: true,
@@ -28,13 +53,13 @@ const dashboardRoutes = [
 				path: '/ecosystems/:id/contentlist',
 				name: 'Content List',
 				icon: 'pe-7s-menu',
-				component: LoadableObjects
+				component: LoadableContentList
 			},
 			{
 				path: '/ecosystems/:id/users',
 				name: 'Users',
 				icon: 'pe-7s-user',
-				component: LoadableObjects
+				component: LoadableUsers
 			}
 		]
 	},
@@ -47,13 +72,13 @@ const dashboardRoutes = [
 				path: '/ecosystems/:id/security',
 				name: 'Security',
 				icon: 'pe-7s-unlock',
-				component: LoadableObjects
+				component: LoadableSecurity
 			},
 			{
 				path: '/ecosystems/:id/addresstranslations',
 				name: 'Address Translation',
 				icon: 'pe-7s-way',
-				component: LoadableObjects
+				component: LoadableAddressTranslation
 			}
 		]
 	},
@@ -67,7 +92,7 @@ const dashboardRoutes = [
 		path: '/ecosystems/:id/governance',
 		name: 'Governance',
 		icon: 'pe-7s-users',
-		component: LoadableReports
+		component: LoadableGovernance
 	},
 	{ redirect: true, path: '/', to: '/ecosystems/:id/reports', name: 'Reports' }
 ]
