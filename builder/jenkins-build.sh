@@ -11,4 +11,3 @@ $WORKSPACE/builder/build -i ubuntu-deb-builder:18.04 \
     $WORKSPACE/
 
 cd $WORKSPACE/output
-sha256sum * > SHA256SUMS
