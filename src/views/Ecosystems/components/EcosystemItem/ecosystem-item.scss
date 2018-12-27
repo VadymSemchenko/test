@@ -1,3 +1,4 @@
+@import '../../../../assets/sass/lbd/variables.scss';
 @import '../../../../assets/sass/common.scss';
 
 .ecosystem-item {
@@ -21,30 +22,37 @@
 	}
 
 	&:hover {
-		border: 1px #99dfc7 solid;
+		border: 1px #29cc97 solid;
 		box-shadow: 0px 5px 10px -2px rgba(136, 136, 136, 0.3);
 	}
 
 	.item-header {
-		background-color: #4d88c4;
+		background-color: $wedge-secondary-blue;
 		padding: 16px;
 		@extend .flex-row;
-		justify-content: flex-start;
+		justify-content: space-between;
 		align-content: flex-start;
+		align-items: flex-start;
 		&__caption {
 		}
 		&__name {
-			font-size: 20px;
-			color: white;
-			font-weight: bold;
+			font-size: 24px;
+			color: $wedge-white;
+			font-weight: normal;
 			margin: 0;
 		}
 		&__subtitle {
 			font-size: 16px;
 			font-weight: normal;
 			color: white;
-			opacity: 0.75;
+			opacity: 0.5;
 			margin: 0;
+		}
+		&__more {
+			.more-icon {
+				font-size: 32px;
+				color: $wedge-white;
+			}
 		}
 	}
 	.item-content {
@@ -52,7 +60,8 @@
 		.title {
 			font-size: 16px;
 			font-weight: normal;
-			color: #748d97;
+			margin-bottom: 8px;
+			color: $wedge-blue-gray;
 		}
 		.charts-container {
 			@extend .flex-row;
@@ -61,7 +70,7 @@
 			.divider {
 				height: 60px;
 				width: 1px;
-				background-color: #e9e9e9;
+				background-color: #bfbfbf;
 			}
 			.utilization,
 			.threat,
@@ -88,8 +97,9 @@
 							width: 48px;
 						}
 						p.value {
-							font-size: 16px;
-							font-weight: bold;
+							color: $wedge-blue-gray;
+							font-size: 14px;
+							font-weight: normal;
 							line-height: 1;
 							margin-block-start: 0;
 							margin-block-end: 0;
@@ -113,9 +123,9 @@
 			align-content: center;
 			justify-content: center;
 			p {
-				font-size: 24px;
+				font-size: 34px;
 				font-weight: bold;
-				color: #748d97;
+				color: $wedge-blue-gray;
 			}
 		}
 		.nsp__container {
@@ -136,8 +146,9 @@
 				margin-bottom: 8px;
 			}
 			&__name {
-				font-size: 12px;
-				font-weight: lighter;
+				color: $wedge-blue-gray;
+				font-size: 14px;
+				font-weight: normal;
 			}
 		}
 		.owner-container {
@@ -147,21 +158,23 @@
 		.owner {
 			margin-top: 16px;
 			margin-bottom: 16px;
-			border: 1px #e9e9e9 solid;
-			border-radius: 16px;
+			border: 1px #bfbfbf solid;
+			border-radius: 20px;
+			opacity: 0.5;
 			@extend .flex-row;
 			.divider {
 				height: 32px;
 				width: 1px;
-				background-color: #e9e9e9;
+				background-color: #bfbfbf;
 			}
 			&__name {
-				color: #92a6ad;
+				color: $wedge-blue-gray;
 				margin: 4px 16px;
 				font-size: 14px;
 				min-width: 100px;
 			}
 			&__icon {
+				color: $wedge-blue-gray;
 				margin: 4px 16px;
 				height: 24px;
 				width: 24px;

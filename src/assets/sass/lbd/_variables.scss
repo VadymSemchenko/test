@@ -253,4 +253,21 @@ $green-navbar: lighten($new-green, 10%);
 $orange-navbar: lighten($new-orange, 10%);
 $red-navbar: lighten($new-red, 10%);
 
-$wedge-primary-color: #4d88c4;
+// Acreto Wedge-Related Variables
+$wedge-white: #ffffff;
+$wedge-white-two: #f9f9f9;
+$wedge-primary-green: #00a550;
+$wedge-secondary-green: #72e1c4;
+$wedge-primary-orange: #f68b1e;
+$wedge-secondary-orange: #fbb040;
+$wedge-primary-blue: #4986c5;
+$wedge-secondary-blue: #4a87c6;
+$wedge-primary-black: #333333;
+$wedge-secondary-black: #757575;
+$wedge-blue-gray: #6d8994;
+$wedge-primary-gray: #76888f;
+$wedge-secondary-gray: #dfe9ea;
+$wedge-pink: #ffd2db;
+
+$wedge-badge-orange: $wedge-secondary-orange;
+$wedge-primary-color: $wedge-primary-blue;
