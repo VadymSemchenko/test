@@ -71,6 +71,9 @@ export default function EcosystemItem({ ecosystem, onClick }) {
 						{moment(ecosystem.lastSeen).fromNow()}
 					</p>
 				</div>
+				<div className={'item-header__more'}>
+					<i className={'pe-7s-more more-icon'} />
+				</div>
 			</div>
 			<div className={'item-content'}>
 				<p className={'title'}>Associated NSP</p>

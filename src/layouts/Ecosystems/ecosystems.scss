@@ -1,3 +1,9 @@
+@import '../../assets/sass/lbd/variables.scss';
+
+.ecosystems-wrapper.wrapper {
+	background-color: $wedge-white-two;
+}
+
 .ecosystems__navbar {
 	display: flex;
 	justify-content: space-between;
@@ -10,6 +16,11 @@
 		}
 	}
 	.main-panel {
+		background-color: $wedge-white-two;
 		flex: 1;
+		.navbar-default {
+			background-color: $wedge-white-two;
+			border-bottom: 1px solid rgba(#bfbfbf, 0.4);
+		}
 	}
 }

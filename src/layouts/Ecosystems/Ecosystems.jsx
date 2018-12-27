@@ -75,7 +75,7 @@ class Ecosystems extends Component {
 
 	render() {
 		return (
-			<div className="wrapper">
+			<div className="wrapper ecosystems-wrapper">
 				{this.renderNavbar()}
 				{this.renderContent()}
 			</div>
