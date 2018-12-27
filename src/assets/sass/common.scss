@@ -63,3 +63,11 @@
 		}
 	}
 }
+
+.component-coming-soon {
+	opacity: 0.33 !important;
+	cursor: wait !important;
+	* {
+		pointer-events: none;
+	}
+}

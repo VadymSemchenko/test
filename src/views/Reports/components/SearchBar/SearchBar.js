@@ -15,7 +15,7 @@ export default class SearchBar extends React.Component {
 
 	render() {
 		return (
-			<div className={'search-bar'}>
+			<div className={'search-bar component-coming-soon'}>
 				<Dropdown id={'dropdown-refresh-rate'}>
 					<Dropdown.Toggle bsStyle={'primary'} id="dropdown-basic">
 						{'All'}
