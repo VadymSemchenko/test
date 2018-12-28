@@ -25,12 +25,9 @@ class NewDeviceSurvey extends React.Component {
 	}
 
 	changeField = (field, value) => {
-		this.setState(
-			{
-				[field]: value
-			},
-			() => console.log(this.state)
-		)
+		this.setState({
+			[field]: value
+		})
 	}
 
 	onNameChange = val => this.changeField('name', val)
@@ -76,7 +73,7 @@ class NewDeviceSurvey extends React.Component {
 										placeholder={'Select profile group'}
 										options={CATEGORIES}
 									/>
-									<AddButton className={'space-left'} onClick={console.log} />
+									<AddButton className={'space-left'} />
 								</div>
 							</Form.Group>
 						</div>
