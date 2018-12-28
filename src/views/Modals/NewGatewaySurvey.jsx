@@ -29,19 +29,14 @@ class NewGatewaySurvey extends React.Component {
 	}
 
 	changeField = (field, value) => {
-		this.setState(
-			{
-				[field]: value
-			},
-			() => console.log(this.state)
-		)
+		this.setState({
+			[field]: value
+		})
 	}
 
 	onNameChange = val => this.changeField('name', val)
-	onProfileChange = val => this.changeField('profile', val)
 	onCategoryChange = val => this.changeField('category', val)
 	onTypeChange = val => this.changeField('type', val)
-	onAssetChange = val => this.changeField('asset', val)
 	onExpiryChange = val => this.changeField('expiry', val)
 	onDescriptionChange = val => this.changeField('description', val)
 	onLocationChange = val => this.changeField('location', val)
