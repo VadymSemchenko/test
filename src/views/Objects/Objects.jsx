@@ -17,7 +17,7 @@ import NewObjectType from '../Modals/NewObjectType'
 import ObjectsTableItem from './components/ObjectsTableItem/ObjectsTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './objects.scss'
-import { fetchObjects } from './scenario-actions'
+import { createObject, fetchObjects } from './scenario-actions'
 
 const FIELDS = [
 	{ name: 'Object', center: true },
@@ -90,8 +90,8 @@ class Objects extends Component {
 	}
 
 	onAdd = entity => {
-		console.log({ entity })
-		this.setState({ entity }) // TODO: Change
+		this.props.createObject(entity, this.state.currentType)
+		this.closeModal()
 	}
 
 	onTypeChoose = type => {
@@ -144,6 +144,7 @@ class Objects extends Component {
 
 Objects.propTypes = {
 	fetchObjects: PropTypes.func.isRequired,
+	createObject: PropTypes.func.isRequired,
 	items: PropTypes.array.isRequired,
 	isLoading: PropTypes.bool.isRequired
 }
@@ -173,7 +174,8 @@ const objectsSelector = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		fetchObjects: () => dispatch(fetchObjects())
+		fetchObjects: () => dispatch(fetchObjects()),
+		createObject: (entity, type) => dispatch(createObject(entity, type))
 	}
 }
 
