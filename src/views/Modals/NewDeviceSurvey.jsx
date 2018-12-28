@@ -33,6 +33,18 @@ class NewDeviceSurvey extends React.Component {
 		)
 	}
 
+	onNameChange = val => this.changeField('name', val)
+	onProfileChange = val => this.changeField('profile', val)
+	onCategoryChange = val => this.changeField('category', val)
+	onTypeChange = val => this.changeField('type', val)
+	onAssetChange = val => this.changeField('asset', val)
+	onExpiryChange = val => this.changeField('expiry', val)
+	onDescriptionChange = val => this.changeField('description', val)
+	onLocationChange = val => this.changeField('location', val)
+	onLatChange = val => this.changeField('lat', val)
+	onLongChange = val => this.changeField('long', val)
+	onExpiryTypeChange = val => this.changeField('expiryType', val)
+
 	onFinish = () => {
 		if (this.validate()) {
 			this.props.onAdd(this.state)
@@ -52,7 +64,7 @@ class NewDeviceSurvey extends React.Component {
 							<Form.Group label={'Name'}>
 								<Form.Text
 									value={this.state.name}
-									onChange={this.changeField.bind(this, 'name')}
+									onChange={this.onNameChange}
 									placeholder={'Name'}
 								/>
 							</Form.Group>
@@ -60,11 +72,11 @@ class NewDeviceSurvey extends React.Component {
 								<div className={'flex-row baseline'}>
 									<Form.Select
 										value={this.state.profile}
-										onChange={this.changeField.bind(this, 'profile')}
+										onChange={this.onProfileChange}
 										placeholder={'Select profile group'}
 										options={CATEGORIES}
 									/>
-									<AddButton className={'space-left'} onClick={() => {}} />
+									<AddButton className={'space-left'} onClick={console.log} />
 								</div>
 							</Form.Group>
 						</div>
@@ -72,7 +84,7 @@ class NewDeviceSurvey extends React.Component {
 							<Form.Group label={'Category'}>
 								<Form.Select
 									value={this.state.category}
-									onChange={this.changeField.bind(this, 'category')}
+									onChange={this.onCategoryChange}
 									placeholder={'Select category'}
 									options={CATEGORIES}
 								/>
@@ -80,7 +92,7 @@ class NewDeviceSurvey extends React.Component {
 							<Form.Group label={'Type'}>
 								<Form.Select
 									value={this.state.type}
-									onChange={this.changeField.bind(this, 'type')}
+									onChange={this.onTypeChange}
 									placeholder={'Select type'}
 									options={CATEGORIES}
 								/>
@@ -89,7 +101,7 @@ class NewDeviceSurvey extends React.Component {
 						<Form.Group label={'Asset value'}>
 							<Form.Select
 								value={this.state.asset}
-								onChange={this.changeField.bind(this, 'asset')}
+								onChange={this.onAssetChange}
 								placeholder={'Select asset value'}
 								options={CATEGORIES}
 							/>
@@ -98,7 +110,7 @@ class NewDeviceSurvey extends React.Component {
 							<Form.Group label={'Expiry'}>
 								<Form.Text
 									value={this.state.expiry}
-									onChange={this.changeField.bind(this, 'expiry')}
+									onChange={this.onExpiryChange}
 									placeholder={'Expiry'}
 								/>
 							</Form.Group>
@@ -106,7 +118,7 @@ class NewDeviceSurvey extends React.Component {
 								<Form.Toggle
 									selected={this.state.expiryType}
 									selectedClass={'toggle-selected'}
-									onChange={this.changeField.bind(this, 'expiryType')}
+									onChange={this.onExpiryTypeChange}
 									options={[
 										{ value: 0, label: 'Hard' },
 										{ value: 1, label: 'Soft' }
@@ -119,7 +131,7 @@ class NewDeviceSurvey extends React.Component {
 						<Form.Group full={true} label={'Description'}>
 							<Form.Text
 								value={this.state.description}
-								onChange={this.changeField.bind(this, 'description')}
+								onChange={this.onDescriptionChange}
 								placeholder={'Device description'}
 								multiline={true}
 								rows={4}
@@ -129,7 +141,7 @@ class NewDeviceSurvey extends React.Component {
 						<Form.Group label={'Location'}>
 							<Form.Select
 								value={this.state.location}
-								onChange={this.changeField.bind(this, 'location')}
+								onChange={this.onLocationChange}
 								placeholder={'Select location value'}
 								options={CATEGORIES}
 							/>
@@ -139,14 +151,14 @@ class NewDeviceSurvey extends React.Component {
 							<Form.Group label={''}>
 								<Form.Text
 									value={this.state.lat}
-									onChange={this.changeField.bind(this, 'lat')}
+									onChange={this.onLatChange}
 									placeholder={'Latitude'}
 								/>
 							</Form.Group>
 							<Form.Group label={''}>
 								<Form.Text
 									value={this.state.long}
-									onChange={this.changeField.bind(this, 'long')}
+									onChange={this.onLongChange}
 									placeholder={'Longitude'}
 								/>
 							</Form.Group>

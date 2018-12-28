@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import React, { PureComponent } from 'react'
 
-export class Card extends Component {
+export class Card extends PureComponent {
 	render() {
 		return (
 			<div className={'card' + (this.props.plain ? ' card-plain' : '')}>

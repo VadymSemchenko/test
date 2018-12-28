@@ -4,24 +4,27 @@ import { Button, ButtonGroup } from 'react-bootstrap'
 import Select from 'react-select'
 import './form.scss'
 
-function FormGroup({
-	children,
-	label,
-	center = false,
-	full = false,
-	self = false,
-	...rest
-}) {
-	return (
-		<div
-			className={`form__group${center ? '-center' : ''} ${full ? 'full' : ''} ${
-				self ? 'self' : ''
-			} ${rest.extraClass || ''}`}
-		>
-			<p className={'form__label'}>{label}</p>
-			{children}
-		</div>
-	)
+class FormGroup extends React.PureComponent {
+	render() {
+		const {
+			children,
+			label,
+			center = false,
+			full = false,
+			self = false,
+			...rest
+		} = this.props
+		return (
+			<div
+				className={`form__group${center ? '-center' : ''} ${
+					full ? 'full' : ''
+				} ${self ? 'self' : ''} ${rest.extraClass || ''}`}
+			>
+				<p className={'form__label'}>{label}</p>
+				{children}
+			</div>
+		)
+	}
 }
 
 FormGroup.propTypes = {
@@ -32,22 +35,28 @@ FormGroup.propTypes = {
 	self: PropTypes.bool
 }
 
-function TextInput({ placeholder, value, onChange = () => {}, ...rest }) {
-	const inputProps = {
-		type: 'text',
-		value,
-		placeholder,
-		onChange: e => onChange(e.target.value),
-		className: `form__input form__textinput 
-    ${rest.multiline ? 'multiline' : ''} 
-    ${rest.extraClass || ''}`,
-		...rest
+class TextInput extends React.PureComponent {
+	constructor(props) {
+		super(props)
+		const { value, placeholder, onChange, ...rest } = props
+		this.inputProps = {
+			type: 'text',
+			value: value,
+			placeholder: placeholder,
+			onChange: e => onChange(e.target.value),
+			className: `form__input form__textinput ${
+				rest.multiline ? 'multiline' : ''
+			} ${rest.extraClass || ''}`,
+			...rest
+		}
 	}
 
-	if (rest.multiline) {
-		return <textarea {...inputProps} />
-	} else {
-		return <input {...inputProps} />
+	render() {
+		if (this.props.multiline) {
+			return <textarea {...this.inputProps} />
+		} else {
+			return <input {...this.inputProps} />
+		}
 	}
 }
 
@@ -57,23 +66,26 @@ TextInput.propTypes = {
 	onChange: PropTypes.func
 }
 
-function ToggleButton({ selectedClass, selected, onChange, options }) {
-	return (
-		<ButtonGroup className={''}>
-			{options.map(opt => (
-				<Button
-					key={`toggle-button-index-key-${opt.value}-${opt.name}`}
-					onClick={() => onChange(opt.value)}
-					className={`form__input form__toggle ${
-						selected === opt.value ? selectedClass : ''
-					}`}
-					bsStyle={selected === opt.value ? 'primary' : 'default'}
-				>
-					{opt.label}
-				</Button>
-			))}
-		</ButtonGroup>
-	)
+class ToggleButton extends React.PureComponent {
+	render() {
+		const { selectedClass, selected, onChange, options } = this.props
+		return (
+			<ButtonGroup>
+				{options.map(opt => (
+					<Button
+						key={`toggle-button-index-key-${opt.value}-${opt.name}`}
+						onClick={() => onChange(opt.value)}
+						className={`form__input form__toggle ${
+							selected === opt.value ? selectedClass : ''
+						}`}
+						bsStyle={selected === opt.value ? 'primary' : 'default'}
+					>
+						{opt.label}
+					</Button>
+				))}
+			</ButtonGroup>
+		)
+	}
 }
 
 ToggleButton.propTypes = {
@@ -99,18 +111,23 @@ const colourStyles = {
 	})
 }
 
-function SelectInput({ placeholder, value, onChange = () => {}, options }) {
-	return (
-		<Select
-			className={'form__input form__select'}
-			name="color"
-			placeholder={placeholder}
-			value={value}
-			onChange={onChange}
-			options={options}
-			styles={colourStyles}
-		/>
-	)
+class SelectInput extends React.PureComponent {
+	emptyFunction = () => {}
+
+	render() {
+		const { placeholder, value, onChange, options } = this.props
+		return (
+			<Select
+				className={'form__input form__select'}
+				name="color"
+				placeholder={placeholder}
+				value={value}
+				onChange={onChange || this.emptyFunction}
+				options={options}
+				styles={colourStyles}
+			/>
+		)
+	}
 }
 
 SelectInput.propTypes = {
