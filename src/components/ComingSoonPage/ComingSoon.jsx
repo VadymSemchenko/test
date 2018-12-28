@@ -6,7 +6,7 @@ export default function ComingSoon() {
 	return (
 		<div className={'coming-soon'}>
 			<div className={'coming-soon__container'}>
-				<img src={ComingSoonImage} />
+				<img alt={'coming-soon'} src={ComingSoonImage} />
 			</div>
 		</div>
 	)
