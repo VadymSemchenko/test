@@ -40,6 +40,7 @@ export default function WedgeModal({
 	return (
 		<Modal
 			isOpen={isOpen}
+			shouldCloseOnOverlayClick={false}
 			onAfterOpen={afterOpen}
 			onRequestClose={onClose}
 			style={customStyles}

@@ -1,28 +1,50 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import './modals.scss'
 
-export default function NewObjectType() {
+const AVAILABLE_TYPES = [
+	{
+		name: 'device',
+		title: 'Device',
+		icon: ''
+	},
+	{
+		name: 'gateway',
+		title: 'Gateway',
+		icon: ''
+	},
+	{
+		name: 'address',
+		title: 'Address',
+		icon: ''
+	}
+]
+
+export default function NewObjectType({ onTypeChoose }) {
 	return (
 		<div className={'modal__content padded'}>
 			<p className={'big'}>What type of object would you like to add?</p>
-			<div className={'divider divider-horizontal'} />
-			<div className={'option-container'}>
-				<img className={'type-icon'} alt={'device-icon'} />
-				<p className={'option medium'}>Device</p>
-				<i className={'icon pe-7s-angle-right'} />
-			</div>
-			<div className={'divider divider-horizontal'} />
-			<div className={'option-container'}>
-				<img className={'type-icon'} alt={'device-icon'} />
-				<p className={'option medium'}>Gateway</p>
-				<i className={'icon pe-7s-angle-right'} />
-			</div>
-			<div className={'divider divider-horizontal'} />
-			<div className={'option-container'}>
-				<img className={'type-icon'} alt={'device-icon'} />
-				<p className={'option medium'}>Address</p>
-				<i className={'icon pe-7s-angle-right'} />
-			</div>
+			{AVAILABLE_TYPES.map(type => (
+				<React.Fragment key={`types-index-${type.name}`}>
+					<div className={'divider divider-horizontal'} />
+					<div
+						className={'option-container'}
+						onClick={() => onTypeChoose(type.name)}
+					>
+						<img
+							className={'type-icon'}
+							src={type.icon}
+							alt={`${type.name}-icon`}
+						/>
+						<p className={'option medium'}>{type.title}</p>
+						<i className={'icon pe-7s-angle-right'} />
+					</div>
+				</React.Fragment>
+			))}
 		</div>
 	)
+}
+
+NewObjectType.propTypes = {
+	onTypeChoose: PropTypes.func.isRequired
 }

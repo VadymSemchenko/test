@@ -11,6 +11,9 @@ import {
 	createLoadingSelector
 } from '../../store/utils/selectors'
 import NewAddressSurvey from '../Modals/NewAddressSurvey'
+import NewDeviceSurvey from '../Modals/NewDeviceSurvey'
+import NewGatewaySurvey from '../Modals/NewGatewaySurvey'
+import NewObjectType from '../Modals/NewObjectType'
 import ObjectsTableItem from './components/ObjectsTableItem/ObjectsTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './objects.scss'
@@ -23,11 +26,30 @@ const FIELDS = [
 	{ name: 'Status', center: true }
 ]
 
+const OBJECT_TYPES = [
+	{
+		name: 'device',
+		title: 'Create New Device',
+		component: NewDeviceSurvey
+	},
+	{
+		name: 'gateway',
+		title: 'Create New Gateway',
+		component: NewGatewaySurvey
+	},
+	{
+		name: 'address',
+		title: 'Create New Address',
+		component: NewAddressSurvey
+	}
+]
+
 Modal.setAppElement('#modal-root')
 
 class Objects extends Component {
 	state = {
-		createModalOpened: false
+		createModalOpened: false,
+		currentType: ''
 	}
 
 	openModal = () => {
@@ -35,11 +57,48 @@ class Objects extends Component {
 	}
 
 	closeModal = () => {
-		this.setState({ createModalOpened: false })
+		this.setState({
+			createModalOpened: false,
+			currentType: ''
+		})
 	}
 
 	componentDidMount() {
 		this.props.fetchObjects()
+	}
+
+	createTitleForModal = () => {
+		if (
+			this.state.currentType &&
+			['device', 'gateway', 'address'].includes(this.state.currentType)
+		) {
+			return OBJECT_TYPES.find(el => el.name === this.state.currentType).title
+		} else {
+			return 'Select new object type'
+		}
+	}
+
+	renderCreationModal = () => {
+		if (
+			this.state.currentType &&
+			['device', 'gateway', 'address'].includes(this.state.currentType)
+		) {
+			const Survey = OBJECT_TYPES.find(el => el.name === this.state.currentType)
+				.component
+			return <Survey onAdd={this.onAdd} />
+		} else {
+			return <NewObjectType onTypeChoose={this.onTypeChoose} />
+		}
+	}
+
+	onAdd = entity => {
+		this.setState({ entity }) // TODO: Change
+	}
+
+	onTypeChoose = type => {
+		this.setState({
+			currentType: type
+		})
 	}
 
 	renderObjects = matches => {
@@ -76,9 +135,9 @@ class Objects extends Component {
 					isOpen={this.state.createModalOpened}
 					onClose={this.closeModal}
 					footer={<NewAddressSurvey.Footer />}
-					title="Example Modal"
+					title={this.createTitleForModal()}
 				>
-					<NewAddressSurvey />
+					{this.renderCreationModal()}
 				</WedgeModal>
 			</div>
 		)
