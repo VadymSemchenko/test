@@ -46,6 +46,10 @@ const OBJECT_TYPES = [
 
 Modal.setAppElement('#modal-root')
 
+function typeExists(type) {
+	return type && ['device', 'gateway', 'address'].includes(type)
+}
+
 class Objects extends Component {
 	state = {
 		createModalOpened: false,
@@ -68,10 +72,7 @@ class Objects extends Component {
 	}
 
 	createTitleForModal = () => {
-		if (
-			this.state.currentType &&
-			['device', 'gateway', 'address'].includes(this.state.currentType)
-		) {
+		if (typeExists(this.state.currentType)) {
 			return OBJECT_TYPES.find(el => el.name === this.state.currentType).title
 		} else {
 			return 'Select new object type'
@@ -79,10 +80,7 @@ class Objects extends Component {
 	}
 
 	renderCreationModal = () => {
-		if (
-			this.state.currentType &&
-			['device', 'gateway', 'address'].includes(this.state.currentType)
-		) {
+		if (typeExists(this.state.currentType)) {
 			const Survey = OBJECT_TYPES.find(el => el.name === this.state.currentType)
 				.component
 			return <Survey onAdd={this.onAdd} />
@@ -92,6 +90,7 @@ class Objects extends Component {
 	}
 
 	onAdd = entity => {
+		console.log({ entity })
 		this.setState({ entity }) // TODO: Change
 	}
 
@@ -134,7 +133,6 @@ class Objects extends Component {
 				<WedgeModal
 					isOpen={this.state.createModalOpened}
 					onClose={this.closeModal}
-					footer={<NewAddressSurvey.Footer />}
 					title={this.createTitleForModal()}
 				>
 					{this.renderCreationModal()}
