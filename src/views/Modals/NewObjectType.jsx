@@ -2,21 +2,26 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './modals.scss'
 
+import DeviceIcon from '../../assets/img/PNG/device.png'
+import GatewayIcon from '../../assets/img/PNG/gateway.png'
+import AddressIcon from '../../assets/img/PNG/address.png'
+import GoArrow from '../../assets/img/PNG/arrow.png'
+
 const AVAILABLE_TYPES = [
 	{
 		name: 'device',
 		title: 'Device',
-		icon: ''
+		icon: DeviceIcon
 	},
 	{
 		name: 'gateway',
 		title: 'Gateway',
-		icon: ''
+		icon: GatewayIcon
 	},
 	{
 		name: 'address',
 		title: 'Address',
-		icon: ''
+		icon: AddressIcon
 	}
 ]
 
@@ -39,7 +44,7 @@ export default class NewObjectType extends React.PureComponent {
 								alt={`${type.name}-icon`}
 							/>
 							<p className={'option medium'}>{type.title}</p>
-							<i className={'icon pe-7s-angle-right'} />
+							<img src={GoArrow} className={'go-arrow'} alt={'go-arrow'} />
 						</div>
 					</React.Fragment>
 				))}
