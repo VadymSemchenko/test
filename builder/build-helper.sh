@@ -19,6 +19,7 @@ curl -sL https://deb.nodesource.com/setup_10.x | bash -
 apt-get install -y nodejs
 
 # Make read-write copy of source code
+mkdir -p /build/src
 cp -a /source-ro /build/src/$PACKAGENAME
 
 export GOPATH=/build

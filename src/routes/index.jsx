@@ -1,5 +1,9 @@
-import Dashboard from "layouts/Dashboard/Dashboard.jsx";
+import Dashboard from '../layouts/Dashboard/Dashboard'
+import Ecosystems from '../layouts/Ecosystems/Ecosystems'
 
-var indexRoutes = [{ path: "/", name: "Home", component: Dashboard }];
+const indexRoutes = [
+	{ path: '/', name: 'Home', component: Ecosystems },
+	{ path: '/ecosystems', name: 'Ecosystem', component: Dashboard }
+]
 
-export default indexRoutes;
+export default indexRoutes

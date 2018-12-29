@@ -1,53 +1,100 @@
-import Dashboard from "views/Dashboard/Dashboard";
-import UserProfile from "views/UserProfile/UserProfile";
-import TableList from "views/TableList/TableList";
-import Typography from "views/Typography/Typography";
-import Icons from "views/Icons/Icons";
-import Maps from "views/Maps/Maps";
-import Notifications from "views/Notifications/Notifications";
-import Upgrade from "views/Upgrade/Upgrade";
+import React from 'react'
+import Loadable from 'react-loadable'
+import Loader from '../components/Loader/Loader'
+
+const LoadableReports = Loadable({
+	loader: () => import('../views/Reports/Reports'),
+	loading: () => <Loader /> // eslint-disable-line react/display-name
+})
+
+const LoadableObjects = Loadable({
+	loader: () => import('../views/Objects/Objects'),
+	loading: () => <Loader /> // eslint-disable-line react/display-name
+})
+
+const LoadableContentList = Loadable({
+	loader: () => import('../views/ContentList/ContentList'),
+	loading: () => <Loader /> // eslint-disable-line react/display-name
+})
+
+const LoadableUsers = Loadable({
+	loader: () => import('../views/Users/Users'),
+	loading: () => <Loader /> // eslint-disable-line react/display-name
+})
+
+const LoadableGovernance = Loadable({
+	loader: () => import('../views/Governance/Governance'),
+	loading: () => <Loader /> // eslint-disable-line react/display-name
+})
+
+const LoadableSecurity = Loadable({
+	loader: () => import('../views/Security/Security'),
+	loading: () => <Loader /> // eslint-disable-line react/display-name
+})
+
+const LoadableAddressTranslation = Loadable({
+	loader: () => import('../views/AddressTranslation/AddressTranslation'),
+	loading: () => <Loader /> // eslint-disable-line react/display-name
+})
 
 const dashboardRoutes = [
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: "pe-7s-graph",
-    component: Dashboard
-  },
-  {
-    path: "/user",
-    name: "User Profile",
-    icon: "pe-7s-user",
-    component: UserProfile
-  },
-  {
-    path: "/table",
-    name: "Table List",
-    icon: "pe-7s-note2",
-    component: TableList
-  },
-  {
-    path: "/typography",
-    name: "Typography",
-    icon: "pe-7s-news-paper",
-    component: Typography
-  },
-  { path: "/icons", name: "Icons", icon: "pe-7s-science", component: Icons },
-  { path: "/maps", name: "Maps", icon: "pe-7s-map-marker", component: Maps },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "pe-7s-bell",
-    component: Notifications
-  },
-  {
-    upgrade: true,
-    path: "/upgrade",
-    name: "Upgrade to PRO",
-    icon: "pe-7s-rocket",
-    component: Upgrade
-  },
-  { redirect: true, path: "/", to: "/dashboard", name: "Dashboard" }
-];
+	{
+		nested: true,
+		name: 'Elements',
+		icon: 'pe-7s-network',
+		paths: [
+			{
+				path: '/ecosystems/:id/objects',
+				name: 'Objects',
+				icon: 'pe-7s-albums',
+				component: LoadableObjects
+			},
+			{
+				path: '/ecosystems/:id/contentlist',
+				name: 'Content List',
+				icon: 'pe-7s-menu',
+				component: LoadableContentList
+			},
+			{
+				path: '/ecosystems/:id/users',
+				name: 'Users',
+				icon: 'pe-7s-user',
+				component: LoadableUsers
+			}
+		]
+	},
+	{
+		nested: true,
+		name: 'Policies',
+		icon: 'pe-7s-check',
+		paths: [
+			{
+				path: '/ecosystems/:id/security',
+				name: 'Security',
+				icon: 'pe-7s-unlock',
+				component: LoadableSecurity
+			},
+			{
+				path: '/ecosystems/:id/addresstranslations',
+				name: 'Address Translation',
+				icon: 'pe-7s-way',
+				component: LoadableAddressTranslation
+			}
+		]
+	},
+	{
+		path: '/ecosystems/:id/reports',
+		name: 'Reports',
+		icon: 'pe-7s-note2',
+		component: LoadableReports
+	},
+	{
+		path: '/ecosystems/:id/governance',
+		name: 'Governance',
+		icon: 'pe-7s-users',
+		component: LoadableGovernance
+	},
+	{ redirect: true, path: '/', to: '/ecosystems/:id/reports', name: 'Reports' }
+]
 
-export default dashboardRoutes;
+export default dashboardRoutes

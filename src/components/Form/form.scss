@@ -1,0 +1,59 @@
+@import '../../assets/sass/common.scss';
+
+.form {
+	&__group {
+		@extend .flex-column;
+		justify-content: flex-start;
+
+		&-center {
+			@extend .flex-column;
+			justify-content: center;
+		}
+		&.self {
+			max-width: fit-content !important;
+		}
+	}
+	&__label {
+		font-size: 14px;
+		font-weight: bold;
+		color: #869da7;
+	}
+	&__input {
+		font-size: 14px;
+	}
+	&__textinput {
+		margin-top: 16px;
+		margin-bottom: 16px;
+		background-color: transparent;
+		border: 0;
+		border-bottom: 1px #f3f3f3 solid;
+		padding: 4px 8px;
+
+		&::placeholder {
+			color: #d3d7d8;
+			font-size: 14px;
+			font-weight: normal;
+		}
+		&.multiline {
+			word-break: break-word;
+		}
+	}
+	&__select {
+		flex: 1;
+
+		margin-bottom: 16px;
+		background-color: transparent;
+		border: 0;
+		border-bottom: 1px #f3f3f3 solid;
+		padding: 4px 0;
+	}
+
+	&__toggle {
+		min-width: 100px;
+		padding: 8px 16px;
+
+		@media only screen and (max-width: 992px) {
+			margin-bottom: 8px;
+		}
+	}
+}

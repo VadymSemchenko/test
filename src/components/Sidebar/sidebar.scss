@@ -1,0 +1,15 @@
+.sidebar.wedge {
+	.nav-link {
+		&.root {
+			cursor: pointer;
+		}
+		&.ecosystem {
+			border-bottom: 1px #5a5c5b solid;
+			border-radius: 0;
+
+			p {
+				font-size: 16px;
+			}
+		}
+	}
+}
