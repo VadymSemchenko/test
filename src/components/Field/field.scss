@@ -1,0 +1,23 @@
+@import '../../assets/sass/common.scss';
+
+.field {
+	&__group {
+		@extend .flex-column;
+		justify-content: flex-start;
+		margin-bottom: 24px;
+		width: 200px;
+
+		&-center {
+			@extend .flex-column;
+			justify-content: center;
+		}
+		&.self {
+			max-width: fit-content !important;
+		}
+	}
+	&__label {
+		font-size: 14px;
+		font-weight: bold;
+		color: #869da7;
+	}
+}
