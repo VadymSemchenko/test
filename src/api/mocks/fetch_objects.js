@@ -1,25 +1,31 @@
 import moment from 'moment'
+import {
+	ADDRESS_TYPE,
+	EXPIRATION_TYPE,
+	GATEWAY_TYPE,
+	IP_MODES,
+	IP_TYPE,
+	LOCATION_TYPE
+} from '../../enums'
 
 export const list = [
 	{
 		id: '2ewsvw234ewrdsf', // UUID
 		name: 'voCore-g2-42434234234', // String
-		category: 'IOT', // String or enum ID (need to define enum)
-		type: 'Device', // String or enum ID (need to define enum)
+		category: 2, // String or enum ID (need to define enum)
+		type: 1, // String or enum ID (need to define enum)
 		expiry: {
-			type: 'Hard', // String or enum ID (need to define) [HARD, SOFT]
-			date: moment() // Date time ISO-8601 or another one
+			type: EXPIRATION_TYPE.SOFT, // String or enum ID (need to define) [HARD, SOFT]
+			date: moment().toISOString() // Date time ISO-8601 or another one
 		},
 		asset_value: 50, // Number
-		profile_group: {
-			id: 'qrefdw232-13rqf', // UUID
-			name: 'Profile Group #1' // String
-		},
+		profile_group: 0, // ID
 		description: 'Lorem ipsum', // Long string
 		location: {
-			type: 'coordinates', // string or enum ID [ coordinates, what else ... ]
+			type: LOCATION_TYPE.REGION, // string or enum ID [ coordinates, what else ... ]
 			longitude: 12312321,
-			latitude: 12313233
+			latitude: 12313233,
+			region: 3
 		},
 		nsps: [
 			{
@@ -31,35 +37,34 @@ export const list = [
 			}
 		],
 		status: 'connected', // string or enum ID
-		lastChange: moment().subtract(2, 'days'),
+		last_change: moment()
+			.subtract(2, 'hours')
+			.toISOString(),
 		element: 'device'
 	},
 	{
 		id: '2ewsvw234ewrdsffsdf', // UUID
 		name: 'voCore-g2-42434234234address', // String
-		category: 'IOT', // String or enum ID (need to define enum)
-		type: 'Device', // String or enum ID (need to define enum)
-		address_type: 'Internal',
+		category: 4, // String or enum ID (need to define enum)
+		type: 0, // String or enum ID (need to define enum)
+		address_type: ADDRESS_TYPE.INTERNAL,
 		expiry: {
-			type: 'Hard', // String or enum ID (need to define) [HARD, SOFT]
-			date: moment() // Date time ISO-8601 or another one
+			type: EXPIRATION_TYPE.SOFT, // String or enum ID (need to define) [HARD, SOFT]
+			date: moment().toISOString() // Date time ISO-8601 or another one
 		},
 		asset_value: 50, // Number
-		profile_group: {
-			id: 'qrefdw232-13rqf', // UUID
-			name: 'Profile Group #1' // String
-		},
+		profile_group: 1,
 		description: 'Lorem ipsum', // Long string
 		location: {
-			type: 'coordinates', // string or enum ID [ coordinates, what else ... ]
+			type: LOCATION_TYPE.COORDINATES, // string or enum ID [ coordinates, what else ... ]
 			longitude: 12312321,
 			latitude: 12313233
 		},
 		network: {
-			ip: 'IPv6',
+			ip: IP_TYPE.IPv4,
 			address: {
 				address: '192.168.0.1',
-				mask: 32
+				mask: 30
 			}
 		},
 		nsps: [
@@ -86,50 +91,49 @@ export const list = [
 			}
 		],
 		status: 'connected', // string or enum ID
-		lastChange: moment().subtract(2, 'days'),
+		last_change: moment()
+			.subtract(2, 'days')
+			.toISOString(),
 		element: 'address'
 	},
 	{
 		id: '2ewsvw234ewrdse', // UUID
 		name: 'voCore-g2-424342342ads', // String
-		category: 'IOT', // String or enum ID (need to define enum)
-		type: 'Office', // String or enum ID (need to define enum)
+		category: 5, // String or enum ID (need to define enum)
+		type: 2, // String or enum ID (need to define enum)
 		expiry: {
-			type: 'Hard', // String or enum ID (need to define) [HARD, SOFT]
-			date: moment() // Date time ISO-8601 or another one
+			type: EXPIRATION_TYPE.SOFT, // String or enum ID (need to define) [HARD, SOFT]
+			date: moment().toISOString() // Date time ISO-8601 or another one
 		},
-		profile_group: {
-			id: 'qrefdw232-13rqf', // UUID
-			name: 'Profile Group #1' // String
-		},
+		profile_group: 2,
 		asset_value: 50, // Number
-		gateway_type: 'vGateway', // or IPSEC (string or enum ID)
+		gateway_type: GATEWAY_TYPE.IPSEC, // or IPSEC (string or enum ID)
 		description: 'Lorem ipsum', // Long string
 		location: {
-			type: 'coordinates', // string or enum ID [ coordinates, what else ... ]
+			type: LOCATION_TYPE.COORDINATES, // string or enum ID [ coordinates, what else ... ]
 			longitude: 12312321,
 			latitude: 12313233
 		},
 		network: {
-			ip: 'IPv4',
-			mode: 'static', // or DHCP ,string or enum ID
+			ip: IP_TYPE.IPv4,
+			mode: IP_MODES.Static, // or DHCP ,string or enum ID
 			// if static (not sure about DHCP as designs is missing)
 			gateway_ip: {
-				mask: 32,
+				mask: 30,
 				address: '202.64.64.102'
 			},
 			default_route: {
-				mask: 32,
+				mask: 30,
 				address: '202.64.64.102'
 			},
 			gateway_local: {
-				mask: 32,
+				mask: 30,
 				address: '202.64.64.102'
 			},
 			additional_networks: [
 				{
 					network: {
-						mask: 32,
+						mask: 30,
 						address: '202.64.64.102'
 					},
 					next_hop: {
@@ -148,7 +152,9 @@ export const list = [
 			}
 		],
 		status: 'connected', // string or enum ID
-		lastChange: moment().subtract(2, 'days'),
+		last_change: moment()
+			.subtract(2, 'days')
+			.toISOString(),
 		element: 'gateway'
 	}
 ]
@@ -160,7 +166,7 @@ export const newOne = {
 	type: 'Device', // String or enum ID (need to define enum)
 	expiry: {
 		type: 'Hard', // String or enum ID (need to define) [HARD, SOFT]
-		date: moment() // Date time ISO-8601 or another one
+		date: moment().toISOString() // Date time ISO-8601 or another one
 	},
 	asset_value: 50, // Number
 	profile_group: {
@@ -169,7 +175,7 @@ export const newOne = {
 	},
 	description: 'Lorem ipsum', // Long string
 	location: {
-		type: 'coordinates', // string or enum ID [ coordinates, what else ... ]
+		type: LOCATION_TYPE.AUTO, // string or enum ID [ coordinates, what else ... ]
 		longitude: 12312321,
 		latitude: 12313233
 	},
@@ -183,5 +189,7 @@ export const newOne = {
 		}
 	],
 	status: 'connected', // string or enum ID
-	lastChange: moment().subtract(2, 'days')
+	lastChange: moment()
+		.subtract(2, 'days')
+		.toISOString()
 }

@@ -1,14 +1,14 @@
 import 'leaflet/dist/leaflet.css'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button } from 'react-bootstrap'
 import { Map, TileLayer } from 'react-leaflet'
 import AddButton from '../../components/AddButton/AddButton'
 import Card from '../../components/Card/Card'
 import Form from '../../components/Form/Form'
 import {
 	AVAILABLE_REGIONS,
-	EXPIRATION_TYPES,
+	EXPIRATION_TYPE,
+	EXPIRATION_TYPE_OPTIONS,
 	LOCATION_TYPE,
 	LOCATION_TYPE_OPTIONS,
 	OBJECT_ASSET_VALUES,
@@ -16,6 +16,8 @@ import {
 	OBJECT_TYPES,
 	PROFILE_GROUPS
 } from '../../enums'
+import Translator from '../../utils/enumTranslator'
+import { Footer } from './commons'
 import './modals.scss'
 
 class NewDeviceSurvey extends React.Component {
@@ -23,11 +25,22 @@ class NewDeviceSurvey extends React.Component {
 		super(props)
 		if (props.edit) {
 			this.state = {
-				name: props.item.name
+				name: props.item.name,
+				expiryType: props.item.expiry.type,
+				expiry: props.item.expiry.date,
+				profile: Translator.profileGroup(props.item.profileGroup),
+				category: Translator.category(props.item.category),
+				type: Translator.type(props.item.type),
+				asset: OBJECT_ASSET_VALUES[props.item.assetValue], // NOT SAFE, TODO LATED
+				location: Translator.location(props.item.location.type),
+				lat: props.item.location.latitude,
+				long: props.item.location.longitude,
+				region: Translator.region(props.item.location.region),
+				description: props.item.description
 			}
 		} else {
 			this.state = {
-				expiryType: 0,
+				expiryType: EXPIRATION_TYPE.HARD,
 				location: LOCATION_TYPE_OPTIONS[LOCATION_TYPE.AUTO]
 			}
 		}
@@ -126,7 +139,7 @@ class NewDeviceSurvey extends React.Component {
 									selected={this.state.expiryType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onExpiryTypeChange}
-									options={EXPIRATION_TYPES}
+									options={EXPIRATION_TYPE_OPTIONS}
 								/>
 							</Form.Group>
 						</div>
@@ -195,21 +208,11 @@ class NewDeviceSurvey extends React.Component {
 					</Card>
 				</div>
 				<div className={'wedge-modal__footer'}>
-					<Footer onClick={this.onFinish} />
+					<Footer onClick={this.onFinish} edit={this.props.edit} />
 				</div>
 			</React.Fragment>
 		)
 	}
-}
-
-export function Footer({ onClick }) {
-	return (
-		<div className={'survey__footer'}>
-			<Button bsStyle={'primary'} onClick={onClick}>
-				Add
-			</Button>
-		</div>
-	)
 }
 
 NewDeviceSurvey.defaultProps = {
@@ -220,10 +223,6 @@ NewDeviceSurvey.propTypes = {
 	onFinish: PropTypes.func.isRequired,
 	edit: PropTypes.bool,
 	item: PropTypes.object
-}
-
-Footer.propTypes = {
-	onClick: PropTypes.func.isRequired
 }
 
 NewDeviceSurvey.Footer = Footer

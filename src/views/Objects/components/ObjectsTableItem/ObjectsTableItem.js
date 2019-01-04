@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import ServiceIcon from '../../../../assets/img/PNG/Acreto_Icon 16.png'
 import ActiveIcon from '../../../../assets/img/PNG/Acreto_Icon 20.png'
+import Translator from '../../../../utils/enumTranslator'
 
 import { getIconForRegionName } from '../../../../variables/Icons'
 
@@ -30,6 +31,8 @@ function ResponsiveField({ children, title, extraClass = '' }) {
 }
 
 function BasicObjectInfo({ data, onClick }) {
+	const type = Translator.type(data.type)
+	const category = Translator.category(data.category)
 	return (
 		<div className={'objectinfo'}>
 			<div className={'objectinfo__button'} onClick={onClick}>
@@ -38,7 +41,7 @@ function BasicObjectInfo({ data, onClick }) {
 			<p className={'objectinfo__title medium strong'}>{data.name}</p>
 			<div className={'objectinfo__type-container'}>
 				<img src={ServiceIcon} alt={'type-icon'} className={'small-icon'} />
-				<p className={'medium'}>{`${data.type} / ${data.category}`}</p>
+				<p className={'medium'}>{`${category.label} / ${type.label}`}</p>
 			</div>
 		</div>
 	)
@@ -124,7 +127,7 @@ export default class ObjectTableItem extends React.PureComponent {
 				</WrapperComponent>
 				<WrapperComponent title={'Profile Group'} extraClass={'field__profile'}>
 					<TextField
-						text={data.profile_group.name}
+						text={data.profileGroup.name}
 						size={'medium'}
 						strong={true}
 					/>

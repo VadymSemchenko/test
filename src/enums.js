@@ -91,9 +91,14 @@ export const OBJECT_ASSET_VALUES = Array.from(Array(101).keys()).map(n => ({
 	value: n
 }))
 
-export const EXPIRATION_TYPES = [
-	{ value: 0, label: 'Hard' },
-	{ value: 1, label: 'Soft' }
+export const EXPIRATION_TYPE = {
+	HARD: 0,
+	SOFT: 1
+}
+
+export const EXPIRATION_TYPE_OPTIONS = [
+	{ value: EXPIRATION_TYPE.HARD, label: 'Hard' },
+	{ value: EXPIRATION_TYPE.SOFT, label: 'Soft' }
 ]
 
 export const LOCATION_TYPE = {
@@ -115,14 +120,23 @@ export const AVAILABLE_REGIONS = [
 	{ label: 'SA East', value: 3 }
 ]
 
-export const GATEWAY_TYPES = [
-	{ value: 0, label: 'vGateway' },
-	{ value: 1, label: 'IPSEC' }
+export const GATEWAY_TYPE = {
+	vGATEWAY: 0,
+	IPSEC: 1
+}
+export const GATEWAY_TYPE_OPTIONS = [
+	{ value: GATEWAY_TYPE.vGATEWAY, label: 'vGateway' },
+	{ value: GATEWAY_TYPE.IPSEC, label: 'IPSEC' }
 ]
 
-export const IP_TYPES = [
-	{ value: 0, label: 'IPv4' },
-	{ value: 1, label: 'IPv6' }
+export const IP_TYPE = {
+	IPv4: 4,
+	IPv6: 6
+}
+
+export const IP_TYPE_OPTIONS = [
+	{ value: IP_TYPE.IPv4, label: 'IPv4' },
+	{ value: IP_TYPE.IPv6, label: 'IPv6' }
 ]
 
 export const IP_MODES = {
@@ -144,12 +158,12 @@ export const MASKS = [
 	{ value: 24, label: '24' }
 ]
 
-export const ADDRESS_TYPES = {
+export const ADDRESS_TYPE = {
 	INTERNAL: 0,
 	EXTERNAL: 1
 }
 
 export const ADDRESS_TYPES_OPTIONS = [
-	{ value: ADDRESS_TYPES.INTERNAL, label: 'Internal' },
-	{ value: ADDRESS_TYPES.EXTERNAL, label: 'External' }
+	{ value: ADDRESS_TYPE.INTERNAL, label: 'Internal' },
+	{ value: ADDRESS_TYPE.EXTERNAL, label: 'External' }
 ]

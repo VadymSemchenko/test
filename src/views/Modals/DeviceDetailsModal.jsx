@@ -1,14 +1,20 @@
 import 'leaflet/dist/leaflet.css'
+import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Map, TileLayer } from 'react-leaflet'
 import Card from '../../components/Card/Card'
 import Field from '../../components/Field/Field'
+import Translator from '../../utils/enumTranslator'
+import { renderLocationDetails } from './commons'
 import './modals.scss'
 
 class DeviceDetailsModal extends React.Component {
 	render() {
 		const { data } = this.props
+		const type = Translator.type(data.type)
+		const category = Translator.category(data.category)
+		const expiration = Translator.expirationType(data.expiry.type)
+		const profileGroup = Translator.profileGroup(data.profileGroup)
 		return (
 			<div className={'modal__content padded new-device-survey'}>
 				<Card header={false}>
@@ -17,37 +23,22 @@ class DeviceDetailsModal extends React.Component {
 							<Field.Text text={data.name} />
 						</Field.Group>
 						<Field.Group label={'Profile Group'}>
-							<Field.Text text={data.profile_group.name} />
+							<Field.Text text={profileGroup.label} />
 						</Field.Group>
 					</div>
 					<div className={'form-row'}>
 						<Field.Group label={'Category / Type'}>
-							<Field.Text text={`${data.category}/${data.type}`} />
+							<Field.Text text={`${category.label}/${type.label}`} />
 						</Field.Group>
 						<Field.Group label={'Asset value'}>
-							<Field.Text text={data.asset_value} />
+							<Field.Text text={data.assetValue} />
 						</Field.Group>
 					</div>
-					<Field.Group label={'Expiry '} secondaryLabel={data.expiry.type}>
-						<Field.Text text={data.expiry.date.format('MMM D, YYYY')} />
+					<Field.Group label={'Expiry'} secondaryLabel={expiration.label}>
+						<Field.Text text={moment(data.expiry.date).format('MMM D, YYYY')} />
 					</Field.Group>
 				</Card>
-				<Card header={false}>
-					<Field.Group full={true} label={'Description'}>
-						<Field.Text text={data.description} />
-					</Field.Group>
-
-					<Map
-						style={{ height: '300px', width: '100%' }}
-						center={[51.505, -0.09]}
-						zoom={13}
-					>
-						<TileLayer
-							attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-						/>
-					</Map>
-				</Card>
+				<Card header={false}>{renderLocationDetails(data)}</Card>
 			</div>
 		)
 	}

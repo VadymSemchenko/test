@@ -2,9 +2,15 @@ import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import ecosystemsExampleData from './mocks/fetch_ecosystems'
 import { list, newOne } from './mocks/fetch_objects'
+import humps from 'humps'
 
 const rest = axios.create({
-	baseURL: process.env.REACT_APP_API_URL
+	baseURL: process.env.REACT_APP_API_URL,
+	transformResponse: [
+		data => {
+			return humps.camelizeKeys(data)
+		}
+	]
 })
 
 if (process.env.REACT_APP_ENABLE_MOCK) {

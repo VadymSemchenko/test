@@ -1,29 +1,58 @@
 import 'leaflet/dist/leaflet.css'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button } from 'react-bootstrap'
 import { Map, TileLayer } from 'react-leaflet'
 import Card from '../../components/Card/Card'
 import Form from '../../components/Form/Form'
 import {
+	ADDRESS_TYPE,
 	ADDRESS_TYPES_OPTIONS,
 	AVAILABLE_REGIONS,
-	EXPIRATION_TYPES,
-	IP_TYPES,
+	EXPIRATION_TYPE,
+	EXPIRATION_TYPE_OPTIONS,
+	IP_TYPE,
+	IP_TYPE_OPTIONS,
 	LOCATION_TYPE,
 	LOCATION_TYPE_OPTIONS,
 	MASKS,
+	OBJECT_ASSET_VALUES,
 	OBJECT_CATEGORIES,
 	OBJECT_TYPES
 } from '../../enums'
+import Translator from '../../utils/enumTranslator'
+import { Footer } from './commons'
 import './modals.scss'
 
 class NewAddressSurvey extends React.Component {
-	state = {
-		addressType: 0,
-		protocolType: 0,
-		expiryType: 0,
-		location: LOCATION_TYPE_OPTIONS[LOCATION_TYPE.AUTO]
+	constructor(props) {
+		super(props)
+		if (props.edit) {
+			this.state = {
+				name: props.item.name,
+				expiryType: props.item.expiry.type,
+				expiry: props.item.expiry.date,
+				profile: Translator.profileGroup(props.item.profileGroup),
+				category: Translator.category(props.item.category),
+				type: Translator.type(props.item.type),
+				asset: OBJECT_ASSET_VALUES[props.item.assetValue], // NOT SAFE, TODO LATED
+				location: Translator.location(props.item.location.type),
+				lat: props.item.location.latitude,
+				long: props.item.location.longitude,
+				region: Translator.region(props.item.location.region),
+				description: props.item.description,
+				protocolType: Translator.protocolType(props.item.network.ip).value,
+				addressType: Translator.addressType(props.item.addressType).value,
+				address: props.item.network.address.address,
+				mask: Translator.mask(props.item.network.address.mask)
+			}
+		} else {
+			this.state = {
+				addressType: ADDRESS_TYPE.INTERNAL,
+				protocolType: IP_TYPE.IPv4,
+				expiryType: EXPIRATION_TYPE.HARD,
+				location: LOCATION_TYPE_OPTIONS[LOCATION_TYPE.AUTO]
+			}
+		}
 	}
 
 	changeField = (field, value) => {
@@ -49,7 +78,7 @@ class NewAddressSurvey extends React.Component {
 
 	onFinish = () => {
 		if (this.validate()) {
-			this.props.onAdd(this.state)
+			this.props.onFinish(this.state)
 		}
 	}
 
@@ -84,7 +113,7 @@ class NewAddressSurvey extends React.Component {
 								selected={this.state.protocolType}
 								selectedClass={'toggle-selected'}
 								onChange={this.onProtocolTypeChange}
-								options={IP_TYPES}
+								options={IP_TYPE_OPTIONS}
 							/>
 						</Form.Group>
 						<Form.Group full label={''}>
@@ -136,7 +165,7 @@ class NewAddressSurvey extends React.Component {
 									selected={this.state.expiryType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onExpiryTypeChange}
-									options={EXPIRATION_TYPES}
+									options={EXPIRATION_TYPE_OPTIONS}
 								/>
 							</Form.Group>
 						</div>
@@ -206,23 +235,17 @@ class NewAddressSurvey extends React.Component {
 					</Card>
 				</div>
 				<div className={'wedge-modal__footer'}>
-					<Footer onClick={this.onFinish} />
+					<Footer onClick={this.onFinish} edit={this.props.edit} />
 				</div>
 			</React.Fragment>
 		)
 	}
 }
 
-export function Footer() {
-	return (
-		<div className={'survey__footer'}>
-			<Button bsStyle={'primary'}>Add</Button>
-		</div>
-	)
-}
-
 NewAddressSurvey.propTypes = {
-	onAdd: PropTypes.func.isRequired
+	onFinish: PropTypes.func.isRequired,
+	edit: PropTypes.bool,
+	item: PropTypes.object
 }
 
 NewAddressSurvey.Footer = Footer
