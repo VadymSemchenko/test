@@ -3,6 +3,19 @@ import React from 'react'
 import './field.scss'
 
 class FieldGroup extends React.PureComponent {
+	renderSecondLabel = () => {
+		if (this.props.secondaryLabel) {
+			return (
+				<React.Fragment>
+					<div className={'divider--small'} />
+					<span className={'field__label secondary'}>
+						{this.props.secondaryLabel}
+					</span>
+				</React.Fragment>
+			)
+		}
+	}
+
 	render() {
 		const {
 			children,
@@ -18,7 +31,10 @@ class FieldGroup extends React.PureComponent {
 					full ? 'full' : ''
 				} ${self ? 'self' : ''} ${rest.extraClass || ''}`}
 			>
-				<p className={'field__label'}>{label}</p>
+				<p className={'field__label'}>
+					<span className={'primary'}>{label}</span>
+					{this.renderSecondLabel()}
+				</p>
 				{children}
 			</div>
 		)
@@ -30,13 +46,13 @@ FieldGroup.propTypes = {
 	label: PropTypes.string,
 	center: PropTypes.bool,
 	full: PropTypes.bool,
-	self: PropTypes.bool
+	self: PropTypes.bool,
+	secondaryLabel: PropTypes.string
 }
 
 class TextField extends React.PureComponent {
 	render() {
-		console.log(this.props)
-		return <p>{this.props.text}</p>
+		return <p className={'field__textfield'}>{this.props.text}</p>
 	}
 }
 

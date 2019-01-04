@@ -6,10 +6,9 @@ import Card from '../../components/Card/Card'
 import Field from '../../components/Field/Field'
 import './modals.scss'
 
-class DetailsModal extends React.Component {
+class DeviceDetailsModal extends React.Component {
 	render() {
 		const { data } = this.props
-		console.log(data)
 		return (
 			<div className={'modal__content padded new-device-survey'}>
 				<Card header={false}>
@@ -29,7 +28,7 @@ class DetailsModal extends React.Component {
 							<Field.Text text={data.asset_value} />
 						</Field.Group>
 					</div>
-					<Field.Group label={'Expiry '}>
+					<Field.Group label={'Expiry '} secondaryLabel={data.expiry.type}>
 						<Field.Text text={data.expiry.date.format('MMM D, YYYY')} />
 					</Field.Group>
 				</Card>
@@ -37,15 +36,6 @@ class DetailsModal extends React.Component {
 					<Field.Group full={true} label={'Description'}>
 						<Field.Text text={data.description} />
 					</Field.Group>
-
-					{/*<Form.Group label={'Location'}>*/}
-					{/*<Form.Select*/}
-					{/*value={this.state.location}*/}
-					{/*onChange={this.onLocationChange}*/}
-					{/*placeholder={'Select location value'}*/}
-					{/*options={CATEGORIES}*/}
-					{/*/>*/}
-					{/*</Form.Group>*/}
 
 					<Map
 						style={{ height: '300px', width: '100%' }}
@@ -63,8 +53,8 @@ class DetailsModal extends React.Component {
 	}
 }
 
-DetailsModal.propTypes = {
+DeviceDetailsModal.propTypes = {
 	data: PropTypes.object.isRequired
 }
 
-export default DetailsModal
+export default DeviceDetailsModal

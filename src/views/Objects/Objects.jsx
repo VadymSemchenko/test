@@ -10,7 +10,9 @@ import {
 	createErrorMessageSelector,
 	createLoadingSelector
 } from '../../store/utils/selectors'
-import DetailsModal from '../Modals/DetailsModal'
+import AddressDetailsModal from '../Modals/AddressDetailsModal'
+import DeviceDetailsModal from '../Modals/DeviceDetailsModal'
+import GatewayDetailsModal from '../Modals/GatewayDetailsModal'
 import NewAddressSurvey from '../Modals/NewAddressSurvey'
 import NewDeviceSurvey from '../Modals/NewDeviceSurvey'
 import NewGatewaySurvey from '../Modals/NewGatewaySurvey'
@@ -31,17 +33,20 @@ const OBJECT_TYPES = [
 	{
 		name: 'device',
 		title: 'Create New Device',
-		component: NewDeviceSurvey
+		createComponent: NewDeviceSurvey,
+		detailComponent: DeviceDetailsModal
 	},
 	{
 		name: 'gateway',
 		title: 'Create New Gateway',
-		component: NewGatewaySurvey
+		createComponent: NewGatewaySurvey,
+		detailComponent: GatewayDetailsModal
 	},
 	{
 		name: 'address',
 		title: 'Create New Address',
-		component: NewAddressSurvey
+		createComponent: NewAddressSurvey,
+		detailComponent: AddressDetailsModal
 	}
 ]
 
@@ -95,10 +100,21 @@ class Objects extends Component {
 		}
 	}
 
+	renderDetailModal = () => {
+		if (typeExists(this.state.detailsOf.element)) {
+			const Details = OBJECT_TYPES.find(
+				el => el.name === this.state.detailsOf.element
+			).detailComponent
+			return <Details data={this.state.detailsOf} />
+		} else {
+			return null
+		}
+	}
+
 	renderCreationModal = () => {
 		if (typeExists(this.state.currentType)) {
 			const Survey = OBJECT_TYPES.find(el => el.name === this.state.currentType)
-				.component
+				.createComponent
 			return <Survey onAdd={this.onAdd} />
 		} else {
 			return <NewObjectType onTypeChoose={this.onTypeChoose} />
@@ -159,7 +175,7 @@ class Objects extends Component {
 					onClose={this.closeDetailsModal}
 					title={`${this.state.detailsOf.name} - Details`}
 				>
-					<DetailsModal data={this.state.detailsOf} />
+					{this.renderDetailModal()}
 				</WedgeModal>
 			</div>
 		)
