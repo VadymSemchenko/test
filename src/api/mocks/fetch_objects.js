@@ -69,6 +69,20 @@ export const list = [
 				status: 'good', // good, moderate, bad
 				ping: 29, // ms
 				loss: 0 // number, percantage
+			},
+			{
+				id: 2,
+				name: 'eu-west-1',
+				status: 'good', // good, moderate, bad
+				ping: 29, // ms
+				loss: 0 // number, percantage
+			},
+			{
+				id: 3,
+				name: 'eu-west-1',
+				status: 'good', // good, moderate, bad
+				ping: 29, // ms
+				loss: 0 // number, percantage
 			}
 		],
 		status: 'connected', // string or enum ID

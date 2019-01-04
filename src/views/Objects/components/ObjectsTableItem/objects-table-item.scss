@@ -1,8 +1,18 @@
 @import '../../../../assets/sass/common.scss';
+@import '../../../../assets/sass/lbd/variables.scss';
 
 .objects-table-item {
 	&.item {
+		position: relative;
 		@extend .table-item;
+
+		&.active {
+			border: 1px solid $wedge-primary-blue;
+		}
+
+		@media only screen and (max-width: 992px) {
+			padding-bottom: 32px;
+		}
 
 		.field {
 			flex: 1;
@@ -76,6 +86,9 @@
 			}
 
 			&__nsp {
+				.field__content {
+					flex-direction: column;
+				}
 				.primary-container {
 					@extend .flex-row;
 					justify-content: center;
@@ -179,6 +192,18 @@
 				.action {
 					display: flex;
 					align-items: center;
+				}
+			}
+			&__expand {
+				width: 24px;
+				height: 24px;
+				position: absolute;
+				bottom: 4px;
+				right: 4px;
+				cursor: pointer;
+				margin-bottom: 0px;
+				i {
+					font-size: 24px;
 				}
 			}
 		}
