@@ -10,6 +10,9 @@ import {
 	createErrorMessageSelector,
 	createLoadingSelector
 } from '../../store/utils/selectors'
+import AddressDetailsModal from '../Modals/AddressDetailsModal'
+import DeviceDetailsModal from '../Modals/DeviceDetailsModal'
+import GatewayDetailsModal from '../Modals/GatewayDetailsModal'
 import NewAddressSurvey from '../Modals/NewAddressSurvey'
 import NewDeviceSurvey from '../Modals/NewDeviceSurvey'
 import NewGatewaySurvey from '../Modals/NewGatewaySurvey'
@@ -30,17 +33,20 @@ const OBJECT_TYPES = [
 	{
 		name: 'device',
 		title: 'Create New Device',
-		component: NewDeviceSurvey
+		createComponent: NewDeviceSurvey,
+		detailComponent: DeviceDetailsModal
 	},
 	{
 		name: 'gateway',
 		title: 'Create New Gateway',
-		component: NewGatewaySurvey
+		createComponent: NewGatewaySurvey,
+		detailComponent: GatewayDetailsModal
 	},
 	{
 		name: 'address',
 		title: 'Create New Address',
-		component: NewAddressSurvey
+		createComponent: NewAddressSurvey,
+		detailComponent: AddressDetailsModal
 	}
 ]
 
@@ -53,14 +59,29 @@ function typeExists(type) {
 class Objects extends Component {
 	state = {
 		createModalOpened: false,
-		currentType: ''
+		detailModalOpened: false,
+		currentType: '',
+		detailsOf: {}
 	}
 
 	openModal = () => {
 		this.setState({ createModalOpened: true })
 	}
 
-	closeModal = () => {
+	openDetailsModal = item => {
+		this.setState({
+			detailsOf: item,
+			detailModalOpened: true
+		})
+	}
+
+	closeDetailsModal = () => {
+		this.setState({
+			detailModalOpened: false
+		})
+	}
+
+	closeCreateModal = () => {
 		this.setState({
 			createModalOpened: false,
 			currentType: ''
@@ -71,7 +92,7 @@ class Objects extends Component {
 		this.props.fetchObjects()
 	}
 
-	createTitleForModal = () => {
+	createTitleForCreateModal = () => {
 		if (typeExists(this.state.currentType)) {
 			return OBJECT_TYPES.find(el => el.name === this.state.currentType).title
 		} else {
@@ -79,10 +100,21 @@ class Objects extends Component {
 		}
 	}
 
+	renderDetailModal = () => {
+		if (typeExists(this.state.detailsOf.element)) {
+			const Details = OBJECT_TYPES.find(
+				el => el.name === this.state.detailsOf.element
+			).detailComponent
+			return <Details data={this.state.detailsOf} />
+		} else {
+			return null
+		}
+	}
+
 	renderCreationModal = () => {
 		if (typeExists(this.state.currentType)) {
 			const Survey = OBJECT_TYPES.find(el => el.name === this.state.currentType)
-				.component
+				.createComponent
 			return <Survey onAdd={this.onAdd} />
 		} else {
 			return <NewObjectType onTypeChoose={this.onTypeChoose} />
@@ -91,7 +123,7 @@ class Objects extends Component {
 
 	onAdd = entity => {
 		this.props.createObject(entity, this.state.currentType)
-		this.closeModal()
+		this.closeCreateModal()
 	}
 
 	onTypeChoose = type => {
@@ -107,6 +139,7 @@ class Objects extends Component {
 				key={`objects-table-item-${item.id}-${item.name}`}
 				responsive={matches}
 				data={item}
+				onDetails={() => this.openDetailsModal(item)}
 			/>
 		))
 	}
@@ -132,10 +165,17 @@ class Objects extends Component {
 				)}
 				<WedgeModal
 					isOpen={this.state.createModalOpened}
-					onClose={this.closeModal}
-					title={this.createTitleForModal()}
+					onClose={this.closeCreateModal}
+					title={this.createTitleForCreateModal()}
 				>
 					{this.renderCreationModal()}
+				</WedgeModal>
+				<WedgeModal
+					isOpen={this.state.detailModalOpened}
+					onClose={this.closeDetailsModal}
+					title={`${this.state.detailsOf.name} - Details`}
+				>
+					{this.renderDetailModal()}
 				</WedgeModal>
 			</div>
 		)

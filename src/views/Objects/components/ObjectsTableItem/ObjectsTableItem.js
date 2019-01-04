@@ -25,10 +25,12 @@ function ResponsiveField({ children, title, extraClass = '' }) {
 	)
 }
 
-function BasicObjectInfo({ data }) {
+function BasicObjectInfo({ data, onClick }) {
 	return (
 		<div className={'objectinfo'}>
-			<div className={'objectinfo__button'}>{data.id}</div>
+			<div className={'objectinfo__button'} onClick={onClick}>
+				{data.id}
+			</div>
 			<p className={'objectinfo__title medium strong'}>{data.name}</p>
 			<div className={'objectinfo__type-container'}>
 				<img src={ServiceIcon} alt={'type-icon'} className={'small-icon'} />
@@ -90,12 +92,16 @@ function StatusInfo({ data }) {
 	)
 }
 
-export default function ObjectTableItem({ data, responsive = false }) {
+export default function ObjectTableItem({
+	data,
+	responsive = false,
+	onDetails
+}) {
 	const WrapperComponent = responsive ? ResponsiveField : Field
 	return (
 		<TableItemContainer>
 			<WrapperComponent title={'Object'} extraClass={'field__info'}>
-				<BasicObjectInfo data={data} />
+				<BasicObjectInfo data={data} onClick={onDetails} />
 			</WrapperComponent>
 			<WrapperComponent title={'Profile Group'} extraClass={'field__profile'}>
 				<TextField
@@ -143,7 +149,8 @@ StatusInfo.propTypes = {
 }
 
 BasicObjectInfo.propTypes = {
-	data: PropTypes.string.isRequired
+	data: PropTypes.string.isRequired,
+	onClick: PropTypes.func.isRequired
 }
 
 TableItemContainer.propTypes = {
@@ -152,5 +159,6 @@ TableItemContainer.propTypes = {
 
 ObjectTableItem.propTypes = {
 	data: PropTypes.object.isRequired,
-	responsive: PropTypes.bool.isRequired
+	responsive: PropTypes.bool.isRequired,
+	onDetails: PropTypes.func.isRequired
 }

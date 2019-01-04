@@ -36,9 +36,8 @@ FormGroup.propTypes = {
 }
 
 class TextInput extends React.PureComponent {
-	constructor(props) {
-		super(props)
-		const { value, placeholder, onChange, ...rest } = props
+	render() {
+		const { value, placeholder, onChange, ...rest } = this.props
 		this.inputProps = {
 			type: 'text',
 			value: value,
@@ -49,9 +48,6 @@ class TextInput extends React.PureComponent {
 			} ${rest.extraClass || ''}`,
 			...rest
 		}
-	}
-
-	render() {
 		if (this.props.multiline) {
 			return <textarea {...this.inputProps} />
 		} else {

@@ -60,8 +60,8 @@ function PolicyField({ date }) {
 			/>
 			<img src={PolicyIcon} alt={'policy-icon'} className={'small-icon'} />
 			<div>
-				<p className={'medium'}>{moment(date).format('DD/MM/YYYY')}</p>
 				<p className={'medium'}>{moment(date).format('HH:mm:ss')}</p>
+				<p className={'medium'}>{moment(date).format('DD/MM/YYYY')}</p>
 			</div>
 		</React.Fragment>
 	)

@@ -1,0 +1,51 @@
+@import '../../assets/sass/common.scss';
+@import '../../assets/sass/lbd/variables.scss';
+
+.field {
+	&__group {
+		@extend .flex-column;
+		justify-content: flex-start;
+		margin-bottom: 24px;
+		width: 200px;
+
+		&-center {
+			@extend .flex-column;
+			justify-content: center;
+		}
+		&.self {
+			width: unset;
+			max-width: fit-content !important;
+		}
+		.divider--small {
+			width: 1px;
+			background-color: #bfbfbf;
+			opacity: 0.5;
+			height: 16px;
+			margin-left: 8px;
+			margin-right: 8px;
+		}
+	}
+	&__label {
+		@extend .flex-row;
+		align-items: center;
+		font-size: 14px;
+		font-weight: 600;
+		color: $wedge-blue-gray;
+		opacity: 1;
+
+		.primary {
+			opacity: 0.5;
+		}
+
+		.secondary {
+			color: $wedge-primary-orange;
+			opacity: 1;
+		}
+	}
+	&__textfield {
+		margin-top: 8px;
+		font-size: 14px;
+		font-weight: 600;
+		color: $wedge-blue-gray;
+	}
+}
