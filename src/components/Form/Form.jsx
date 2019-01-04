@@ -103,7 +103,7 @@ const colourStyles = {
 	}),
 	menu: styles => ({
 		...styles,
-		zIndex: 401
+		zIndex: 1001
 	})
 }
 

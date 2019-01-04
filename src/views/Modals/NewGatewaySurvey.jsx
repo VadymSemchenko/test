@@ -7,17 +7,18 @@ import AddButton from '../../components/AddButton/AddButton'
 import Card from '../../components/Card/Card'
 import Form from '../../components/Form/Form'
 import './modals.scss'
-
-const CATEGORIES = [
-	{
-		value: 0,
-		label: 'Category #1'
-	},
-	{
-		value: 1,
-		label: 'Category #2'
-	}
-]
+import {
+	AVAILABLE_REGIONS,
+	EXPIRATION_TYPES,
+	GATEWAY_TYPES,
+	IP_MODES_OPTIONS,
+	IP_TYPES,
+	LOCATION_TYPE,
+	LOCATION_TYPE_OPTIONS,
+	MASKS,
+	OBJECT_CATEGORIES,
+	OBJECT_TYPES
+} from '../../enums'
 
 class NewGatewaySurvey extends React.Component {
 	state = {
@@ -25,7 +26,8 @@ class NewGatewaySurvey extends React.Component {
 		expiryType: 0,
 		protocolType: 0,
 		addressType: 0,
-		additionalNetworks: []
+		additionalNetworks: [],
+		location: LOCATION_TYPE_OPTIONS[LOCATION_TYPE.AUTO]
 	}
 
 	changeField = (field, value) => {
@@ -55,6 +57,7 @@ class NewGatewaySurvey extends React.Component {
 	onNewAdditionalNetworkChange = val =>
 		this.changeField('newAdditionalNetwork', val)
 	onNewAdditionalHopChange = val => this.changeField('newAdditionalHop', val)
+	onRegionChange = val => this.changeField('region', val)
 
 	onFinish = () => {
 		if (this.validate()) {
@@ -106,10 +109,7 @@ class NewGatewaySurvey extends React.Component {
 									selected={this.state.gatewayType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onGatewayTypeChange}
-									options={[
-										{ value: 0, label: 'vGateway' },
-										{ value: 1, label: 'IPSEC' }
-									]}
+									options={GATEWAY_TYPES}
 								/>
 							</Form.Group>
 						</div>
@@ -119,7 +119,7 @@ class NewGatewaySurvey extends React.Component {
 									value={this.state.category}
 									onChange={this.onCategoryChange}
 									placeholder={'Select category'}
-									options={CATEGORIES}
+									options={OBJECT_CATEGORIES}
 								/>
 							</Form.Group>
 							<Form.Group label={'Type'}>
@@ -127,7 +127,7 @@ class NewGatewaySurvey extends React.Component {
 									value={this.state.type}
 									onChange={this.onTypeChange}
 									placeholder={'Select type'}
-									options={CATEGORIES}
+									options={OBJECT_TYPES}
 								/>
 							</Form.Group>
 						</div>
@@ -144,10 +144,7 @@ class NewGatewaySurvey extends React.Component {
 									selected={this.state.expiryType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onExpiryTypeChange}
-									options={[
-										{ value: 0, label: 'Hard' },
-										{ value: 1, label: 'Soft' }
-									]}
+									options={EXPIRATION_TYPES}
 								/>
 							</Form.Group>
 						</div>
@@ -159,10 +156,7 @@ class NewGatewaySurvey extends React.Component {
 								selected={this.state.protocolType}
 								selectedClass={'toggle-selected'}
 								onChange={this.onProtocolTypeChange}
-								options={[
-									{ value: 0, label: 'IPv4' },
-									{ value: 1, label: 'IPv6' }
-								]}
+								options={IP_TYPES}
 							/>
 						</Form.Group>
 						<div className={'form-row space-above'}>
@@ -172,10 +166,7 @@ class NewGatewaySurvey extends React.Component {
 									selected={this.state.addressType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onAddressTypeChange}
-									options={[
-										{ value: 0, label: 'DHCP' },
-										{ value: 1, label: 'Static' }
-									]}
+									options={IP_MODES_OPTIONS}
 								/>
 							</Form.Group>
 						</div>
@@ -193,7 +184,7 @@ class NewGatewaySurvey extends React.Component {
 									onChange={this.onStaticMaskChange}
 									style={{ flex: 1 }}
 									placeholder={'Mask'}
-									options={CATEGORIES}
+									options={MASKS}
 								/>
 							</div>
 						</Form.Group>
@@ -211,7 +202,7 @@ class NewGatewaySurvey extends React.Component {
 									onChange={this.onDefaultMaskChange}
 									style={{ flex: 1 }}
 									placeholder={'Mask'}
-									options={CATEGORIES}
+									options={MASKS}
 								/>
 							</div>
 						</Form.Group>
@@ -229,7 +220,7 @@ class NewGatewaySurvey extends React.Component {
 									onChange={this.onLocalMaskChange}
 									style={{ flex: 1 }}
 									placeholder={'Mask'}
-									options={CATEGORIES}
+									options={MASKS}
 								/>
 							</div>
 						</Form.Group>
@@ -297,25 +288,39 @@ class NewGatewaySurvey extends React.Component {
 								value={this.state.location}
 								onChange={this.onLocationChange}
 								placeholder={'Select location value'}
-								options={CATEGORIES}
+								options={LOCATION_TYPE_OPTIONS}
 							/>
 						</Form.Group>
 
 						<div className={'form-row'}>
-							<Form.Group label={''}>
-								<Form.Text
-									value={this.state.lat}
-									onChange={this.onLatChange}
-									placeholder={'Latitude'}
-								/>
-							</Form.Group>
-							<Form.Group label={''}>
-								<Form.Text
-									value={this.state.long}
-									onChange={this.onLongChange}
-									placeholder={'Longitude'}
-								/>
-							</Form.Group>
+							{this.state.location.value === LOCATION_TYPE.REGION && (
+								<Form.Group label={'Region'}>
+									<Form.Select
+										value={this.state.region}
+										onChange={this.onRegionChange}
+										placeholder={'Select region'}
+										options={AVAILABLE_REGIONS}
+									/>
+								</Form.Group>
+							)}
+							{this.state.location.value === LOCATION_TYPE.COORDINATES && (
+								<React.Fragment>
+									<Form.Group label={''}>
+										<Form.Text
+											value={this.state.lat}
+											onChange={this.onLatChange}
+											placeholder={'Latitude'}
+										/>
+									</Form.Group>
+									<Form.Group label={''}>
+										<Form.Text
+											value={this.state.long}
+											onChange={this.onLongChange}
+											placeholder={'Longitude'}
+										/>
+									</Form.Group>
+								</React.Fragment>
+							)}
 						</div>
 
 						<Map

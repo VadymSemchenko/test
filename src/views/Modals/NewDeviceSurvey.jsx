@@ -6,24 +6,17 @@ import { Map, TileLayer } from 'react-leaflet'
 import AddButton from '../../components/AddButton/AddButton'
 import Card from '../../components/Card/Card'
 import Form from '../../components/Form/Form'
-import './modals.scss'
 import {
+	AVAILABLE_REGIONS,
 	EXPIRATION_TYPES,
+	LOCATION_TYPE,
+	LOCATION_TYPE_OPTIONS,
 	OBJECT_ASSET_VALUES,
 	OBJECT_CATEGORIES,
-	OBJECT_TYPES
+	OBJECT_TYPES,
+	PROFILE_GROUPS
 } from '../../enums'
-
-const CATEGORIES = [
-	{
-		value: 0,
-		label: 'Category #1'
-	},
-	{
-		value: 1,
-		label: 'Category #2'
-	}
-]
+import './modals.scss'
 
 class NewDeviceSurvey extends React.Component {
 	constructor(props) {
@@ -34,7 +27,8 @@ class NewDeviceSurvey extends React.Component {
 			}
 		} else {
 			this.state = {
-				expiryType: 0
+				expiryType: 0,
+				location: LOCATION_TYPE_OPTIONS[LOCATION_TYPE.AUTO]
 			}
 		}
 	}
@@ -56,6 +50,7 @@ class NewDeviceSurvey extends React.Component {
 	onLatChange = val => this.changeField('lat', val)
 	onLongChange = val => this.changeField('long', val)
 	onExpiryTypeChange = val => this.changeField('expiryType', val)
+	onRegionChange = val => this.changeField('region', val)
 
 	onFinish = () => {
 		if (this.validate()) {
@@ -86,7 +81,7 @@ class NewDeviceSurvey extends React.Component {
 										value={this.state.profile}
 										onChange={this.onProfileChange}
 										placeholder={'Select profile group'}
-										options={CATEGORIES}
+										options={PROFILE_GROUPS}
 									/>
 									<AddButton className={'space-left'} />
 								</div>
@@ -152,25 +147,39 @@ class NewDeviceSurvey extends React.Component {
 								value={this.state.location}
 								onChange={this.onLocationChange}
 								placeholder={'Select location value'}
-								options={CATEGORIES}
+								options={LOCATION_TYPE_OPTIONS}
 							/>
 						</Form.Group>
 
 						<div className={'form-row'}>
-							<Form.Group label={''}>
-								<Form.Text
-									value={this.state.lat}
-									onChange={this.onLatChange}
-									placeholder={'Latitude'}
-								/>
-							</Form.Group>
-							<Form.Group label={''}>
-								<Form.Text
-									value={this.state.long}
-									onChange={this.onLongChange}
-									placeholder={'Longitude'}
-								/>
-							</Form.Group>
+							{this.state.location.value === LOCATION_TYPE.REGION && (
+								<Form.Group label={'Region'}>
+									<Form.Select
+										value={this.state.region}
+										onChange={this.onRegionChange}
+										placeholder={'Select region'}
+										options={AVAILABLE_REGIONS}
+									/>
+								</Form.Group>
+							)}
+							{this.state.location.value === LOCATION_TYPE.COORDINATES && (
+								<React.Fragment>
+									<Form.Group label={''}>
+										<Form.Text
+											value={this.state.lat}
+											onChange={this.onLatChange}
+											placeholder={'Latitude'}
+										/>
+									</Form.Group>
+									<Form.Group label={''}>
+										<Form.Text
+											value={this.state.long}
+											onChange={this.onLongChange}
+											placeholder={'Longitude'}
+										/>
+									</Form.Group>
+								</React.Fragment>
+							)}
 						</div>
 
 						<Map

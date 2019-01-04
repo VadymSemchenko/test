@@ -5,24 +5,25 @@ import { Button } from 'react-bootstrap'
 import { Map, TileLayer } from 'react-leaflet'
 import Card from '../../components/Card/Card'
 import Form from '../../components/Form/Form'
+import {
+	ADDRESS_TYPES_OPTIONS,
+	AVAILABLE_REGIONS,
+	EXPIRATION_TYPES,
+	IP_TYPES,
+	LOCATION_TYPE,
+	LOCATION_TYPE_OPTIONS,
+	MASKS,
+	OBJECT_CATEGORIES,
+	OBJECT_TYPES
+} from '../../enums'
 import './modals.scss'
-
-const CATEGORIES = [
-	{
-		value: 0,
-		label: 'Category #1'
-	},
-	{
-		value: 1,
-		label: 'Category #2'
-	}
-]
 
 class NewAddressSurvey extends React.Component {
 	state = {
 		addressType: 0,
 		protocolType: 0,
-		expiryType: 0
+		expiryType: 0,
+		location: LOCATION_TYPE_OPTIONS[LOCATION_TYPE.AUTO]
 	}
 
 	changeField = (field, value) => {
@@ -44,6 +45,7 @@ class NewAddressSurvey extends React.Component {
 	onAddressTypeChange = val => this.changeField('addressType', val)
 	onAddressChange = val => this.changeField('address', val)
 	onMaskChange = val => this.changeField('mask', val)
+	onRegionChange = val => this.changeField('region', val)
 
 	onFinish = () => {
 		if (this.validate()) {
@@ -73,10 +75,7 @@ class NewAddressSurvey extends React.Component {
 									selected={this.state.addressType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onAddressTypeChange}
-									options={[
-										{ value: 0, label: 'Internal' },
-										{ value: 1, label: 'External' }
-									]}
+									options={ADDRESS_TYPES_OPTIONS}
 								/>
 							</Form.Group>
 						</div>
@@ -85,10 +84,7 @@ class NewAddressSurvey extends React.Component {
 								selected={this.state.protocolType}
 								selectedClass={'toggle-selected'}
 								onChange={this.onProtocolTypeChange}
-								options={[
-									{ value: 0, label: 'IPv4' },
-									{ value: 1, label: 'IPv6' }
-								]}
+								options={IP_TYPES}
 							/>
 						</Form.Group>
 						<Form.Group full label={''}>
@@ -105,7 +101,7 @@ class NewAddressSurvey extends React.Component {
 									onChange={this.onMaskChange}
 									style={{ flex: 1 }}
 									placeholder={'Mask'}
-									options={CATEGORIES}
+									options={MASKS}
 								/>
 							</div>
 						</Form.Group>
@@ -115,7 +111,7 @@ class NewAddressSurvey extends React.Component {
 									value={this.state.category}
 									onChange={this.onCategoryChange}
 									placeholder={'Select category'}
-									options={CATEGORIES}
+									options={OBJECT_CATEGORIES}
 								/>
 							</Form.Group>
 							<Form.Group label={'Type'}>
@@ -123,7 +119,7 @@ class NewAddressSurvey extends React.Component {
 									value={this.state.type}
 									onChange={this.onTypeChange}
 									placeholder={'Select type'}
-									options={CATEGORIES}
+									options={OBJECT_TYPES}
 								/>
 							</Form.Group>
 						</div>
@@ -140,10 +136,7 @@ class NewAddressSurvey extends React.Component {
 									selected={this.state.expiryType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onExpiryTypeChange}
-									options={[
-										{ value: 0, label: 'Hard' },
-										{ value: 1, label: 'Soft' }
-									]}
+									options={EXPIRATION_TYPES}
 								/>
 							</Form.Group>
 						</div>
@@ -165,25 +158,39 @@ class NewAddressSurvey extends React.Component {
 								value={this.state.location}
 								onChange={this.onLocationChange}
 								placeholder={'Select location value'}
-								options={CATEGORIES}
+								options={LOCATION_TYPE_OPTIONS}
 							/>
 						</Form.Group>
 
 						<div className={'form-row'}>
-							<Form.Group label={''}>
-								<Form.Text
-									value={this.state.lat}
-									onChange={this.onLatChange}
-									placeholder={'Latitude'}
-								/>
-							</Form.Group>
-							<Form.Group label={''}>
-								<Form.Text
-									value={this.state.long}
-									onChange={this.onLongChange}
-									placeholder={'Longitude'}
-								/>
-							</Form.Group>
+							{this.state.location.value === LOCATION_TYPE.REGION && (
+								<Form.Group label={'Region'}>
+									<Form.Select
+										value={this.state.region}
+										onChange={this.onRegionChange}
+										placeholder={'Select region'}
+										options={AVAILABLE_REGIONS}
+									/>
+								</Form.Group>
+							)}
+							{this.state.location.value === LOCATION_TYPE.COORDINATES && (
+								<React.Fragment>
+									<Form.Group label={''}>
+										<Form.Text
+											value={this.state.lat}
+											onChange={this.onLatChange}
+											placeholder={'Latitude'}
+										/>
+									</Form.Group>
+									<Form.Group label={''}>
+										<Form.Text
+											value={this.state.long}
+											onChange={this.onLongChange}
+											placeholder={'Longitude'}
+										/>
+									</Form.Group>
+								</React.Fragment>
+							)}
 						</div>
 
 						<Map
