@@ -33,6 +33,18 @@
 			font-weight: bold;
 		}
 
+		&__actions-container {
+			display: flex;
+			align-items: center;
+		}
+
+		&__action {
+			font-size: 24px;
+			font-weight: normal;
+			cursor: pointer;
+			margin-right: 16px;
+		}
+
 		&__close {
 			font-size: 32px;
 			font-weight: normal;

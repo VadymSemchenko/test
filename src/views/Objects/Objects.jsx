@@ -6,49 +6,16 @@ import AddButton from '../../components/AddButton/AddButton'
 import Loader from '../../components/Loader/Loader'
 import Table from '../../components/Table/Table'
 import WedgeModal from '../../components/WedgeModal/WedgeModal'
+import { OBJECT_TABLE_FIELDS, OBJECT_TYPES_CONFIG } from '../../enums'
 import {
 	createErrorMessageSelector,
 	createLoadingSelector
 } from '../../store/utils/selectors'
-import AddressDetailsModal from '../Modals/AddressDetailsModal'
-import DeviceDetailsModal from '../Modals/DeviceDetailsModal'
-import GatewayDetailsModal from '../Modals/GatewayDetailsModal'
-import NewAddressSurvey from '../Modals/NewAddressSurvey'
-import NewDeviceSurvey from '../Modals/NewDeviceSurvey'
-import NewGatewaySurvey from '../Modals/NewGatewaySurvey'
 import NewObjectType from '../Modals/NewObjectType'
 import ObjectsTableItem from './components/ObjectsTableItem/ObjectsTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './objects.scss'
 import { createObject, fetchObjects } from './scenario-actions'
-
-const FIELDS = [
-	{ name: 'Object', center: true },
-	{ name: 'Profile Group', center: true },
-	{ name: 'NSP', center: true },
-	{ name: 'Status', center: true }
-]
-
-const OBJECT_TYPES = [
-	{
-		name: 'device',
-		title: 'Create New Device',
-		createComponent: NewDeviceSurvey,
-		detailComponent: DeviceDetailsModal
-	},
-	{
-		name: 'gateway',
-		title: 'Create New Gateway',
-		createComponent: NewGatewaySurvey,
-		detailComponent: GatewayDetailsModal
-	},
-	{
-		name: 'address',
-		title: 'Create New Address',
-		createComponent: NewAddressSurvey,
-		detailComponent: AddressDetailsModal
-	}
-]
 
 Modal.setAppElement('#modal-root')
 
@@ -60,8 +27,13 @@ class Objects extends Component {
 	state = {
 		createModalOpened: false,
 		detailModalOpened: false,
+		editModalOpened: false,
 		currentType: '',
 		detailsOf: {}
+	}
+
+	onEditClick = () => {
+		this.openEditModal()
 	}
 
 	openModal = () => {
@@ -81,6 +53,19 @@ class Objects extends Component {
 		})
 	}
 
+	openEditModal = () => {
+		this.setState({
+			editModalOpened: true,
+			detailModalOpened: false
+		})
+	}
+
+	closeEditModal = () => {
+		this.setState({
+			editModalOpened: false
+		})
+	}
+
 	closeCreateModal = () => {
 		this.setState({
 			createModalOpened: false,
@@ -94,7 +79,8 @@ class Objects extends Component {
 
 	createTitleForCreateModal = () => {
 		if (typeExists(this.state.currentType)) {
-			return OBJECT_TYPES.find(el => el.name === this.state.currentType).title
+			return OBJECT_TYPES_CONFIG.find(el => el.name === this.state.currentType)
+				.title
 		} else {
 			return 'Select new object type'
 		}
@@ -102,7 +88,7 @@ class Objects extends Component {
 
 	renderDetailModal = () => {
 		if (typeExists(this.state.detailsOf.element)) {
-			const Details = OBJECT_TYPES.find(
+			const Details = OBJECT_TYPES_CONFIG.find(
 				el => el.name === this.state.detailsOf.element
 			).detailComponent
 			return <Details data={this.state.detailsOf} />
@@ -111,10 +97,22 @@ class Objects extends Component {
 		}
 	}
 
+	renderEditModal = () => {
+		if (typeExists(this.state.detailsOf.element)) {
+			const Survey = OBJECT_TYPES_CONFIG.find(
+				el => el.name === this.state.detailsOf.element
+			).createComponent
+			return <Survey onFinish={this.onEdit} item={this.state.detailsOf} edit />
+		} else {
+			return null
+		}
+	}
+
 	renderCreationModal = () => {
 		if (typeExists(this.state.currentType)) {
-			const Survey = OBJECT_TYPES.find(el => el.name === this.state.currentType)
-				.createComponent
+			const Survey = OBJECT_TYPES_CONFIG.find(
+				el => el.name === this.state.currentType
+			).createComponent
 			return <Survey onAdd={this.onAdd} />
 		} else {
 			return <NewObjectType onTypeChoose={this.onTypeChoose} />
@@ -124,6 +122,11 @@ class Objects extends Component {
 	onAdd = entity => {
 		this.props.createObject(entity, this.state.currentType)
 		this.closeCreateModal()
+	}
+
+	onEdit = () => {
+		// this.props.editObject(entity)
+		this.closeEditModal()
 	}
 
 	onTypeChoose = type => {
@@ -154,7 +157,7 @@ class Objects extends Component {
 				<Table.Container root={'objects'}>
 					<Table.Content
 						root={'objects'}
-						headerComponent={<Table.Header items={FIELDS} />}
+						headerComponent={<Table.Header items={OBJECT_TABLE_FIELDS} />}
 						renderItems={this.renderObjects}
 					/>
 				</Table.Container>
@@ -173,9 +176,20 @@ class Objects extends Component {
 				<WedgeModal
 					isOpen={this.state.detailModalOpened}
 					onClose={this.closeDetailsModal}
+					additionalAction={{
+						icon: 'pe-7s-config',
+						callback: this.onEditClick
+					}}
 					title={`${this.state.detailsOf.name} - Details`}
 				>
 					{this.renderDetailModal()}
+				</WedgeModal>
+				<WedgeModal
+					isOpen={this.state.editModalOpened}
+					onClose={this.closeEditModal}
+					title={`${this.state.detailsOf.name} - Edit`}
+				>
+					{this.renderEditModal()}
 				</WedgeModal>
 			</div>
 		)

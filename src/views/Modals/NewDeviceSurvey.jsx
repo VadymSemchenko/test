@@ -7,6 +7,12 @@ import AddButton from '../../components/AddButton/AddButton'
 import Card from '../../components/Card/Card'
 import Form from '../../components/Form/Form'
 import './modals.scss'
+import {
+	EXPIRATION_TYPES,
+	OBJECT_ASSET_VALUES,
+	OBJECT_CATEGORIES,
+	OBJECT_TYPES
+} from '../../enums'
 
 const CATEGORIES = [
 	{
@@ -20,8 +26,17 @@ const CATEGORIES = [
 ]
 
 class NewDeviceSurvey extends React.Component {
-	state = {
-		expiryType: 0
+	constructor(props) {
+		super(props)
+		if (props.edit) {
+			this.state = {
+				name: props.item.name
+			}
+		} else {
+			this.state = {
+				expiryType: 0
+			}
+		}
 	}
 
 	changeField = (field, value) => {
@@ -44,7 +59,7 @@ class NewDeviceSurvey extends React.Component {
 
 	onFinish = () => {
 		if (this.validate()) {
-			this.props.onAdd(this.state)
+			this.props.onFinish(this.state)
 		}
 	}
 
@@ -83,7 +98,7 @@ class NewDeviceSurvey extends React.Component {
 									value={this.state.category}
 									onChange={this.onCategoryChange}
 									placeholder={'Select category'}
-									options={CATEGORIES}
+									options={OBJECT_CATEGORIES}
 								/>
 							</Form.Group>
 							<Form.Group label={'Type'}>
@@ -91,7 +106,7 @@ class NewDeviceSurvey extends React.Component {
 									value={this.state.type}
 									onChange={this.onTypeChange}
 									placeholder={'Select type'}
-									options={CATEGORIES}
+									options={OBJECT_TYPES}
 								/>
 							</Form.Group>
 						</div>
@@ -100,7 +115,7 @@ class NewDeviceSurvey extends React.Component {
 								value={this.state.asset}
 								onChange={this.onAssetChange}
 								placeholder={'Select asset value'}
-								options={CATEGORIES}
+								options={OBJECT_ASSET_VALUES}
 							/>
 						</Form.Group>
 						<div className={'form-row'}>
@@ -116,10 +131,7 @@ class NewDeviceSurvey extends React.Component {
 									selected={this.state.expiryType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onExpiryTypeChange}
-									options={[
-										{ value: 0, label: 'Hard' },
-										{ value: 1, label: 'Soft' }
-									]}
+									options={EXPIRATION_TYPES}
 								/>
 							</Form.Group>
 						</div>
@@ -191,8 +203,14 @@ export function Footer({ onClick }) {
 	)
 }
 
+NewDeviceSurvey.defaultProps = {
+	edit: false
+}
+
 NewDeviceSurvey.propTypes = {
-	onAdd: PropTypes.func.isRequired
+	onFinish: PropTypes.func.isRequired,
+	edit: PropTypes.bool,
+	item: PropTypes.object
 }
 
 Footer.propTypes = {
