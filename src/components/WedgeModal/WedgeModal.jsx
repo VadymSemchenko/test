@@ -56,10 +56,7 @@ export default function WedgeModal({
 								onClick={additionalAction.callback}
 							/>
 						)}
-						<i
-							className={'header__close pe-7s-close'}
-							onClick={() => onClose()}
-						/>
+						<i className={'header__close pe-7s-close'} onClick={onClose} />
 					</div>
 				</div>
 				<div className={'wedge-modal__content'}>
