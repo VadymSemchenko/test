@@ -38,10 +38,10 @@ function BasicObjectInfo({ data, onClick }) {
 			<div className={'objectinfo__button'} onClick={onClick}>
 				{data.id}
 			</div>
-			<p className={'objectinfo__title medium strong'}>{data.name}</p>
+			<p className={'objectinfo__title normal strong'}>{data.name}</p>
 			<div className={'objectinfo__type-container'}>
 				<img src={ServiceIcon} alt={'type-icon'} className={'small-icon'} />
-				<p className={'medium'}>{`${category.label} / ${type.label}`}</p>
+				<p className={'normal'}>{`${category.label} / ${type.label}`}</p>
 			</div>
 		</div>
 	)
@@ -60,24 +60,32 @@ function NspInfo({ data, showAll = false }) {
 	return (
 		<React.Fragment>
 			{limitedData.map((d, index) => (
-				<div key={`nsp-info-index-${index}`} className={'primary-container'}>
-					<img
-						src={getIconForRegionName(d.name)}
-						alt={'region-icon'}
-						className={'region-icon'}
-					/>
-					<div className={'divider big'} />
-					<div className={'flex-column'}>
-						<p className={'small strong nsp-name'}>{d.name}</p>
-						<div className={'flex-row'}>
-							<p className={'small strong'}>
-								{d.ping} <span className={'unit'}>ms</span>
-							</p>
-							<div className={'divider small'} />
-							<p className={'small strong'}>
-								{`${d.loss}% `}
-								<span className={'unit'}>Loss</span>
-							</p>
+				<div key={index} className={'single-nsp'}>
+					{index === 0 && <p className={'normal nsp-text'}>Primary NSP</p>}
+					{index === 1 && (
+						<p className={'normal nsp-text nsp-text-secondary'}>
+							Secondary NSP
+						</p>
+					)}
+					<div key={`nsp-info-index-${index}`} className={'primary-container'}>
+						<img
+							src={getIconForRegionName(d.name)}
+							alt={'region-icon'}
+							className={'region-icon'}
+						/>
+						<div className={'divider big'} />
+						<div className={'flex-column'}>
+							<p className={'small strong nsp-name'}>{d.name}</p>
+							<div className={'flex-row'}>
+								<p className={'small'}>
+									{d.ping} <span className={'unit'}>ms</span>
+								</p>
+								<div className={'divider small'} />
+								<p className={'small'}>
+									{`${d.loss}% `}
+									<span className={'unit'}>Loss</span>
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -96,12 +104,10 @@ function StatusInfo({ data }) {
 		<div className={'statusinfo'}>
 			<div className={'centered-row'}>
 				<img src={ActiveIcon} className={'small-icon'} alt={'status-icon'} />
-				<p className={'medium capitalize strong'}>{data.status}</p>
+				<p className={'normal capitalize'}>{data.status}</p>
 			</div>
-			<p className={'text medium'}>Last change</p>
-			<p className={'text medium strong '}>
-				{moment(data.lastChange).fromNow()}
-			</p>
+			<p className={'text medium grayish'}>Last change</p>
+			<p className={'text medium'}>{moment(data.lastChange).fromNow()}</p>
 		</div>
 	)
 }
@@ -128,8 +134,8 @@ export default class ObjectTableItem extends React.PureComponent {
 				<WrapperComponent title={'Profile Group'} extraClass={'field__profile'}>
 					<TextField
 						text={Translator.profileGroup(data.profileGroup).label}
-						size={'medium'}
-						strong={true}
+						size={'normal'}
+						strong={false}
 					/>
 				</WrapperComponent>
 				<WrapperComponent title={'Primary NSP'} extraClass={'field__nsp'}>
