@@ -15,6 +15,8 @@ class GatewayDetailsModal extends React.Component {
 		const category = Translator.category(data.category)
 		const expiration = Translator.expirationType(data.expiry.type)
 		const profileGroup = Translator.profileGroup(data.profileGroup)
+		const mode = Translator.mode(data.network.mode)
+		const protocol = Translator.protocolType(data.network.ip)
 		return (
 			<div className={'modal__content padded new-gateway-survey'}>
 				<Card header={false}>
@@ -41,11 +43,8 @@ class GatewayDetailsModal extends React.Component {
 
 				<Card header={false}>
 					<div className={'form-row'}>
-						<Field.Group
-							label={'IP protocol'}
-							secondaryLabel={data.network.mode}
-						>
-							<Field.Text text={data.network.ip} />
+						<Field.Group label={'IP protocol'} secondaryLabel={mode.label}>
+							<Field.Text text={protocol.label} />
 						</Field.Group>
 					</div>
 					<div className={'space-above'}>

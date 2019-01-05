@@ -15,7 +15,7 @@ import NewObjectType from '../Modals/NewObjectType'
 import ObjectsTableItem from './components/ObjectsTableItem/ObjectsTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './objects.scss'
-import { createObject, fetchObjects } from './scenario-actions'
+import { createObject, fetchObjects, updateObject } from './scenario-actions'
 
 Modal.setAppElement('#modal-root')
 
@@ -124,8 +124,8 @@ class Objects extends Component {
 		this.closeCreateModal()
 	}
 
-	onEdit = () => {
-		// this.props.editObject(entity)
+	onEdit = entity => {
+		this.props.updateObject(entity)
 		this.closeEditModal()
 	}
 
@@ -199,6 +199,7 @@ class Objects extends Component {
 Objects.propTypes = {
 	fetchObjects: PropTypes.func.isRequired,
 	createObject: PropTypes.func.isRequired,
+	updateObject: PropTypes.func.isRequired,
 	items: PropTypes.array.isRequired,
 	isLoading: PropTypes.bool.isRequired
 }
@@ -209,6 +210,7 @@ Objects.defaultProps = {
 
 const loadingSelector = createLoadingSelector(['FETCHING_OBJECTS'])
 const errorSelector = createErrorMessageSelector(['FETCHING_OBJECTS'])
+
 const mapStateToProps = state => {
 	return {
 		items: objectsSelector(state),
@@ -229,7 +231,8 @@ const objectsSelector = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		fetchObjects: () => dispatch(fetchObjects()),
-		createObject: (entity, type) => dispatch(createObject(entity, type))
+		createObject: (entity, type) => dispatch(createObject(entity, type)),
+		updateObject: entity => dispatch(updateObject(entity))
 	}
 }
 

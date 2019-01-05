@@ -3,6 +3,7 @@ import {
 	AVAILABLE_REGIONS,
 	EXPIRATION_TYPE_OPTIONS,
 	GATEWAY_TYPE_OPTIONS,
+	IP_MODES_OPTIONS,
 	IP_TYPE_OPTIONS,
 	LOCATION_TYPE_OPTIONS,
 	MASKS,
@@ -21,7 +22,8 @@ export default {
 	protocolType: id => find(IP_TYPE_OPTIONS, id),
 	addressType: id => find(ADDRESS_TYPES_OPTIONS, id),
 	mask: id => find(MASKS, id),
-	gatewayType: id => find(GATEWAY_TYPE_OPTIONS, id)
+	gatewayType: id => find(GATEWAY_TYPE_OPTIONS, id),
+	mode: id => find(IP_MODES_OPTIONS, id)
 }
 
 function find(enums, id) {

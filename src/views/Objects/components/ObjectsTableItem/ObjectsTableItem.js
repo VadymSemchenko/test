@@ -127,7 +127,7 @@ export default class ObjectTableItem extends React.PureComponent {
 				</WrapperComponent>
 				<WrapperComponent title={'Profile Group'} extraClass={'field__profile'}>
 					<TextField
-						text={data.profileGroup.name}
+						text={Translator.profileGroup(data.profileGroup).label}
 						size={'medium'}
 						strong={true}
 					/>
@@ -169,6 +169,11 @@ Field.propTypes = {
 SmallTextField.propTypes = {
 	text: PropTypes.string.isRequired
 }
+
+TextField.defaultProps = {
+	text: ''
+}
+
 TextField.propTypes = {
 	text: PropTypes.string.isRequired,
 	strong: PropTypes.bool,
@@ -180,7 +185,7 @@ StatusInfo.propTypes = {
 }
 
 BasicObjectInfo.propTypes = {
-	data: PropTypes.string.isRequired,
+	data: PropTypes.object.isRequired,
 	onClick: PropTypes.func.isRequired
 }
 

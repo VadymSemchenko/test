@@ -37,18 +37,25 @@ FormGroup.propTypes = {
 
 class TextInput extends React.PureComponent {
 	render() {
-		const { value, placeholder, onChange, ...rest } = this.props
+		const {
+			value,
+			placeholder,
+			onChange,
+			extraClass,
+			multiline,
+			...rest
+		} = this.props
 		this.inputProps = {
 			type: 'text',
 			value: value,
 			placeholder: placeholder,
 			onChange: e => onChange(e.target.value),
 			className: `form__input form__textinput ${
-				rest.multiline ? 'multiline' : ''
-			} ${rest.extraClass || ''}`,
+				multiline ? 'multiline' : ''
+			} ${extraClass || ''}`,
 			...rest
 		}
-		if (this.props.multiline) {
+		if (multiline) {
 			return <textarea {...this.inputProps} />
 		} else {
 			return <input {...this.inputProps} />
@@ -58,7 +65,7 @@ class TextInput extends React.PureComponent {
 
 TextInput.propTypes = {
 	placeholder: PropTypes.string,
-	value: PropTypes.string,
+	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	onChange: PropTypes.func
 }
 
