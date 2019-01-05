@@ -5,22 +5,12 @@ import ArrowLeftBottomIcon from '../../../../assets/img/PNG/Acreto_Icon 13.png'
 import ServiceIcon from '../../../../assets/img/PNG/Acreto_Icon 16.png'
 import ApplicationIcon from '../../../../assets/img/PNG/Acreto_Icon 17.png'
 import ThreatIcon from '../../../../assets/img/PNG/Acreto_Icon 18.png'
-import TerminatedIcon from '../../../../assets/img/PNG/Acreto_Icon 19.png'
-import ActiveIcon from '../../../../assets/img/PNG/Acreto_Icon 20.png'
 import AllowIcon from '../../../../assets/img/PNG/Acreto_Icon 23.png'
 import ChainIcon from '../../../../assets/img/PNG/Acreto_Icon 24.png'
-import CompletedIcon from '../../../../assets/img/PNG/Acreto_Icon 27.png'
-import TimetoutIcon from '../../../../assets/img/PNG/Acreto_Icon 28.png'
 import PolicyIcon from '../../../../assets/img/PNG/policy_icon.png'
+import { REPORT_STATUSES } from '../../../../enums'
 
 import './reports-table-item.scss'
-
-const STATUS = [
-	{ slug: 'active', name: 'Active', icon: ActiveIcon },
-	{ slug: 'completed', icon: CompletedIcon, name: 'Completed' },
-	{ slug: 'terminated', icon: TerminatedIcon, name: 'Terminated' },
-	{ slug: 'timeout', icon: TimetoutIcon, name: 'Timed out' }
-]
 
 const getIconForAction = action => {
 	switch (action) {
@@ -29,7 +19,7 @@ const getIconForAction = action => {
 		case 'URL':
 			return ChainIcon
 		default:
-			return null
+			return AllowIcon
 	}
 }
 
@@ -140,7 +130,7 @@ function StatusField({ status }) {
 }
 
 export default function ReportsTableItem({ data, responsive = false }) {
-	const status = STATUS.find(s => s.slug === data.status)
+	const status = REPORT_STATUSES.find(s => s.slug === data.status)
 
 	const WrapperComponent = responsive ? ResponsiveField : Field
 	return (

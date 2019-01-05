@@ -31,10 +31,10 @@ class FieldGroup extends React.PureComponent {
 					full ? 'full' : ''
 				} ${self ? 'self' : ''} ${rest.extraClass || ''}`}
 			>
-				<p className={'field__label'}>
+				<div className={'field__label'}>
 					<span className={'primary'}>{label}</span>
 					{this.renderSecondLabel()}
-				</p>
+				</div>
 				{children}
 			</div>
 		)
@@ -42,7 +42,7 @@ class FieldGroup extends React.PureComponent {
 }
 
 FieldGroup.propTypes = {
-	children: PropTypes.element,
+	children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
 	label: PropTypes.string,
 	center: PropTypes.bool,
 	full: PropTypes.bool,
@@ -57,7 +57,7 @@ class TextField extends React.PureComponent {
 }
 
 TextField.propTypes = {
-	text: PropTypes.string
+	text: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 TextField.defaultProps = {

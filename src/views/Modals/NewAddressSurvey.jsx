@@ -1,28 +1,58 @@
 import 'leaflet/dist/leaflet.css'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button } from 'react-bootstrap'
 import { Map, TileLayer } from 'react-leaflet'
 import Card from '../../components/Card/Card'
 import Form from '../../components/Form/Form'
+import {
+	ADDRESS_TYPE,
+	ADDRESS_TYPES_OPTIONS,
+	AVAILABLE_REGIONS,
+	EXPIRATION_TYPE,
+	EXPIRATION_TYPE_OPTIONS,
+	IP_TYPE,
+	IP_TYPE_OPTIONS,
+	LOCATION_TYPE,
+	LOCATION_TYPE_OPTIONS,
+	MASKS,
+	OBJECT_ASSET_VALUES,
+	OBJECT_CATEGORIES,
+	OBJECT_TYPES
+} from '../../enums'
+import Translator from '../../utils/enumTranslator'
+import { Footer } from './commons'
 import './modals.scss'
 
-const CATEGORIES = [
-	{
-		value: 0,
-		label: 'Category #1'
-	},
-	{
-		value: 1,
-		label: 'Category #2'
-	}
-]
-
 class NewAddressSurvey extends React.Component {
-	state = {
-		addressType: 0,
-		protocolType: 0,
-		expiryType: 0
+	constructor(props) {
+		super(props)
+		if (props.edit) {
+			this.state = {
+				name: props.item.name,
+				expiryType: props.item.expiry.type,
+				expiry: props.item.expiry.date,
+				profile: Translator.profileGroup(props.item.profileGroup),
+				category: Translator.category(props.item.category),
+				type: Translator.type(props.item.type),
+				asset: OBJECT_ASSET_VALUES[props.item.assetValue], // NOT SAFE, TODO LATED
+				location: Translator.location(props.item.location.type),
+				lat: props.item.location.latitude,
+				long: props.item.location.longitude,
+				region: Translator.region(props.item.location.region),
+				description: props.item.description,
+				protocolType: Translator.protocolType(props.item.network.ip).value,
+				addressType: Translator.addressType(props.item.addressType).value,
+				address: props.item.network.address.address,
+				mask: Translator.mask(props.item.network.address.mask)
+			}
+		} else {
+			this.state = {
+				addressType: ADDRESS_TYPE.INTERNAL,
+				protocolType: IP_TYPE.IPv4,
+				expiryType: EXPIRATION_TYPE.HARD,
+				location: LOCATION_TYPE_OPTIONS[LOCATION_TYPE.AUTO]
+			}
+		}
 	}
 
 	changeField = (field, value) => {
@@ -44,10 +74,11 @@ class NewAddressSurvey extends React.Component {
 	onAddressTypeChange = val => this.changeField('addressType', val)
 	onAddressChange = val => this.changeField('address', val)
 	onMaskChange = val => this.changeField('mask', val)
+	onRegionChange = val => this.changeField('region', val)
 
 	onFinish = () => {
 		if (this.validate()) {
-			this.props.onAdd(this.state)
+			this.props.onFinish(this.state)
 		}
 	}
 
@@ -73,10 +104,7 @@ class NewAddressSurvey extends React.Component {
 									selected={this.state.addressType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onAddressTypeChange}
-									options={[
-										{ value: 0, label: 'Internal' },
-										{ value: 1, label: 'External' }
-									]}
+									options={ADDRESS_TYPES_OPTIONS}
 								/>
 							</Form.Group>
 						</div>
@@ -85,10 +113,7 @@ class NewAddressSurvey extends React.Component {
 								selected={this.state.protocolType}
 								selectedClass={'toggle-selected'}
 								onChange={this.onProtocolTypeChange}
-								options={[
-									{ value: 0, label: 'IPv4' },
-									{ value: 1, label: 'IPv6' }
-								]}
+								options={IP_TYPE_OPTIONS}
 							/>
 						</Form.Group>
 						<Form.Group full label={''}>
@@ -105,7 +130,7 @@ class NewAddressSurvey extends React.Component {
 									onChange={this.onMaskChange}
 									style={{ flex: 1 }}
 									placeholder={'Mask'}
-									options={CATEGORIES}
+									options={MASKS}
 								/>
 							</div>
 						</Form.Group>
@@ -115,7 +140,7 @@ class NewAddressSurvey extends React.Component {
 									value={this.state.category}
 									onChange={this.onCategoryChange}
 									placeholder={'Select category'}
-									options={CATEGORIES}
+									options={OBJECT_CATEGORIES}
 								/>
 							</Form.Group>
 							<Form.Group label={'Type'}>
@@ -123,7 +148,7 @@ class NewAddressSurvey extends React.Component {
 									value={this.state.type}
 									onChange={this.onTypeChange}
 									placeholder={'Select type'}
-									options={CATEGORIES}
+									options={OBJECT_TYPES}
 								/>
 							</Form.Group>
 						</div>
@@ -140,10 +165,7 @@ class NewAddressSurvey extends React.Component {
 									selected={this.state.expiryType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onExpiryTypeChange}
-									options={[
-										{ value: 0, label: 'Hard' },
-										{ value: 1, label: 'Soft' }
-									]}
+									options={EXPIRATION_TYPE_OPTIONS}
 								/>
 							</Form.Group>
 						</div>
@@ -165,25 +187,39 @@ class NewAddressSurvey extends React.Component {
 								value={this.state.location}
 								onChange={this.onLocationChange}
 								placeholder={'Select location value'}
-								options={CATEGORIES}
+								options={LOCATION_TYPE_OPTIONS}
 							/>
 						</Form.Group>
 
 						<div className={'form-row'}>
-							<Form.Group label={''}>
-								<Form.Text
-									value={this.state.lat}
-									onChange={this.onLatChange}
-									placeholder={'Latitude'}
-								/>
-							</Form.Group>
-							<Form.Group label={''}>
-								<Form.Text
-									value={this.state.long}
-									onChange={this.onLongChange}
-									placeholder={'Longitude'}
-								/>
-							</Form.Group>
+							{this.state.location.value === LOCATION_TYPE.REGION && (
+								<Form.Group label={'Region'}>
+									<Form.Select
+										value={this.state.region}
+										onChange={this.onRegionChange}
+										placeholder={'Select region'}
+										options={AVAILABLE_REGIONS}
+									/>
+								</Form.Group>
+							)}
+							{this.state.location.value === LOCATION_TYPE.COORDINATES && (
+								<React.Fragment>
+									<Form.Group label={''}>
+										<Form.Text
+											value={this.state.lat}
+											onChange={this.onLatChange}
+											placeholder={'Latitude'}
+										/>
+									</Form.Group>
+									<Form.Group label={''}>
+										<Form.Text
+											value={this.state.long}
+											onChange={this.onLongChange}
+											placeholder={'Longitude'}
+										/>
+									</Form.Group>
+								</React.Fragment>
+							)}
 						</div>
 
 						<Map
@@ -199,23 +235,17 @@ class NewAddressSurvey extends React.Component {
 					</Card>
 				</div>
 				<div className={'wedge-modal__footer'}>
-					<Footer onClick={this.onFinish} />
+					<Footer onClick={this.onFinish} edit={this.props.edit} />
 				</div>
 			</React.Fragment>
 		)
 	}
 }
 
-export function Footer() {
-	return (
-		<div className={'survey__footer'}>
-			<Button bsStyle={'primary'}>Add</Button>
-		</div>
-	)
-}
-
 NewAddressSurvey.propTypes = {
-	onAdd: PropTypes.func.isRequired
+	onFinish: PropTypes.func.isRequired,
+	edit: PropTypes.bool,
+	item: PropTypes.object
 }
 
 NewAddressSurvey.Footer = Footer

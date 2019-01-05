@@ -4,7 +4,10 @@ import {
 	FETCHING_OBJECTS_SUCCESS,
 	CREATION_OBJECT_FAILURE,
 	CREATION_OBJECT_REQUESTED,
-	CREATION_OBJECT_SUCCESS
+	CREATION_OBJECT_SUCCESS,
+	UPDATE_OBJECT_REQUESTED,
+	UPDATE_OBJECT_SUCCESS,
+	UPDATE_OBJECT_FAILURE
 } from './action-types'
 
 export function fetchingObjectsStarted() {
@@ -51,6 +54,31 @@ export function creationObjectSuccess(result, ecosystem) {
 export function creationObjectFailed(err) {
 	return {
 		type: CREATION_OBJECT_FAILURE,
+		payload: {
+			message: err
+		}
+	}
+}
+
+export function updateObjectStarted() {
+	return {
+		type: UPDATE_OBJECT_REQUESTED
+	}
+}
+
+export function updateObjectSuccess(result, ecosystem) {
+	return {
+		type: UPDATE_OBJECT_SUCCESS,
+		payload: {
+			result,
+			ecosystem
+		}
+	}
+}
+
+export function updateObjectFailed(err) {
+	return {
+		type: UPDATE_OBJECT_FAILURE,
 		payload: {
 			message: err
 		}

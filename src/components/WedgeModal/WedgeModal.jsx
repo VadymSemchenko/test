@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import Modal from 'react-modal'
-import PropTypes from 'prop-types'
 import './wedge-modal.scss'
 
 const customStyles = {
@@ -35,6 +35,7 @@ export default function WedgeModal({
 	afterOpen,
 	children,
 	footer,
+	additionalAction = false,
 	title = 'Example title'
 }) {
 	return (
@@ -48,10 +49,15 @@ export default function WedgeModal({
 			<div className={'wedge-modal'}>
 				<div className={'wedge-modal__header header'}>
 					<p className={'header__title'}>{title}</p>
-					<i
-						className={'header__close pe-7s-close'}
-						onClick={() => onClose()}
-					/>
+					<div className={'header__actions-container'}>
+						{additionalAction && (
+							<i
+								className={`header__action ${additionalAction.icon}`}
+								onClick={additionalAction.callback}
+							/>
+						)}
+						<i className={'header__close pe-7s-close'} onClick={onClose} />
+					</div>
 				</div>
 				<div className={'wedge-modal__content'}>
 					{children}
@@ -68,5 +74,6 @@ WedgeModal.propTypes = {
 	afterOpen: PropTypes.func,
 	children: PropTypes.element,
 	footer: PropTypes.element,
-	title: PropTypes.string
+	title: PropTypes.string,
+	additionalAction: PropTypes.object
 }

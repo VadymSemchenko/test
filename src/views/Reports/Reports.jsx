@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux'
 import Loader from '../../components/Loader/Loader'
 import Table from '../../components/Table/Table'
+import { REPORT_TABLE_FIELDS } from '../../enums'
 import {
 	createErrorMessageSelector,
 	createLoadingSelector
@@ -18,17 +19,6 @@ import ReportsTableItem from './components/ReportsTableItem/ReportTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import './reports.scss'
 import { fetchNewest, fetchOlder, fetchReports } from './scenario-actions'
-
-const FIELDS = [
-	{ name: 'Policy', center: true },
-	{ name: 'Source', center: true },
-	{ name: 'Service', center: true },
-	{ name: 'Application', center: true },
-	{ name: 'Destination', center: true },
-	{ name: 'Action', center: true },
-	{ name: 'Alert', center: true },
-	{ name: 'Status', center: true }
-]
 
 const rateOptions = [
 	{
@@ -178,7 +168,7 @@ class Reports extends Component {
 				<Table.Container root={'reports'}>
 					<Table.Content
 						root={'reports'}
-						headerComponent={<Table.Header items={FIELDS} />}
+						headerComponent={<Table.Header items={REPORT_TABLE_FIELDS} />}
 						renderItems={this.renderReports}
 					/>
 				</Table.Container>

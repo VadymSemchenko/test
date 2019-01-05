@@ -1,14 +1,22 @@
 import 'leaflet/dist/leaflet.css'
+import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Map, TileLayer } from 'react-leaflet'
 import Card from '../../components/Card/Card'
 import Field from '../../components/Field/Field'
+import Translator from '../../utils/enumTranslator'
+import { renderLocationDetails } from './commons'
 import './modals.scss'
 
 class GatewayDetailsModal extends React.Component {
 	render() {
 		const { data } = this.props
+		const type = Translator.type(data.type)
+		const category = Translator.category(data.category)
+		const expiration = Translator.expirationType(data.expiry.type)
+		const profileGroup = Translator.profileGroup(data.profileGroup)
+		const mode = Translator.mode(data.network.mode)
+		const protocol = Translator.protocolType(data.network.ip)
 		return (
 			<div className={'modal__content padded new-gateway-survey'}>
 				<Card header={false}>
@@ -17,36 +25,33 @@ class GatewayDetailsModal extends React.Component {
 							<Field.Text text={data.name} />
 						</Field.Group>
 						<Field.Group label={'Profile Group'}>
-							<Field.Text text={data.profile_group.name} />
+							<Field.Text text={profileGroup.label} />
 						</Field.Group>
 					</div>
 					<div className={'form-row'}>
 						<Field.Group label={'Category / Type'}>
-							<Field.Text text={`${data.category}/${data.type}`} />
+							<Field.Text text={`${category.label}/${type.label}`} />
 						</Field.Group>
 						<Field.Group label={'Asset value'}>
-							<Field.Text text={data.asset_value} />
+							<Field.Text text={data.assetValue} />
 						</Field.Group>
 					</div>
-					<Field.Group label={'Expiry'} secondaryLabel={data.expiry.type}>
-						<Field.Text text={data.expiry.date.format('MMM D, YYYY')} />
+					<Field.Group label={'Expiry'} secondaryLabel={expiration.label}>
+						<Field.Text text={moment(data.expiry.date).format('MMM D, YYYY')} />
 					</Field.Group>
 				</Card>
 
 				<Card header={false}>
 					<div className={'form-row'}>
-						<Field.Group
-							label={'IP protocol'}
-							secondaryLabel={data.network.mode}
-						>
-							<Field.Text text={data.network.ip} />
+						<Field.Group label={'IP protocol'} secondaryLabel={mode.label}>
+							<Field.Text text={protocol.label} />
 						</Field.Group>
 					</div>
 					<div className={'space-above'}>
 						<Field.Group label={'Gateway IP'} full center={true}>
 							<Field.Text
-								text={`${data.network.gateway_ip.address} / ${
-									data.network.gateway_ip.mask
+								text={`${data.network.gatewayIp.address} / ${
+									data.network.gatewayIp.mask
 								}`}
 							/>
 						</Field.Group>
@@ -54,8 +59,8 @@ class GatewayDetailsModal extends React.Component {
 					<div className={'space-above'}>
 						<Field.Group label={'Default route'} full center={true}>
 							<Field.Text
-								text={`${data.network.default_route.address} / ${
-									data.network.default_route.mask
+								text={`${data.network.defaultRoute.address} / ${
+									data.network.defaultRoute.mask
 								}`}
 							/>
 						</Field.Group>
@@ -63,8 +68,8 @@ class GatewayDetailsModal extends React.Component {
 					<div className={'space-above'}>
 						<Field.Group label={'Local gateway'} full center={true}>
 							<Field.Text
-								text={`${data.network.gateway_local.address} / ${
-									data.network.default_route.mask
+								text={`${data.network.gatewayLocal.address} / ${
+									data.network.gatewayLocal.mask
 								}`}
 							/>
 						</Field.Group>
@@ -79,12 +84,12 @@ class GatewayDetailsModal extends React.Component {
 											<th className={'hop'}>Next Hop</th>
 											<th className={'last'} />
 										</tr>
-										{data.network.additional_networks.map((net, index) => (
+										{data.network.additionalNetworks.map((net, index) => (
 											<tr key={`additional-network-index-${index}`}>
 												<td className={'network'}>{`${net.network.address} / ${
 													net.network.mask
 												}`}</td>
-												<td className={'hop'}>{net.next_hop.address}</td>
+												<td className={'hop'}>{net.nextHop.address}</td>
 												<td className={'last'} />
 											</tr>
 										))}
@@ -95,22 +100,7 @@ class GatewayDetailsModal extends React.Component {
 					</div>
 				</Card>
 
-				<Card header={false}>
-					<Field.Group full={true} label={'Description'}>
-						<Field.Text text={data.description} />
-					</Field.Group>
-
-					<Map
-						style={{ height: '300px', width: '100%' }}
-						center={[51.505, -0.09]}
-						zoom={13}
-					>
-						<TileLayer
-							attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-						/>
-					</Map>
-				</Card>
+				<Card header={false}>{renderLocationDetails(data)}</Card>
 			</div>
 		)
 	}
