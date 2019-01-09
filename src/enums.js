@@ -28,10 +28,10 @@ export const REPORT_STATUSES = [
 ]
 
 export const OBJECT_TABLE_FIELDS = [
-	{ name: 'Object', center: true },
-	{ name: 'Profile Group', center: true },
-	{ name: 'NSP', center: true },
-	{ name: 'Status', center: true }
+	{ name: 'Object', center: false },
+	{ name: 'Profile Group', center: false },
+	{ name: 'NSP', center: false },
+	{ name: 'Status', center: false }
 ]
 
 export const PROFILE_GROUPS = [

@@ -30,7 +30,7 @@ export const list = [
 		nsps: [
 			{
 				id: 1,
-				name: 'eu-west-1',
+				name: 'us-east-1',
 				status: 'good', // good, moderate, bad
 				ping: 29, // ms
 				loss: 0 // number, percantage
@@ -70,15 +70,15 @@ export const list = [
 		nsps: [
 			{
 				id: 1,
-				name: 'eu-west-1',
+				name: 'us-east-1',
 				status: 'good', // good, moderate, bad
 				ping: 29, // ms
 				loss: 0 // number, percantage
 			},
 			{
 				id: 2,
-				name: 'eu-west-1',
-				status: 'good', // good, moderate, bad
+				name: 'us-east-1',
+				status: 'bad', // good, moderate, bad
 				ping: 29, // ms
 				loss: 0 // number, percantage
 			},
@@ -90,7 +90,7 @@ export const list = [
 				loss: 0 // number, percantage
 			}
 		],
-		status: 'connected', // string or enum ID
+		status: 'undefined', // string or enum ID
 		last_change: moment()
 			.subtract(2, 'days')
 			.toISOString(),

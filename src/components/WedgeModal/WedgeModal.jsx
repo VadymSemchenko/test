@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import Modal from 'react-modal'
 import './wedge-modal.scss'
+import { CLOSE } from '../../assets/Icons'
 
 const customStyles = {
 	content: {
@@ -56,7 +57,12 @@ export default function WedgeModal({
 								onClick={additionalAction.callback}
 							/>
 						)}
-						<i className={'header__close pe-7s-close'} onClick={onClose} />
+						<img
+							src={CLOSE}
+							alt={'close-icon'}
+							className={'header__close'}
+							onClick={onClose}
+						/>
 					</div>
 				</div>
 				<div className={'wedge-modal__content'}>

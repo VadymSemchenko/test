@@ -2,6 +2,7 @@ import 'leaflet/dist/leaflet.css'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Map, TileLayer } from 'react-leaflet'
+import { INFO } from '../../assets/Icons'
 import Card from '../../components/Card/Card'
 import Form from '../../components/Form/Form'
 import {
@@ -91,6 +92,12 @@ class NewAddressSurvey extends React.Component {
 			<React.Fragment>
 				<div className={'modal__content padded new-address-survey'}>
 					<Card header={false}>
+						{this.props.edit && (
+							<div className={'object-id__button'}>
+								{this.props.item.id}
+								<img src={INFO} alt={'info-icon'} className={'small-icon'} />
+							</div>
+						)}
 						<div className={'form-row'}>
 							<Form.Group label={'Name'}>
 								<Form.Text

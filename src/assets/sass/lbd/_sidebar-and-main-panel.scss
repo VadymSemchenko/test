@@ -146,6 +146,12 @@
 			width: 30px;
 			text-align: center;
 		}
+		img.small-image {
+			float: left;
+			width: 16px;
+			height: 16px;
+			margin: 7px 12px 7px 7px;
+		}
 	}
 }
 
@@ -248,7 +254,7 @@ body > .navbar-collapse {
 	width: $sidebar-width;
 
 	> .content {
-		padding: 30px 15px;
+		padding: 48px 32px;
 		min-height: calc(100% - 123px);
 	}
 

@@ -60,7 +60,16 @@ class Sidebar extends Component {
 										<React.Fragment key={key}>
 											<li>
 												<a href={'#'} className={'nav-link root'}>
-													<i className={prop.icon} />
+													{' '}
+													{/*eslint-disable-line jsx-a11y/anchor-is-valid*/}
+													{prop.iconImage && (
+														<img
+															className={'small-image'}
+															alt={prop.name}
+															src={prop.iconImage}
+														/>
+													)}
+													{!prop.iconImage && <i className={prop.icon} />}
 													<p>{prop.name}</p>
 												</a>
 											</li>
@@ -78,7 +87,14 @@ class Sidebar extends Component {
 															className="nav-link"
 															activeClassName="active"
 														>
-															<i className={path.icon} />
+															{path.iconImage && (
+																<img
+																	className={'small-image'}
+																	alt={path.name}
+																	src={path.iconImage}
+																/>
+															)}
+															{!path.iconImage && <i className={path.icon} />}
 															<p>{path.name}</p>
 														</NavLink>
 													</li>
@@ -94,7 +110,14 @@ class Sidebar extends Component {
 											className="nav-link"
 											activeClassName="active"
 										>
-											<i className={prop.icon} />
+											{prop.iconImage && (
+												<img
+													className={'small-image'}
+													alt={prop.name}
+													src={prop.iconImage}
+												/>
+											)}
+											{!prop.iconImage && <i className={prop.icon} />}
 											<p>{prop.name}</p>
 										</NavLink>
 									</li>

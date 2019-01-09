@@ -1,11 +1,14 @@
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import ServiceIcon from '../../../../assets/img/PNG/Acreto_Icon 16.png'
-import ActiveIcon from '../../../../assets/img/PNG/Acreto_Icon 20.png'
+import { COG, INFO, TYPE_IOT } from '../../../../assets/Icons'
 import Translator from '../../../../utils/enumTranslator'
 
-import { getIconForRegionName } from '../../../../variables/Icons'
+import {
+	getArrow,
+	getIconForRegionName,
+	getIconForStatus
+} from '../../../../variables/Icons'
 
 import './objects-table-item.scss'
 
@@ -37,11 +40,12 @@ function BasicObjectInfo({ data, onClick }) {
 		<div className={'objectinfo'}>
 			<div className={'objectinfo__button'} onClick={onClick}>
 				{data.id}
+				<img src={INFO} alt={'info-icon'} className={'small-icon'} />
 			</div>
-			<p className={'objectinfo__title medium strong'}>{data.name}</p>
+			<p className={'objectinfo__title normal strong'}>{data.name}</p>
 			<div className={'objectinfo__type-container'}>
-				<img src={ServiceIcon} alt={'type-icon'} className={'small-icon'} />
-				<p className={'medium'}>{`${category.label} / ${type.label}`}</p>
+				<img src={TYPE_IOT} alt={'type-icon'} className={'small-icon'} />
+				<p className={'normal'}>{`${category.label} / ${type.label}`}</p>
 			</div>
 		</div>
 	)
@@ -55,35 +59,48 @@ function TextField({ text, strong, size }) {
 	return <p className={`${size} ${strong ? 'strong' : ''}`}>{text}</p>
 }
 
-function NspInfo({ data, showAll = false }) {
+function NspInfo({ data, showAll = false, onExpand }) {
 	const limitedData = showAll ? data : [data[0]]
 	return (
 		<React.Fragment>
 			{limitedData.map((d, index) => (
-				<div key={`nsp-info-index-${index}`} className={'primary-container'}>
-					<img
-						src={getIconForRegionName(d.name)}
-						alt={'region-icon'}
-						className={'region-icon'}
-					/>
-					<div className={'divider big'} />
-					<div className={'flex-column'}>
-						<p className={'small strong nsp-name'}>{d.name}</p>
-						<div className={'flex-row'}>
-							<p className={'small strong'}>
-								{d.ping} <span className={'unit'}>ms</span>
-							</p>
-							<div className={'divider small'} />
-							<p className={'small strong'}>
-								{`${d.loss}% `}
-								<span className={'unit'}>Loss</span>
-							</p>
+				<div key={index} className={'single-nsp'}>
+					{index === 0 && <p className={'normal nsp-text'}>Primary NSP</p>}
+					{index === 1 && (
+						<p className={'normal nsp-text nsp-text-secondary'}>
+							Secondary NSP
+						</p>
+					)}
+					<div key={`nsp-info-index-${index}`} className={'primary-container'}>
+						<img
+							src={getArrow(d.status === 'good')}
+							className={'arrow-status'}
+							alt={'arrow-status'}
+						/>
+						<img
+							src={getIconForRegionName(d.name, d.status === 'good')}
+							alt={'region-icon'}
+							className={'region-icon'}
+						/>
+						<div className={'divider big'} />
+						<div className={'flex-column'}>
+							<p className={'small strong nsp-name'}>{d.name}</p>
+							<div className={'flex-row'}>
+								<p className={'small'}>
+									{d.ping} <span className={'unit'}>ms</span>
+								</p>
+								<div className={'divider small'} />
+								<p className={'small'}>
+									{`${d.loss}% `}
+									<span className={'unit'}>Loss</span>
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
 			))}
 			{!showAll && (
-				<p className={'more'}>
+				<p className={'more'} onClick={onExpand}>
 					{data.length > 1 && `+${data.length - 1} more`}
 				</p>
 			)}
@@ -94,14 +111,16 @@ function NspInfo({ data, showAll = false }) {
 function StatusInfo({ data }) {
 	return (
 		<div className={'statusinfo'}>
-			<div className={'centered-row'}>
-				<img src={ActiveIcon} className={'small-icon'} alt={'status-icon'} />
-				<p className={'medium capitalize strong'}>{data.status}</p>
+			<div className={'centered-row status-text-container'}>
+				<img
+					src={getIconForStatus(data.status)}
+					className={'tiny-icon'}
+					alt={'status-icon'}
+				/>
+				<p className={'normal capitalize'}>{data.status}</p>
 			</div>
-			<p className={'text medium'}>Last change</p>
-			<p className={'text medium strong '}>
-				{moment(data.lastChange).fromNow()}
-			</p>
+			<p className={'text medium grayish space-above-8'}>Last change</p>
+			<p className={'text medium'}>{moment(data.lastChange).fromNow()}</p>
 		</div>
 	)
 }
@@ -118,7 +137,7 @@ export default class ObjectTableItem extends React.PureComponent {
 	}
 
 	render() {
-		const { data, responsive = false, onDetails } = this.props
+		const { data, responsive = false, onDetails, onEdit } = this.props
 		const WrapperComponent = responsive ? ResponsiveField : Field
 		return (
 			<TableItemContainer active={this.state.showAll}>
@@ -128,12 +147,16 @@ export default class ObjectTableItem extends React.PureComponent {
 				<WrapperComponent title={'Profile Group'} extraClass={'field__profile'}>
 					<TextField
 						text={Translator.profileGroup(data.profileGroup).label}
-						size={'medium'}
-						strong={true}
+						size={'normal'}
+						strong={false}
 					/>
 				</WrapperComponent>
 				<WrapperComponent title={'Primary NSP'} extraClass={'field__nsp'}>
-					<NspInfo data={data.nsps} showAll={this.state.showAll} />
+					<NspInfo
+						data={data.nsps}
+						showAll={this.state.showAll}
+						onExpand={this.onClick}
+					/>
 				</WrapperComponent>
 				<WrapperComponent title={'Status'} extraClass={'field__status'}>
 					<StatusInfo data={data} />
@@ -145,6 +168,9 @@ export default class ObjectTableItem extends React.PureComponent {
 						<i className={'pe-7s-angle-down'} onClick={this.onClick} />
 					)}
 				</WrapperComponent>
+				<WrapperComponent extraClass={'field__edit'}>
+					<img src={COG} alt={'edit-icon'} onClick={onEdit} />
+				</WrapperComponent>
 			</TableItemContainer>
 		)
 	}
@@ -152,7 +178,8 @@ export default class ObjectTableItem extends React.PureComponent {
 
 NspInfo.propTypes = {
 	data: PropTypes.array.isRequired,
-	showAll: PropTypes.bool
+	showAll: PropTypes.bool,
+	onExpand: PropTypes.func.isRequired
 }
 
 ResponsiveField.propTypes = {
@@ -197,5 +224,6 @@ TableItemContainer.propTypes = {
 ObjectTableItem.propTypes = {
 	data: PropTypes.object.isRequired,
 	responsive: PropTypes.bool.isRequired,
-	onDetails: PropTypes.func.isRequired
+	onDetails: PropTypes.func.isRequired,
+	onEdit: PropTypes.func.isRequired
 }
