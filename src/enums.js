@@ -34,6 +34,15 @@ export const OBJECT_TABLE_FIELDS = [
 	{ name: 'Status', center: false }
 ]
 
+export const POLICY_TABLE_FIELDS = [
+  { name: 'Policy', center: false },
+  { name: 'Source', center: false },
+  { name: 'Service', center: false },
+  { name: 'Application', center: false },
+  { name: 'Destination', center: false },
+  { name: 'Actions', center: false }
+]
+
 export const PROFILE_GROUPS = [
 	{
 		label: 'Finances',
