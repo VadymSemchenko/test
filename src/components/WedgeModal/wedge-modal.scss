@@ -4,7 +4,7 @@
 .wedge-modal {
 	&__header {
 		background-color: $wedge-primary-color;
-		padding: 16px 32px;
+		padding: 24px 32px;
 		color: white;
 		@media only screen and (max-width: 992px) {
 			padding: 16px;
@@ -18,7 +18,7 @@
 	&__footer {
 		background-color: #efefef;
 		border-top: 1px #d7dadb solid;
-		padding: 16px 32px;
+		padding: 24px 32px;
 		@media only screen and (max-width: 992px) {
 			padding: 16px;
 		}
@@ -46,8 +46,8 @@
 		}
 
 		&__close {
-			font-size: 32px;
-			font-weight: normal;
+			width: 20px;
+			height: 20px;
 			cursor: pointer;
 		}
 	}

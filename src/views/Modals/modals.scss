@@ -67,11 +67,16 @@
 				font-weight: normal;
 				color: $wedge-blue-gray;
 			}
+			.type-icon--container {
+				width: 48px;
+			}
+
 			.type-icon {
 				max-width: 24px;
 				max-height: 24px;
 				margin-right: 24px;
 			}
+
 			.icon {
 				max-height: 32px;
 				color: #7f97a0;
@@ -86,8 +91,8 @@
 			opacity: 0.2;
 
 			&-horizontal {
-				margin-top: 16px;
-				margin-bottom: 16px;
+				margin-top: 32px;
+				margin-bottom: 32px;
 				height: 1px;
 				width: 100%;
 			}

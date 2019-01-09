@@ -53,16 +53,20 @@ class Objects extends Component {
 		})
 	}
 
-	openEditModal = () => {
+	openEditModal = item => {
 		this.setState({
-			editModalOpened: true,
-			detailModalOpened: false
+			detailsOf: item || this.state.detailsOf,
+			keepDetailsOpened: this.state.detailModalOpened,
+			detailModalOpened: false,
+			editModalOpened: true
 		})
 	}
 
 	closeEditModal = () => {
 		this.setState({
-			editModalOpened: false
+			editModalOpened: false,
+			detailModalOpened: this.state.keepDetailsOpened,
+			keepDetailsOpened: false
 		})
 	}
 
@@ -142,6 +146,7 @@ class Objects extends Component {
 				key={`objects-table-item-${item.id}-${item.name}`}
 				responsive={matches}
 				data={item}
+				onEdit={() => this.openEditModal(item)}
 				onDetails={() => this.openDetailsModal(item)}
 			/>
 		))
