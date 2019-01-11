@@ -16,6 +16,25 @@
 			padding-bottom: 32px;
 		}
 
+		.policy__counter {
+			position: absolute;
+			width: 20px;
+			height: 20px;
+			background-color: $wedge-primary-blue;
+			border-radius: 12px;
+			top: -10px;
+			left: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			span {
+				color: white;
+				font-size: 12px;
+				line-height: 1;
+				margin: 0;
+			}
+		}
+
 		.field {
 			flex: 1;
 			align-content: center;
@@ -150,7 +169,7 @@
 			}
 
 			&__info {
-				.objectinfo {
+				.policyinfo {
 					@extend .flex-column;
 					display: flex;
 					align-items: flex-start;
@@ -191,11 +210,18 @@
 						height: 16px;
 						font-size: 16px;
 					}
-					&__type-container {
+					&__time-container {
 						@extend .flex-row;
 						justify-content: center;
 						align-items: center;
-						margin-top: 2px;
+						margin-top: 8px;
+						.divider {
+							height: 14px;
+							width: 1px;
+							margin-left: 8px;
+							margin-right: 8px;
+							background-color: #eaeaea;
+						}
 						img {
 							margin-right: 8px;
 						}
@@ -204,14 +230,25 @@
 			}
 			&__source,
 			&__destination {
-				text-align: center;
+				text-align: start;
 			}
 			&__service,
 			&__application {
 				text-transform: capitalize;
 				display: flex;
-				align-items: center;
+				align-items: flex-start;
 				justify-content: center;
+				flex-direction: column;
+
+				.single-service,
+				.single-application {
+					min-height: 40px;
+					display: flex;
+					flex-direction: row;
+					align-items: flex-start;
+					justify-content: center;
+					margin-bottom: 8px;
+				}
 			}
 			&__status {
 				display: flex;
