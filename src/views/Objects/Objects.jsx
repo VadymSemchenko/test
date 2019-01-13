@@ -117,7 +117,7 @@ class Objects extends Component {
 			const Survey = OBJECT_TYPES_CONFIG.find(
 				el => el.name === this.state.currentType
 			).createComponent
-			return <Survey onAdd={this.onAdd} />
+			return <Survey onFinish={this.onAdd} />
 		} else {
 			return <NewObjectType onTypeChoose={this.onTypeChoose} />
 		}

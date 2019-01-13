@@ -1,4 +1,5 @@
 import {
+	APPEND_NEW_SERVICE,
 	FETCHING_ECOSYSTEMS_FAILURE,
 	FETCHING_ECOSYSTEMS_REQUESTED,
 	FETCHING_ECOSYSTEMS_SUCCESS,
@@ -30,6 +31,16 @@ export function fetchingEcosystemsFailure(err) {
 		type: FETCHING_ECOSYSTEMS_FAILURE,
 		payload: {
 			message: err
+		}
+	}
+}
+
+export function appendNewService(service, ecosystem) {
+	return {
+		type: APPEND_NEW_SERVICE,
+		payload: {
+			ecosystem,
+			service
 		}
 	}
 }

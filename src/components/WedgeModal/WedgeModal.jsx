@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import Modal from 'react-modal'
-import './wedge-modal.scss'
 import { CLOSE } from '../../assets/Icons'
+import './wedge-modal.scss'
 
 const customStyles = {
 	content: {
@@ -30,12 +30,32 @@ const customStyles = {
 	}
 }
 
+function getStyles(size) {
+	switch (size) {
+		case 'small':
+			return {
+				overlay: customStyles.overlay,
+				content: {
+					...customStyles.content,
+					width: '40%',
+					minWidth: '350px',
+					maxWidth: '100%',
+					maxHeight: '600px'
+				}
+			}
+		case 'normal':
+		default:
+			return customStyles
+	}
+}
+
 export default function WedgeModal({
 	isOpen,
 	onClose,
 	afterOpen,
 	children,
 	footer,
+	size,
 	additionalAction = false,
 	title = 'Example title'
 }) {
@@ -45,7 +65,7 @@ export default function WedgeModal({
 			shouldCloseOnOverlayClick={false}
 			onAfterOpen={afterOpen}
 			onRequestClose={onClose}
-			style={customStyles}
+			style={getStyles(size)}
 		>
 			<div className={'wedge-modal'}>
 				<div className={'wedge-modal__header header'}>
@@ -74,6 +94,10 @@ export default function WedgeModal({
 	)
 }
 
+WedgeModal.defaultProps = {
+	size: 'normal'
+}
+
 WedgeModal.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
@@ -81,5 +105,6 @@ WedgeModal.propTypes = {
 	children: PropTypes.element,
 	footer: PropTypes.element,
 	title: PropTypes.string,
-	additionalAction: PropTypes.object
+	additionalAction: PropTypes.object,
+	size: PropTypes.oneOf(['small', 'normal'])
 }

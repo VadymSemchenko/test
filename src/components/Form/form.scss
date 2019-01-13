@@ -10,6 +10,9 @@
 			@extend .flex-column;
 			justify-content: center;
 		}
+		&.full {
+			width: 100%;
+		}
 		&.self {
 			max-width: fit-content !important;
 		}
@@ -18,7 +21,6 @@
 		font-size: 14px;
 		font-weight: 600;
 		color: $wedge-blue-gray;
-		opacity: 0.5;
 	}
 	&__input {
 		font-size: 14px;
@@ -28,7 +30,7 @@
 		margin-bottom: 16px;
 		background-color: transparent;
 		border: 0;
-		border-bottom: 1px #f3f3f3 solid;
+		border-bottom: 1px #ededed solid;
 		padding: 4px 8px;
 
 		&::placeholder {
@@ -46,7 +48,7 @@
 		margin-bottom: 16px;
 		background-color: transparent;
 		border: 0;
-		border-bottom: 1px #f3f3f3 solid;
+		border-bottom: 1px #ededed solid;
 		padding: 4px 0;
 	}
 

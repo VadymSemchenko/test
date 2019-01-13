@@ -59,9 +59,7 @@ class Sidebar extends Component {
 									return (
 										<React.Fragment key={key}>
 											<li>
-												<a href={'#'} className={'nav-link root'}>
-													{' '}
-													{/*eslint-disable-line jsx-a11y/anchor-is-valid*/}
+												<a href={'#'} className={'nav-link root'}>{/*eslint-disable-line jsx-a11y/anchor-is-valid*/}
 													{prop.iconImage && (
 														<img
 															className={'small-image'}
