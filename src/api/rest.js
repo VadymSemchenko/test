@@ -23,6 +23,8 @@ if (process.env.REACT_APP_ENABLE_MOCK) {
 		.reply(200, list)
 		.onGet('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/policies')
 		.reply(200, policiesList)
+		.onPost('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/policies')
+		.reply(400, {})
 		.onPost('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/services')
 		.reply(201, newService)
 		.onPost('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/objects')
@@ -60,6 +62,12 @@ export function updateObject(object) {
 export function createService(service, ecosystem) {
 	return rest
 		.post(`/ecosystems/${ecosystem}/services`, service)
+		.then(response => response.data)
+}
+
+export function createPolicy(policy, ecosystem) {
+	return rest
+		.post(`/ecosystems/${ecosystem}/policies`, policy)
 		.then(response => response.data)
 }
 

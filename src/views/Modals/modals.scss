@@ -104,6 +104,25 @@
 			border-color: darken(#36cb98, 5%);
 		}
 
+		&.new-policy-survey {
+			.add-button {
+				margin-right: 8px;
+			}
+			.policy--application_single,
+			.policy--services_single {
+				@extend .flex-row;
+				margin: 8px 0;
+				justify-content: space-between;
+				.red-delete-icon {
+					font-size: 20px;
+					margin-right: 8px;
+					color: red;
+					font-weight: bold;
+					cursor: pointer;
+				}
+			}
+		}
+
 		&.new-gateway-survey {
 			.ip-form-divider {
 				margin-left: 16px;

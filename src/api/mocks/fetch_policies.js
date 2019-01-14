@@ -21,8 +21,8 @@ export const policiesList = [
 			},
 			{
 				id: '123131231',
-				name: 'Service #1',
-				protocol: 'HTTP',
+				name: 'Service #2',
+				protocol: 'TCP',
 				port: 389
 			}
 		],
