@@ -12,6 +12,7 @@ import {
 	createLoadingSelector
 } from '../../store/utils/selectors'
 import CreateNewService from '../Modals/CreateNewService'
+import NewPolicySurvey from '../Modals/NewPolicySurvey'
 import PolicyTableItem from './components/PolicyTableItem/PolicyTableItem'
 import SearchBar from './components/SearchBar/SearchBar'
 import {
@@ -102,7 +103,7 @@ class Security extends Component {
 	}
 
 	renderCreationModal = () => {
-		return null //<Survey onAdd={ this.onAdd }/>
+		return <NewPolicySurvey onFinish={newPolicy => this.onAdd(newPolicy)} />
 	}
 
 	onAdd = entity => {

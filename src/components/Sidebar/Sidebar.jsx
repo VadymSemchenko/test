@@ -59,7 +59,14 @@ class Sidebar extends Component {
 									return (
 										<React.Fragment key={key}>
 											<li>
-												<a href={'#'} className={'nav-link root'}>{/*eslint-disable-line jsx-a11y/anchor-is-valid*/}
+												<NavLink
+													to={prop.paths[0].path.replace(
+														':id',
+														this.props.ecosystem
+													)}
+													className={'nav-link root'}
+												>
+													{/*eslint-disable-line jsx-a11y/anchor-is-valid*/}
 													{prop.iconImage && (
 														<img
 															className={'small-image'}
@@ -69,7 +76,7 @@ class Sidebar extends Component {
 													)}
 													{!prop.iconImage && <i className={prop.icon} />}
 													<p>{prop.name}</p>
-												</a>
+												</NavLink>
 											</li>
 											{prop.paths.map((path, nestedKey) => {
 												return (

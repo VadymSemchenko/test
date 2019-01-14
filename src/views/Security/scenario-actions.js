@@ -1,6 +1,9 @@
 import * as REST from '../../api/rest'
 import { appendNewService } from '../../store/ecosystems/actions'
 import {
+	creationPolicyFailed,
+	creationPolicyStarted,
+	creationPolicySuccess,
 	fetchingPoliciesFailed,
 	fetchingPoliciesStarted,
 	fetchingPoliciesSuccess
@@ -22,15 +25,15 @@ export function fetchPolicies() {
 	}
 }
 
-export function createPolicy() {
-	return async () => {
+export function createPolicy(policy) {
+	return async (dispatch, getState) => {
 		try {
-			// const ecosystem = getState().ecosystems.currentEcosystem
-			// dispatch(creationObjectStarted())
-			// const objects = await REST.createObject(entity, type, ecosystem)
-			// dispatch(creationObjectSuccess(objects, ecosystem))
+			const ecosystem = getState().ecosystems.currentEcosystem
+			dispatch(creationPolicyStarted())
+			const createdPolicy = await REST.createPolicy(policy, ecosystem)
+			dispatch(creationPolicySuccess(createdPolicy, ecosystem))
 		} catch (err) {
-			// dispatch(creationObjectFailed(err))
+			dispatch(creationPolicyFailed(err))
 		}
 	}
 }
