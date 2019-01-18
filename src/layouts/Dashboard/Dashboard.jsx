@@ -30,7 +30,9 @@ class Dashboard extends Component {
 				<NotificationSystem style={style} />
 				<Sidebar {...this.props} />
 				<div id="main-panel" className="main-panel">
-					<Header {...this.props} />
+					<div className={'dashboard-navbar'}>
+						<Header {...this.props} />
+					</div>
 					<Switch>
 						{dashboardRoutes.map((prop, key) => {
 							if (prop.name === 'Notifications') {

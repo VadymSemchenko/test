@@ -56,9 +56,9 @@ class Header extends Component {
 
 	render() {
 		return (
-			<Navbar fluid>
+			<Navbar>
 				<Navbar.Header>
-					<Navbar.Brand>{this.getBrand()}</Navbar.Brand>
+					{/*<Navbar.Brand>{this.getBrand()}</Navbar.Brand>*/}
 					<Navbar.Toggle onClick={this.mobileSidebarToggle} />
 				</Navbar.Header>
 				<Navbar.Collapse>
