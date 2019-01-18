@@ -16,3 +16,12 @@ export { default as MENU_POLICIES } from './img/PNG/group-8.png'
 export { default as MENU_USERS } from './img/PNG/group-7.png'
 export { default as MENU_CONTENT } from './img/PNG/group-5.png'
 export { default as MENU_ELEMENTS } from './img/PNG/group-3.png'
+export { default as NAVBAR_SEARCH } from './img/PNG/group-46.png'
+export {
+	default as NAVBAR_NOTIFICATION_FAKE
+} from './img/PNG/group-44-fake.png'
+export { default as NAVBAR_USER } from './img/PNG/group-45.png'
+export { default as ICON_MORE } from './img/PNG/more.png'
+export { default as FAKE_CHART_UTIL } from './img/PNG/chart-1.png'
+export { default as FAKE_CHART_THREAT } from './img/PNG/chart-2.png'
+export { default as FAKE_CHART_DOWN } from './img/PNG/chart-3.png'
