@@ -37,7 +37,9 @@ class HeaderLinks extends Component {
 						eventKey={2}
 						href="#"
 						className={'navbar-item last'}
-						onClick={() => this.props.history.push('/login')}
+						onClick={() =>
+							this.props.history.push('/login', { from: this.props.location })
+						}
 					>
 						<div className={'flex-row nav-profile'}>
 							<img

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { authReducer } from './store/auth/reducer'
 import { ecosystemsReducer } from './store/ecosystems/reducer'
 import errorReducer from './store/errors/reducer'
 import loadingReducer from './store/loading/reducer'
@@ -7,6 +8,7 @@ import { policyReducer } from './store/policies/reducer'
 import { reportsReducer } from './store/reports'
 
 export default combineReducers({
+	auth: authReducer,
 	reports: reportsReducer,
 	ecosystems: ecosystemsReducer,
 	objects: objectsReducer,

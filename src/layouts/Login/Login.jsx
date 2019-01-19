@@ -19,13 +19,15 @@ class Login extends Component {
 	handleSubmit = e => {
 		e.preventDefault()
 		const data = new FormData(e.target)
+		const { from } = this.props.location.state || { from: { pathname: '/' } }
 
 		const email = data.get('email')
 		const password = data.get('password')
-		this.props.login({ email, password }, this.props.location.state)
+		this.props.login({ email, password }, from)
 	}
 
 	render() {
+		console.log(this.props.error)
 		return (
 			<div className="login-page">
 				<div className={'login-page--header header'}>
