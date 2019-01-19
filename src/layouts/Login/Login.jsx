@@ -36,10 +36,8 @@ class Login extends Component {
 				<div className={'login-page--content'}>
 					<div className={'login-form'}>
 						<h2 className={'title'}>Log in</h2>
-						{true && (
-							<div className={'alert alert-danger'}>
-								Your password is incorrect!
-							</div>
+						{this.props.error && (
+							<div className={'alert alert-danger'}>{this.props.error}</div>
 						)}
 						<form onSubmit={this.handleSubmit}>
 							<div className={'input-container'}>
@@ -93,8 +91,8 @@ Login.defaultProps = {
 	isLoading: false
 }
 
-const loadingSelector = createLoadingSelector(['AUTH_LOGIN'])
-const errorSelector = createErrorMessageSelector(['AUTH_LOGIN'])
+const loadingSelector = createLoadingSelector(['LOGIN'])
+const errorSelector = createErrorMessageSelector(['LOGIN'])
 
 const mapStateToProps = state => {
 	return {
