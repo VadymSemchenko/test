@@ -1,6 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { Router, Route, Switch } from 'react-router-dom'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import Dashboard from './layouts/Dashboard/Dashboard'
 import Ecosystems from './layouts/Ecosystems/Ecosystems'
 import history from './history'
@@ -15,8 +16,8 @@ export default function App() {
 		<Provider store={store}>
 			<Router history={history}>
 				<Switch>
-					<Route path={'/'} exact component={Ecosystems} />
-					<Route path={'/ecosystems'} component={Dashboard} />
+					<ProtectedRoute path={'/'} exact component={Ecosystems} />
+					<ProtectedRoute path={'/ecosystems'} component={Dashboard} />
 					<Route path={'/login'} component={Login} />
 				</Switch>
 			</Router>

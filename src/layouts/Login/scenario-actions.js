@@ -12,11 +12,7 @@ export function login(credentials, redirect) {
 			dispatch(loginStarted())
 			const loginResult = await REST.login(credentials)
 			dispatch(loginSuccess(loginResult))
-			if (redirect) {
-				history.push(redirect)
-			} else {
-				history.goBack()
-			}
+			history.push(redirect)
 		} catch (err) {
 			dispatch(loginFailed(err))
 		}
