@@ -27,6 +27,7 @@ class Login extends Component {
 	}
 
 	render() {
+		console.log(this.props.error)
 		return (
 			<div className="login-page">
 				<div className={'login-page--header header'}>

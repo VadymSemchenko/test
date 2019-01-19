@@ -7,7 +7,11 @@ export const createLoadingSelector = actions => state => {
 export const createErrorMessageSelector = actions => state => {
 	return (
 		_(actions)
-			.map(action => _.get(state, `error.${action}`))
+			.map(action => _.get(state, `errors.${action}`))
+			.map(trololo => {
+				console.log(trololo)
+				return trololo
+			})
 			.compact()
 			.first() || ''
 	)
