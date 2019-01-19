@@ -4,6 +4,7 @@ import { Router, Route, Switch } from 'react-router-dom'
 import Dashboard from './layouts/Dashboard/Dashboard'
 import Ecosystems from './layouts/Ecosystems/Ecosystems'
 import history from './history'
+import Login from './layouts/Login/Login'
 import configureStore from './store'
 import './reset.scss'
 
@@ -16,6 +17,7 @@ export default function App() {
 				<Switch>
 					<Route path={'/'} exact component={Ecosystems} />
 					<Route path={'/ecosystems'} component={Dashboard} />
+					<Route path={'/login'} component={Login} />
 				</Switch>
 			</Router>
 		</Provider>

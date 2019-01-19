@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Nav, NavItem } from 'react-bootstrap'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 import {
 	NAVBAR_NOTIFICATION_FAKE,
 	NAVBAR_SEARCH,
@@ -32,7 +33,12 @@ class HeaderLinks extends Component {
 							/>
 						</div>
 					</NavItem>
-					<NavItem eventKey={2} href="#" className={'navbar-item last'}>
+					<NavItem
+						eventKey={2}
+						href="#"
+						className={'navbar-item last'}
+						onClick={() => this.props.history.push('/login')}
+					>
 						<div className={'flex-row nav-profile'}>
 							<img
 								src={NAVBAR_USER}
@@ -54,7 +60,10 @@ HeaderLinks.defaultProps = {
 }
 
 HeaderLinks.propTypes = {
-	showSearch: PropTypes.bool.isRequired
+	showSearch: PropTypes.bool.isRequired,
+	match: PropTypes.object.isRequired,
+	location: PropTypes.object.isRequired,
+	history: PropTypes.object.isRequired
 }
 
-export default HeaderLinks
+export default withRouter(HeaderLinks)
