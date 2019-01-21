@@ -1,9 +1,12 @@
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import humps from 'humps'
+import { LOCAL_ACCESS_TOKEN_KEY } from '../enums'
+import store from '../store'
+import { logoutUser, renewToken } from '../store/auth/actions'
 import ecosystemsExampleData from './mocks/fetch_ecosystems'
 import { list, newOne } from './mocks/fetch_objects'
-import { policiesList, newService } from './mocks/fetch_policies'
+import { newService, policiesList } from './mocks/fetch_policies'
 
 const rest = axios.create({
 	baseURL: process.env.REACT_APP_API_URL,
@@ -14,6 +17,20 @@ const rest = axios.create({
 	]
 })
 
+rest.interceptors.response.use(
+	response => {
+		store.dispatch(renewToken())
+		return response
+	},
+	error => {
+		if (error.status === 401) {
+			localStorage.removeItem(LOCAL_ACCESS_TOKEN_KEY)
+			store.dispatch(logoutUser())
+		}
+		return Promise.reject(error)
+	}
+)
+
 if (process.env.REACT_APP_ENABLE_MOCK) {
 	const mock = new MockAdapter(rest)
 	mock
@@ -22,7 +39,7 @@ if (process.env.REACT_APP_ENABLE_MOCK) {
 		.onGet('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/objects')
 		.reply(200, list)
 		.onGet('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/policies')
-		.reply(200, policiesList)
+		.reply(401, policiesList)
 		.onPost('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/policies')
 		.reply(400, {})
 		.onPost('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/services')

@@ -9,7 +9,7 @@ import Login from './layouts/Login/Login'
 import configureStore from './store'
 import './reset.scss'
 
-const store = configureStore()
+const store = configureStore
 
 export default function App() {
 	return (

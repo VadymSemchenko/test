@@ -35,12 +35,12 @@ export const OBJECT_TABLE_FIELDS = [
 ]
 
 export const POLICY_TABLE_FIELDS = [
-  { name: 'Policy', center: false },
-  { name: 'Source', center: false },
-  { name: 'Service', center: false },
-  { name: 'Application', center: false },
-  { name: 'Destination', center: false },
-  { name: 'Actions', center: false }
+	{ name: 'Policy', center: false },
+	{ name: 'Source', center: false },
+	{ name: 'Service', center: false },
+	{ name: 'Application', center: false },
+	{ name: 'Destination', center: false },
+	{ name: 'Actions', center: false }
 ]
 
 export const PROFILE_GROUPS = [
@@ -176,3 +176,6 @@ export const ADDRESS_TYPES_OPTIONS = [
 	{ value: ADDRESS_TYPE.INTERNAL, label: 'Internal' },
 	{ value: ADDRESS_TYPE.EXTERNAL, label: 'External' }
 ]
+
+export const LOCAL_ACCESS_TOKEN_KEY = 'wedge_access_token'
+export const LOCAL_ACCESS_TOKEN_EXPIRY_TIME = 'wedge_token_expiry_time'

@@ -1,4 +1,10 @@
-import { LOGIN_FAILURE, LOGIN_REQUESTED, LOGIN_SUCCESS } from './action-types'
+import {
+	LOGIN_FAILURE,
+	LOGIN_REQUESTED,
+	LOGIN_SUCCESS,
+	LOGOUT_USER,
+	RENEW_TOKEN
+} from './action-types'
 
 export function loginStarted() {
 	return {
@@ -17,5 +23,17 @@ export function loginFailed(err) {
 	return {
 		type: LOGIN_FAILURE,
 		payload: err
+	}
+}
+
+export function logoutUser() {
+	return {
+		type: LOGOUT_USER
+	}
+}
+
+export function renewToken() {
+	return {
+		type: RENEW_TOKEN
 	}
 }
