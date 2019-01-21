@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Navbar } from 'react-bootstrap'
 import { Route, Switch } from 'react-router-dom'
 import logo from '../../assets/img/PNG/Acreto_Logo.png'
+import ExpiryWarning from '../../components/ExpiryWarning/ExpiryWarning'
 import HeaderLinks from '../../components/Header/HeaderLinks'
 import EcosystemsPage from '../../views/Ecosystems/Ecosystems'
 import './ecosystems.scss'
@@ -81,6 +82,7 @@ class Ecosystems extends Component {
 	render() {
 		return (
 			<div className="wrapper ecosystems-wrapper">
+				<ExpiryWarning />
 				{this.renderNavbar()}
 				{this.renderContent()}
 			</div>

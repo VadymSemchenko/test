@@ -1,23 +1,59 @@
-import { LOGIN_FAILURE, LOGIN_SUCCESS } from './action-types'
+import moment from 'moment'
+import {
+	LOCAL_ACCESS_TOKEN_EXPIRY_TIME,
+	LOCAL_ACCESS_TOKEN_KEY
+} from '../../enums'
+import {
+	LOGIN_FAILURE,
+	LOGIN_SUCCESS,
+	LOGOUT_USER,
+	RENEW_TOKEN
+} from './action-types'
+
+const expiryTimeFromStorage = localStorage.getItem(
+	LOCAL_ACCESS_TOKEN_EXPIRY_TIME
+)
 
 const initialState = {
-	isAuthenticated: false,
-	token: ''
+	isAuthenticated:
+		localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY) !== null &&
+		expiryTimeFromStorage !== null &&
+		moment(expiryTimeFromStorage).isAfter(),
+	tokenExpireAt:
+		expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter()
 }
 
 export function authReducer(state = initialState, { type, payload }) {
 	switch (type) {
 		case LOGIN_FAILURE:
+			localStorage.removeItem(LOCAL_ACCESS_TOKEN_KEY)
 			return {
 				...state,
-				isAuthenticated: false,
-				token: ''
+				isAuthenticated: false
 			}
 		case LOGIN_SUCCESS:
+			localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, payload.accessToken)
 			return {
 				...state,
 				isAuthenticated: true,
-				token: payload.accessToken
+				tokenExpireAt: moment()
+					.add(process.env.REACT_APP_TOKEN_EXPIRATION_TIME, 'minutes')
+					.toISOString()
+			}
+		case LOGOUT_USER:
+			return {
+				...state,
+				isAuthenticated: false
+			}
+		case RENEW_TOKEN:
+			// eslint-disable-next-line no-case-declarations
+			const expiryTime = moment()
+				.add(process.env.REACT_APP_TOKEN_EXPIRATION_TIME, 'minutes')
+				.toISOString()
+			localStorage.setItem(LOCAL_ACCESS_TOKEN_EXPIRY_TIME, expiryTime)
+			return {
+				...state,
+				tokenExpireAt: expiryTime
 			}
 		default:
 			return state

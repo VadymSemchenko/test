@@ -13,7 +13,9 @@ if (process.env.NODE_ENV === `development`) {
 	middlewares.push(logger)
 }
 
-export default (initialState = {}) => {
+const configureStore = (initialState = {}) => {
 	const middleware = applyMiddleware(...middlewares)
 	return createStore(reducers, initialState, middleware)
 }
+
+export default configureStore()

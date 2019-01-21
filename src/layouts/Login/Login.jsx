@@ -27,7 +27,6 @@ class Login extends Component {
 	}
 
 	render() {
-		console.log(this.props.error)
 		return (
 			<div className="login-page">
 				<div className={'login-page--header header'}>
@@ -44,7 +43,11 @@ class Login extends Component {
 						<form onSubmit={this.handleSubmit}>
 							<div className={'input-container'}>
 								<div className={'icon-container'}>
-									<img src={LOGIN_EMAIL} className={'input-icon'} />
+									<img
+										src={LOGIN_EMAIL}
+										className={'input-icon'}
+										alt={'input-icon'}
+									/>
 								</div>
 								<input
 									name={'email'}
@@ -55,7 +58,11 @@ class Login extends Component {
 							</div>
 							<div className={'input-container'}>
 								<div className={'icon-container'}>
-									<img src={LOGIN_PASSWORD} className={'input-icon'} />
+									<img
+										src={LOGIN_PASSWORD}
+										className={'input-icon'}
+										alt={'input-icon'}
+									/>
 								</div>
 								<input
 									name={'password'}
@@ -74,7 +81,7 @@ class Login extends Component {
 				</div>
 
 				<div className={'login-page--footer footer'}>
-					<img src={LOGIN_FOOTER} className={'footer--image'} />
+					<img src={LOGIN_FOOTER} className={'footer--image'} alt={'footer'} />
 				</div>
 			</div>
 		)
