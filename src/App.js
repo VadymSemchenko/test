@@ -18,7 +18,7 @@ export default function App() {
 				<Switch>
 					<ProtectedRoute path={'/'} exact component={Ecosystems} />
 					<ProtectedRoute path={'/ecosystems'} component={Dashboard} />
-					<Route path={'/login'} component={Login} />
+					<Route path={'/auth'} component={Login} />
 				</Switch>
 			</Router>
 		</Provider>
