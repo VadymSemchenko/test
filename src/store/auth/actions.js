@@ -3,7 +3,8 @@ import {
 	LOGIN_REQUESTED,
 	LOGIN_SUCCESS,
 	LOGOUT_USER,
-	RENEW_TOKEN
+	RENEW_TOKEN,
+	SET_CUSTOMER
 } from './action-types'
 
 export function loginStarted() {
@@ -35,5 +36,12 @@ export function logoutUser() {
 export function renewToken() {
 	return {
 		type: RENEW_TOKEN
+	}
+}
+
+export function setCustomer(customer) {
+	return {
+		type: SET_CUSTOMER,
+		payload: customer
 	}
 }

@@ -7,7 +7,8 @@ import {
 	LOGIN_FAILURE,
 	LOGIN_SUCCESS,
 	LOGOUT_USER,
-	RENEW_TOKEN
+	RENEW_TOKEN,
+	SET_CUSTOMER
 } from './action-types'
 
 const expiryTimeFromStorage = localStorage.getItem(
@@ -20,7 +21,9 @@ const initialState = {
 		expiryTimeFromStorage !== null &&
 		moment(expiryTimeFromStorage).isAfter(),
 	tokenExpireAt:
-		expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter()
+		expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),
+	customers: [],
+	selectedCustomer: null
 }
 
 export function authReducer(state = initialState, { type, payload }) {
@@ -29,7 +32,9 @@ export function authReducer(state = initialState, { type, payload }) {
 			localStorage.removeItem(LOCAL_ACCESS_TOKEN_KEY)
 			return {
 				...state,
-				isAuthenticated: false
+				isAuthenticated: false,
+				selectedCustomer: null,
+				customers: []
 			}
 		case LOGIN_SUCCESS:
 			localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, payload.accessToken)
@@ -38,12 +43,24 @@ export function authReducer(state = initialState, { type, payload }) {
 				isAuthenticated: true,
 				tokenExpireAt: moment()
 					.add(process.env.REACT_APP_TOKEN_EXPIRATION_TIME, 'minutes')
-					.toISOString()
+					.toISOString(),
+				customers: [
+					{
+						id: 1,
+						name: 'Test #1'
+					},
+					{
+						id: 2,
+						name: 'Test #2'
+					}
+				]
 			}
 		case LOGOUT_USER:
 			return {
 				...state,
-				isAuthenticated: false
+				isAuthenticated: false,
+				selectedCustomer: null,
+				customers: []
 			}
 		case RENEW_TOKEN:
 			// eslint-disable-next-line no-case-declarations
@@ -54,6 +71,11 @@ export function authReducer(state = initialState, { type, payload }) {
 			return {
 				...state,
 				tokenExpireAt: expiryTime
+			}
+		case SET_CUSTOMER:
+			return {
+				...state,
+				selectedCustomer: payload
 			}
 		default:
 			return state

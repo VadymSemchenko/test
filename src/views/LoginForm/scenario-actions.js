@@ -12,7 +12,7 @@ export function login(credentials, redirect) {
 			dispatch(loginStarted())
 			const loginResult = await REST.login(credentials)
 			dispatch(loginSuccess(loginResult))
-			history.push(redirect)
+			history.push('/auth/customers', { from: redirect })
 		} catch (err) {
 			dispatch(loginFailed(err))
 		}

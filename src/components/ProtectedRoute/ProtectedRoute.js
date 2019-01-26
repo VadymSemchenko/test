@@ -15,7 +15,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
 					<Redirect
 						push
 						to={{
-							pathname: '/login',
+							pathname: '/auth/login',
 							state: { from: props.location }
 						}}
 					/>
