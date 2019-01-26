@@ -12,6 +12,7 @@ class FormGroup extends React.PureComponent {
 			center = false,
 			full = false,
 			self = false,
+			required = false,
 			...rest
 		} = this.props
 		return (
@@ -20,7 +21,10 @@ class FormGroup extends React.PureComponent {
 					full ? 'full' : ''
 				} ${self ? 'self' : ''} ${rest.extraClass || ''}`}
 			>
-				<p className={'form__label'}>{label}</p>
+				<p className={'form__label'}>
+					{label}
+					{required && <span className={'asterisk'}>*</span>}
+				</p>
 				{children}
 			</div>
 		)
@@ -32,7 +36,8 @@ FormGroup.propTypes = {
 	label: PropTypes.string,
 	center: PropTypes.bool,
 	full: PropTypes.bool,
-	self: PropTypes.bool
+	self: PropTypes.bool,
+	required: PropTypes.bool
 }
 
 class TextInput extends React.PureComponent {
@@ -73,7 +78,7 @@ class ToggleButton extends React.PureComponent {
 	render() {
 		const { selectedClass, selected, onChange, options } = this.props
 		return (
-			<ButtonGroup>
+			<ButtonGroup className={'space-above'}>
 				{options.map(opt => (
 					<Button
 						key={`toggle-button-index-key-${opt.value}-${opt.name}`}
@@ -102,15 +107,23 @@ const colourStyles = {
 	control: styles => ({
 		...styles,
 		backgroundColor: 'white',
-		borderWidth: 0
+		paddingLeft: 0,
+		boxShadow: 'none',
+		'&:hover': { borderColor: '#f68b1e' },
+		border: '1px solid transparent'
 	}),
 	indicatorSeparator: styles => ({
 		...styles,
 		width: 0
 	}),
+	menuContainerStyle: styles => ({
+		...styles,
+
+		zIndex: 50005
+	}),
 	menu: styles => ({
 		...styles,
-		zIndex: 1001
+		zIndex: 101
 	})
 }
 

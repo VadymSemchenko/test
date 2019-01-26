@@ -9,15 +9,15 @@ const customStyles = {
 		top: '50%',
 		left: '50%',
 		width: '60%',
-		minWidth: '350px',
-		maxWidth: '100%',
-		maxHeight: '600px',
 		right: 'auto',
 		bottom: 'auto',
 		marginRight: '-50%',
 		transform: 'translate(-50%, -50%)',
 		padding: '0px',
-		border: '0px'
+		border: '0px',
+		minWidth: '350px',
+		maxWidth: '100%',
+		maxHeight: '600px'
 	},
 	overlay: {
 		position: 'fixed',
@@ -32,15 +32,20 @@ const customStyles = {
 
 function getStyles(size) {
 	switch (size) {
+		case 'big':
+			return {
+				overlay: customStyles.overlay,
+				content: {
+					...customStyles.content,
+					width: '80%'
+				}
+			}
 		case 'small':
 			return {
 				overlay: customStyles.overlay,
 				content: {
 					...customStyles.content,
-					width: '40%',
-					minWidth: '350px',
-					maxWidth: '100%',
-					maxHeight: '600px'
+					width: '40%'
 				}
 			}
 		case 'normal':
@@ -106,5 +111,5 @@ WedgeModal.propTypes = {
 	footer: PropTypes.element,
 	title: PropTypes.string,
 	additionalAction: PropTypes.object,
-	size: PropTypes.oneOf(['small', 'normal'])
+	size: PropTypes.oneOf(['small', 'normal', 'big'])
 }

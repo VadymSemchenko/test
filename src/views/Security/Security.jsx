@@ -27,7 +27,7 @@ Modal.setAppElement('#modal-root')
 
 class Security extends Component {
 	state = {
-		createModalOpened: false,
+		createModalOpened: true,
 		detailModalOpened: false,
 		editModalOpened: false,
 		serviceModalOpened: false,
@@ -159,6 +159,7 @@ class Security extends Component {
 					isOpen={this.state.createModalOpened}
 					onClose={this.closeCreateModal}
 					title={'Create new policy'}
+					size={'big'}
 				>
 					{this.renderCreationModal()}
 				</WedgeModal>

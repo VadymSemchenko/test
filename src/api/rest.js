@@ -39,7 +39,7 @@ if (process.env.REACT_APP_ENABLE_MOCK) {
 		.onGet('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/objects')
 		.reply(200, list)
 		.onGet('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/policies')
-		.reply(401, policiesList)
+		.reply(200, policiesList)
 		.onPost('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/policies')
 		.reply(400, {})
 		.onPost('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/services')
