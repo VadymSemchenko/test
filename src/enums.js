@@ -177,5 +177,26 @@ export const ADDRESS_TYPES_OPTIONS = [
 	{ value: ADDRESS_TYPE.EXTERNAL, label: 'External' }
 ]
 
+export const ACTION_TYPES = {
+	ALLOW: 0,
+	DROP: 1,
+	REJECT: 2
+}
+
+export const ACTION_TYPES_OPTIONS = [
+	{ value: ACTION_TYPES.ALLOW, label: 'Allow' },
+	{ value: ACTION_TYPES.DROP, label: 'Drop' },
+	{ value: ACTION_TYPES.REJECT, label: 'Reject' }
+]
+
+export const MOCK_OPTIONS = [
+	{ value: 0, label: 'I' },
+	{ value: 1, label: 'need' },
+	{ value: 2, label: 'someone' },
+	{ value: 3, label: 'to' },
+	{ value: 4, label: 'define' },
+	{ value: 5, label: 'options' }
+]
+
 export const LOCAL_ACCESS_TOKEN_KEY = 'wedge_access_token'
 export const LOCAL_ACCESS_TOKEN_EXPIRY_TIME = 'wedge_token_expiry_time'

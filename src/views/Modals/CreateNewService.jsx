@@ -76,9 +76,6 @@ class CreateNewService extends React.Component {
 						</Button>
 					</div>
 				</div>
-				{/*<div className={ 'wedge-modal__footer' }>*/}
-				{/**/}
-				{/*</div>*/}
 			</React.Fragment>
 		)
 	}

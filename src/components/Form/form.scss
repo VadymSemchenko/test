@@ -1,5 +1,6 @@
 @import '../../assets/sass/common.scss';
 @import '../../assets/sass/lbd/variables.scss';
+@import '../../assets/sass/lbd/mixins/vendor-prefixes';
 
 .form {
 	&__group {
@@ -21,6 +22,11 @@
 		font-size: 14px;
 		font-weight: 600;
 		color: $wedge-blue-gray;
+
+		.asterisk {
+			margin-left: 4px;
+			color: #ec2238;
+		}
 	}
 	&__input {
 		font-size: 14px;
@@ -32,7 +38,8 @@
 		background-color: transparent;
 		border: 0;
 		border-bottom: 1px #ededed solid;
-		padding: 4px 8px;
+		padding: 4px 8px 4px 0;
+		@include transition(0.3s, $transition-ease);
 
 		&::placeholder {
 			color: #d3d7d8;
@@ -41,6 +48,10 @@
 		}
 		&.multiline {
 			word-break: break-word;
+		}
+		&:focus {
+			border-bottom: 2px $wedge-primary-orange solid;
+			outline: 0;
 		}
 	}
 	&__select {
