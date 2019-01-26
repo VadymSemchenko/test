@@ -25,7 +25,7 @@ class CustomersForm extends Component {
 								<React.Fragment key={`customer-index-${index}-${customer.id}`}>
 									<div
 										className={`single-customer`}
-										onClick={customer => this.handleSelectCustomer(customer)}
+										onClick={() => this.handleSelectCustomer(customer)}
 									>
 										<p className={`single-customer--name`}>{customer.id}</p>
 										<img
