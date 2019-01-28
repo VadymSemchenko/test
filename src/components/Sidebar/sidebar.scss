@@ -1,4 +1,5 @@
 @import '../../assets/sass/lbd/variables.scss';
+@import '../../assets/sass/common.scss';
 
 .sidebar.wedge {
 	.logo {
@@ -22,7 +23,7 @@
 	.sidebar-divider {
 		height: 1px;
 		margin: 0 32px;
-		background-color: #5a5c5b;
+		background-color: #e2eaed;
 	}
 	.ecosystem--name {
 		padding: 32px 32px 24px 32px;
@@ -104,6 +105,91 @@
 				width: 23px;
 				height: 18px;
 			}
+		}
+	}
+
+	.notifications {
+		flex-direction: column;
+
+		&--title-container {
+			width: 100%;
+			justify-content: space-between;
+		}
+		&--title {
+			font-size: 16px;
+			font-weight: 800;
+		}
+		&--chevron {
+			width: 11px;
+			height: 6px;
+		}
+		&--fullsize {
+			width: 13px;
+			height: 12px;
+		}
+		&--item {
+			@extend .centered-row;
+			flex: 1;
+			margin-top: 24px;
+			margin-bottom: 24px;
+		}
+		&--content {
+			font-size: 14px;
+			color: white;
+			margin-left: 12px;
+		}
+		&--arrow {
+			width: 8px;
+			height: 8px;
+		}
+	}
+	.status-info {
+		justify-content: space-between;
+		.equal {
+			flex: 1;
+		}
+		.right {
+			align-items: flex-end;
+		}
+		.divider {
+			width: 1px;
+			height: 38px;
+			background-color: #e2eaed;
+		}
+		&--good-value {
+			font-size: 24px;
+			font-weight: 900;
+			color: #29cc97;
+		}
+		&--bad-value {
+			font-size: 24px;
+			font-weight: 900;
+			color: #fa6884;
+		}
+		&--title {
+			font-size: 14px;
+			color: #f5f6f7;
+		}
+	}
+	.threat-index {
+		justify-content: space-between;
+		&--value {
+			color: $wedge-text-green;
+			font-size: 28px;
+			font-weight: 900;
+		}
+		&--image {
+			width: 14px;
+			height: 14px;
+			margin-left: 10px;
+		}
+		&--title {
+			font-size: 14px;
+			color: #f5f6f7;
+		}
+		&--chart {
+			width: 68px;
+			height: 53px;
 		}
 	}
 }

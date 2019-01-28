@@ -38,14 +38,14 @@ function BasicObjectInfo({ data, onClick }) {
 	const category = Translator.category(data.category)
 	return (
 		<div className={'objectinfo'}>
-			<div className={'objectinfo__button'} onClick={onClick}>
-				{data.id}
-				<img src={INFO} alt={'info-icon'} className={'small-icon'} />
-			</div>
 			<p className={'objectinfo__title normal strong'}>{data.name}</p>
 			<div className={'objectinfo__type-container'}>
 				<img src={TYPE_IOT} alt={'type-icon'} className={'small-icon'} />
 				<p className={'normal'}>{`${category.label} / ${type.label}`}</p>
+			</div>
+			<div className={'objectinfo__button'} onClick={onClick}>
+				{data.id}
+				<img src={INFO} alt={'info-icon'} className={'small-icon'} />
 			</div>
 		</div>
 	)

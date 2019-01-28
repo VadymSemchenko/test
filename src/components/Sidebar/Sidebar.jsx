@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types'
-
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import {
 	ACRETO_LOGO,
 	BACK_ARROW,
+	CHEVRON_DOWN_WHITE,
+	FAKE_CHART_SIDEBAR,
+	FULL_SIZE_ICON,
+	GREEN_TICK,
 	MENU_ADDRESS,
 	MENU_BADGE_CONTAINER,
 	MENU_CONTENT,
@@ -16,9 +19,9 @@ import {
 	MENU_POLICIES,
 	MENU_REPORT,
 	MENU_SECURITY,
-	MENU_USERS
+	MENU_USERS,
+	NOTIFICATIONS_ARROW_RIGHT
 } from '../../assets/Icons'
-
 import HeaderLinks from '../Header/HeaderLinks.jsx'
 import './sidebar.scss'
 
@@ -54,7 +57,7 @@ class Sidebar extends Component {
 							<img src={ACRETO_LOGO} alt="logo_image" />
 						</div>
 					</a>
-					<div className={'sidebar-divider'} />
+					<div className={'divider'} />
 				</div>
 				<div className="sidebar-wrapper">
 					<ul className="nav">
@@ -64,7 +67,7 @@ class Sidebar extends Component {
 								<img src={BACK_ARROW} className={'back-arrow'} />
 								<p className={'ecosystem--text'}>All Ecosystems</p>
 							</NavLink>
-							<div className={'ecosystem-divider'} />
+							<div className={'sidebar-divider'} />
 						</li>
 						<div className={'ecosystem--name'}>{this.props.ecosystem.name}</div>
 						<li>
@@ -257,20 +260,88 @@ class Sidebar extends Component {
 						</li>
 					</ul>
 					<div className={'sidebar-divider'} />
-					<div className={'sidebar-item'}>123</div>
+					<div className={'sidebar-item threat-index'}>
+						<div className={'flex-column'}>
+							<div className={'centered-row'}>
+								<p className={'threat-index--value'}>40</p>
+								<img
+									alt={'threat-indicator'}
+									src={GREEN_TICK}
+									className={'threat-index--image'}
+								/>
+							</div>
+							<p className={'threat-index--title'}>Threat Index</p>
+						</div>
+						<img
+							src={FAKE_CHART_SIDEBAR}
+							className={'threat-index--chart'}
+							alt={'threat-chart'}
+						/>
+					</div>
 					<div className={'sidebar-divider'} />
-					<div className={'sidebar-item'}>123</div>
+					<div className={'sidebar-item status-info'}>
+						<div className={'flex-column equal'}>
+							<p className={'status-info--good-value'}>15</p>
+							<p className={'status-info--title'}>Connected</p>
+						</div>
+						<div className={'divider'} />
+						<div className={'flex-column equal right'}>
+							<p className={'status-info--bad-value'}>345</p>
+							<p className={'status-info--title'}>Down</p>
+						</div>
+					</div>
 					<div className={'sidebar-divider'} />
-					<div className={'sidebar-item'}>123</div>
+					<div className={'sidebar-item notifications'}>
+						<div className={'centered-row notifications--title-container'}>
+							<p className={'notifications--title'}>Status notifications</p>
+							<img
+								src={CHEVRON_DOWN_WHITE}
+								className={'notifications--chevron'}
+								alt={'chevron-down'}
+							/>
+							<img
+								src={FULL_SIZE_ICON}
+								className={'notifications--fullsize'}
+								alt={'fullsize'}
+							/>
+						</div>
+						{this.props.notifications.map(not => (
+							<div
+								key={`notifications-index-${not.id}`}
+								className={'notifications--item'}
+							>
+								<img
+									src={NOTIFICATIONS_ARROW_RIGHT}
+									className={'notifications--arrow'}
+									alt={'arrow'}
+								/>
+								<p className={'notifications--content'}>{not.content}</p>
+							</div>
+						))}
+					</div>
 				</div>
 			</div>
 		)
 	}
 }
 
+Sidebar.defaultProps = {
+	notifications: [
+		{
+			id: 1,
+			content: 'Sed ut perspiciatis unde omnis'
+		},
+		{
+			id: 2,
+			content: 'Sed ut perspiciatis unde omnis'
+		}
+	]
+}
+
 Sidebar.propTypes = {
 	location: PropTypes.object.isRequired,
-	ecosystem: PropTypes.string.isRequired
+	ecosystem: PropTypes.string.isRequired,
+	notifications: PropTypes.array.isRequired
 }
 
 const mapStateToProps = state => {
