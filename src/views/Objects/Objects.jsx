@@ -227,7 +227,9 @@ const mapStateToProps = state => {
 const objectsSelector = state => {
 	const ecosystem = state.ecosystems.currentEcosystem
 	if (ecosystem) {
-		return state.objects[ecosystem] ? state.objects[ecosystem].objects : []
+		return state.objects[ecosystem.id]
+			? state.objects[ecosystem.id].objects
+			: []
 	}
 
 	return []

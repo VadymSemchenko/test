@@ -18,7 +18,7 @@ export function fetchObjects() {
 			dispatch(fetchingObjectsStarted())
 			const objects = await REST.fetchObjects({
 				customer: '',
-				ecosystem
+				ecosystem: ecosystem
 			})
 			dispatch(fetchingObjectsSuccess(objects, ecosystem))
 		} catch (err) {

@@ -36,8 +36,6 @@
 	}
 
 	.logo {
-		padding: 8px;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 		position: relative;
 		z-index: 4;
 
@@ -99,7 +97,7 @@
 		li {
 			> a {
 				color: #a1a1a1;
-				padding: 12px 20px;
+				padding: 12px 32px 12px 20px;
 				border-left: 4px transparent solid;
 				opacity: 0.86;
 			}
@@ -159,7 +157,6 @@
 .sidebar,
 body > .navbar-collapse {
 	.logo {
-		padding: 8px;
 		border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
 		p {

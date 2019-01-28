@@ -1,14 +1,74 @@
+@import '../../assets/sass/lbd/variables.scss';
+
 .sidebar.wedge {
+	.logo {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		background-color: #f9f9f9;
+		height: 110px;
+
+		.full-width {
+			flex: 1;
+		}
+
+		.divider {
+			height: 50px;
+			width: 1px;
+			background-color: #d0d4d6;
+		}
+	}
+	.ecosystem-divider {
+		height: 1px;
+		margin: 0 32px;
+		background-color: #5a5c5b;
+	}
+	.ecosystem--name {
+		padding: 32px 32px 24px 32px;
+		font-size: 18px;
+		color: white;
+	}
 	.nav-link {
+		display: flex;
+		align-items: center;
 		&.root {
 			cursor: pointer;
 		}
+		&.with-arrow {
+			justify-content: space-between;
+		}
+		.left-container {
+			display: flex;
+			align-items: center;
+		}
 		&.ecosystem {
-			border-bottom: 1px #5a5c5b solid;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
 			border-radius: 0;
+			padding: 32px;
 
 			p {
-				font-size: 16px;
+				font-size: 20px;
+				color: $wedge-brown;
+				&.ecosystem--text {
+					margin-left: 12px;
+				}
+			}
+		}
+		.back-arrow {
+			width: 20px;
+			height: 15px;
+		}
+		.small-image {
+			&.add {
+				margin-left: 8px;
+			}
+			&.down {
+				margin: 0 0 0 8px;
+				width: 9px;
+				height: 5px;
 			}
 		}
 	}
