@@ -7,6 +7,7 @@ import {
 	ACRETO_LOGO,
 	BACK_ARROW,
 	MENU_ADDRESS,
+	MENU_BADGE_CONTAINER,
 	MENU_CONTENT,
 	MENU_DOWN_ARROW,
 	MENU_ELEMENTS,
@@ -53,7 +54,7 @@ class Sidebar extends Component {
 							<img src={ACRETO_LOGO} alt="logo_image" />
 						</div>
 					</a>
-					<div className={'divider'} />
+					<div className={'sidebar-divider'} />
 				</div>
 				<div className="sidebar-wrapper">
 					<ul className="nav">
@@ -191,6 +192,14 @@ class Sidebar extends Component {
 									src={MENU_SECURITY}
 								/>
 								<p>Security</p>
+								<div className={'sidebar-badge'}>
+									<img
+										className={'sidebar-badge--container'}
+										alt={'Badge'}
+										src={MENU_BADGE_CONTAINER}
+									/>
+									<p className={'sidebar-badge--value'}>2</p>
+								</div>
 							</NavLink>
 						</li>
 						<li
@@ -207,7 +216,7 @@ class Sidebar extends Component {
 								activeClassName="active"
 							>
 								<img
-									className={'small-image'}
+									className={'small-image translations'}
 									alt={'Address Translations'}
 									src={MENU_ADDRESS}
 								/>
@@ -239,7 +248,7 @@ class Sidebar extends Component {
 								className={'nav-link root'}
 							>
 								<img
-									className={'small-image'}
+									className={'small-image users'}
 									alt={'Governance'}
 									src={MENU_GOVERNANCE}
 								/>
@@ -247,6 +256,12 @@ class Sidebar extends Component {
 							</NavLink>
 						</li>
 					</ul>
+					<div className={'sidebar-divider'} />
+					<div className={'sidebar-item'}>123</div>
+					<div className={'sidebar-divider'} />
+					<div className={'sidebar-item'}>123</div>
+					<div className={'sidebar-divider'} />
+					<div className={'sidebar-item'}>123</div>
 				</div>
 			</div>
 		)
