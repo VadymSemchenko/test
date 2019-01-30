@@ -41,7 +41,7 @@ class LoginForm extends Component {
 							<input
 								name={'email'}
 								placeholder={'Email'}
-								type={'email'}
+								// type={'email'}
 								required={true}
 							/>
 						</div>

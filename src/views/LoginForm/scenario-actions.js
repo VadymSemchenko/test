@@ -10,7 +10,10 @@ export function login(credentials, redirect) {
 	return async dispatch => {
 		try {
 			dispatch(loginStarted())
-			const loginResult = await REST.login(credentials)
+			const loginResult = await REST.login({
+				username: credentials.email,
+				password: credentials.password
+			})
 			dispatch(loginSuccess(loginResult))
 			history.push('/auth/customers', { from: redirect })
 		} catch (err) {
