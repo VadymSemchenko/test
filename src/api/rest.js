@@ -48,17 +48,10 @@ if (process.env.REACT_APP_ENABLE_MOCK) {
 		.reply(201, newOne)
 		.onPut('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/objects/2ewsvw234ewrdsf')
 		.reply(400)
-		.onPost('/auth/login', {
-			email: 'correct@acreto.io',
-			password: 'qweqweqwe'
-		})
-		.reply(200, {
-			accessToken: '123123-31321312-12312313'
-		})
 		.onPost('/auth/login')
-		.reply(400, {})
+		.passThrough()
 		.onAny()
-		.reply(400)
+		.passThrough()
 }
 
 export function fetchEcosystems() {
@@ -98,7 +91,7 @@ export function createPolicy(policy, ecosystem) {
 }
 
 export function login(credentials) {
-	return rest.post(`/auth/login`, credentials).then(response => response.data)
+	return rest.post(`v2/auth/login`, credentials).then(response => response.data)
 }
 
 // TODO: it's mocked
