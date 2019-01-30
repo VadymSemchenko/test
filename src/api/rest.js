@@ -48,9 +48,12 @@ if (process.env.REACT_APP_ENABLE_MOCK) {
 		.reply(201, newOne)
 		.onPut('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/objects/2ewsvw234ewrdsf')
 		.reply(400)
-		.onPost('/auth/login')
-		.passThrough()
-		.onAny()
+		.onPost('/v2/auth/login', {
+			username: 'correct@acreto.io',
+			password: 'qweqweqwe'
+		})
+		.reply(200, { accessToken: '123123123-123132112312' })
+		.onPost('/v2/auth/login')
 		.passThrough()
 }
 
