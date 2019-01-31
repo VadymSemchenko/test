@@ -38,22 +38,14 @@ export function authReducer(state = initialState, { type, payload }) {
 			}
 		case LOGIN_SUCCESS:
 			localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, payload.accessToken)
+			console.log({ payload })
 			return {
 				...state,
 				isAuthenticated: true,
 				tokenExpireAt: moment()
 					.add(process.env.REACT_APP_TOKEN_EXPIRATION_TIME, 'minutes')
 					.toISOString(),
-				customers: [
-					{
-						id: 1,
-						name: 'Test #1'
-					},
-					{
-						id: 2,
-						name: 'Test #2'
-					}
-				]
+				customers: payload.customers
 			}
 		case LOGOUT_USER:
 			return {
