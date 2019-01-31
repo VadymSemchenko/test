@@ -8,6 +8,10 @@ import ecosystemsExampleData from './mocks/fetch_ecosystems'
 import { list, newOne } from './mocks/fetch_objects'
 import { newService, policiesList } from './mocks/fetch_policies'
 
+const auth = axios.create({
+	baseURL: process.env.REACT_APP_API_URL
+})
+
 const rest = axios.create({
 	baseURL: process.env.REACT_APP_API_URL,
 	transformResponse: [
@@ -48,9 +52,7 @@ if (process.env.REACT_APP_ENABLE_MOCK) {
 		.reply(201, newOne)
 		.onPut('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/objects/2ewsvw234ewrdsf')
 		.reply(400)
-		.onPost('/auth/login')
-		.passThrough()
-		.onAny()
+		.onPost('/v2/auth/login')
 		.passThrough()
 }
 
@@ -91,7 +93,7 @@ export function createPolicy(policy, ecosystem) {
 }
 
 export function login(credentials) {
-	return rest.post(`v2/auth/login`, credentials).then(response => response.data)
+	return auth.post(`v2/auth/login`, credentials).then(response => response.data)
 }
 
 // TODO: it's mocked
