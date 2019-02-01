@@ -42,7 +42,6 @@ export function authReducer(state = initialState, { type, payload }) {
 			}
 		case LOGIN_SUCCESS:
 			localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, payload.accessToken)
-			console.log({ payload })
 			return {
 				...state,
 				isAuthenticated: true,
