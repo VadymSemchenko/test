@@ -6,7 +6,7 @@ import {
 	loginStarted,
 	loginSuccess
 } from '../../store/auth/actions'
-import unique from 'lodash/uniqBy'
+import { extractCustomers } from '../../utils/utils'
 
 export function login(credentials, redirect) {
 	return async dispatch => {
@@ -28,16 +28,4 @@ export function login(credentials, redirect) {
 			dispatch(loginFailed(err))
 		}
 	}
-}
-
-function extractCustomers(roles) {
-	const split = roles.split(' ')
-	const customers = split.map(part => {
-		return {
-			name: part.split('.')[0],
-			id: part.split('.')[1]
-		}
-	})
-
-	return unique(customers, 'id')
 }

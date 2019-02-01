@@ -3,6 +3,7 @@ import {
 	LOCAL_ACCESS_TOKEN_EXPIRY_TIME,
 	LOCAL_ACCESS_TOKEN_KEY
 } from '../../enums'
+import { extractCustomerFromToken } from '../../utils/utils'
 import {
 	LOGIN_FAILURE,
 	LOGIN_SUCCESS,
@@ -22,7 +23,10 @@ const initialState = {
 		moment(expiryTimeFromStorage).isAfter(),
 	tokenExpireAt:
 		expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),
-	customers: [],
+	customers:
+		localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY) !== null
+			? extractCustomerFromToken(localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY))
+			: [],
 	selectedCustomer: null
 }
 
