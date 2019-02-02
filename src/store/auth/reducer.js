@@ -3,7 +3,10 @@ import {
 	LOCAL_ACCESS_TOKEN_EXPIRY_TIME,
 	LOCAL_ACCESS_TOKEN_KEY
 } from '../../enums'
-import { extractCustomerFromToken } from '../../utils/utils'
+import {
+	extractCustomerFromToken,
+	extractUsernameFromToken
+} from '../../utils/utils'
 import {
 	LOGIN_FAILURE,
 	LOGIN_SUCCESS,
@@ -15,19 +18,28 @@ import {
 const expiryTimeFromStorage = localStorage.getItem(
 	LOCAL_ACCESS_TOKEN_EXPIRY_TIME
 )
+const tokenFromStorage = localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY)
 
-const initialState = {
-	isAuthenticated:
-		localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY) !== null &&
-		expiryTimeFromStorage !== null &&
-		moment(expiryTimeFromStorage).isAfter(),
-	tokenExpireAt:
-		expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),
-	customers:
-		localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY) !== null
-			? extractCustomerFromToken(localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY))
-			: [],
-	selectedCustomer: null
+let initialState
+
+if (tokenFromStorage !== null) {
+	initialState = {
+		isAuthenticated:
+			expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),
+		tokenExpireAt:
+			expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),
+		customers: extractCustomerFromToken(tokenFromStorage),
+		selectedCustomer: {},
+		username: extractUsernameFromToken(tokenFromStorage)
+	}
+} else {
+	initialState = {
+		isAuthenticated: false,
+		tokenExpireAt: '',
+		customers: [],
+		selectedCustomer: null,
+		username: ''
+	}
 }
 
 export function authReducer(state = initialState, { type, payload }) {
@@ -48,14 +60,19 @@ export function authReducer(state = initialState, { type, payload }) {
 				tokenExpireAt: moment()
 					.add(process.env.REACT_APP_TOKEN_EXPIRATION_TIME, 'minutes')
 					.toISOString(),
-				customers: payload.customers
+				customers: payload.customers,
+				username: extractUsernameFromToken(payload.accessToken)
 			}
 		case LOGOUT_USER:
+			localStorage.removeItem(LOCAL_ACCESS_TOKEN_EXPIRY_TIME)
+			localStorage.removeItem(LOCAL_ACCESS_TOKEN_KEY)
 			return {
 				...state,
 				isAuthenticated: false,
 				selectedCustomer: null,
-				customers: []
+				tokenExpireAt: '',
+				customers: [],
+				username: ''
 			}
 		case RENEW_TOKEN:
 			// eslint-disable-next-line no-case-declarations

@@ -1,3 +1,4 @@
+import { CLEAR_DATA } from '../common-action-types'
 import {
 	LOGIN_FAILURE,
 	LOGIN_REQUESTED,
@@ -43,5 +44,11 @@ export function setCustomer(customer) {
 	return {
 		type: SET_CUSTOMER,
 		payload: customer
+	}
+}
+
+export function clearData() {
+	return {
+		type: CLEAR_DATA
 	}
 }
