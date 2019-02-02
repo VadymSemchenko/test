@@ -17,3 +17,8 @@ export function extractCustomerFromToken(token) {
 	const decodedToken = jwt.decode(token, { json: true })
 	return extractCustomers(decodedToken.roles)
 }
+
+export function extractUsernameFromToken(token) {
+	const decodedToken = jwt.decode(token, { json: true })
+	return decodedToken.user
+}

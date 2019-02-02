@@ -96,6 +96,10 @@ export function login(credentials) {
 	return auth.post(`v2/auth/login`, credentials).then(response => response.data)
 }
 
+export function logout() {
+	return rest.post(`/v2/auth/logout`).then(response => response.data)
+}
+
 // TODO: it's mocked
 function getUrlForType(type, ecosystem = '123ds-1231qwsdfsd-12eqadfgs') {
 	return `/ecosystems/${ecosystem}/objects`

@@ -1,4 +1,5 @@
 import Cookie from 'js-cookie'
+import { CLEAR_DATA } from '../common-action-types'
 import {
 	APPEND_NEW_SERVICE,
 	FETCHING_ECOSYSTEMS_SUCCESS,
@@ -50,6 +51,10 @@ export function ecosystemsReducer(state = initialState, { type, payload }) {
 					services: [...state.dictionaries.services, payload.service]
 				}
 			}
+		}
+		case CLEAR_DATA: {
+			Cookie.remove('currentEcosystem')
+			return initialState
 		}
 		default:
 			return state

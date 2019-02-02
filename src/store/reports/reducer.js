@@ -1,3 +1,4 @@
+import { CLEAR_DATA } from '../common-action-types'
 import { FETCHING_REPORTS_SUCCESS } from './action-types'
 import orderBy from 'lodash/orderBy'
 
@@ -17,6 +18,9 @@ export function reportsReducer(state = initialState, { type, payload }) {
 				...state,
 				items: orderBy(items, ['date'], ['desc'])
 			}
+		}
+		case CLEAR_DATA: {
+			return initialState
 		}
 		default:
 			return state

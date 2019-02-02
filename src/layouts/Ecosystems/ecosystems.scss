@@ -72,6 +72,26 @@
 					border-right: 1px solid transparent !important;
 				}
 			}
+			.dropdown-toggle {
+				display: flex;
+				flex-direction: row;
+				padding: 6px 12px;
+				line-height: 1;
+				text-align: center;
+				white-space: nowrap;
+				vertical-align: middle;
+				touch-action: manipulation;
+				cursor: pointer;
+				user-select: none;
+				border: 0px solid transparent;
+				border-radius: 0px;
+				background-color: transparent;
+				margin: 0;
+
+				.caret {
+					visibility: hidden;
+				}
+			}
 		}
 		.navbar-search {
 			height: 26px;
