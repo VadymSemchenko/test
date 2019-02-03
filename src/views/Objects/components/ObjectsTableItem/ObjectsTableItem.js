@@ -84,13 +84,13 @@ function NspInfo({ data, showAll = false, onExpand }) {
 						/>
 						<div className={'divider big'} />
 						<div className={'flex-column'}>
-							<p className={'small strong nsp-name'}>{d.name}</p>
+							<p className={'semi-strong nsp-name'}>{d.name}</p>
 							<div className={'flex-row'}>
-								<p className={'small'}>
+								<p className={'nsp-values'}>
 									{d.ping} <span className={'unit'}>ms</span>
 								</p>
 								<div className={'divider small'} />
-								<p className={'small'}>
+								<p className={'nsp-values'}>
 									{`${d.loss}% `}
 									<span className={'unit'}>Loss</span>
 								</p>

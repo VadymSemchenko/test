@@ -67,6 +67,9 @@
 				&.strong {
 					font-weight: bold;
 				}
+				&.semi-strong {
+					font-weight: 600;
+				}
 			}
 
 			&__status {
@@ -122,6 +125,9 @@
 					.nsp-name {
 						margin-bottom: 4px;
 					}
+					.nsp-values {
+						font-size: 14px;
+					}
 				}
 				.more {
 					font-size: 12px;
@@ -138,8 +144,8 @@
 					background-color: #eaeaea;
 
 					&.small {
-						margin-left: 4px;
-						margin-right: 4px;
+						margin-left: 14px;
+						margin-right: 14px;
 					}
 
 					&.big {

@@ -27,8 +27,8 @@ export PATH=$PATH:$GOPATH/bin
 
 cd /build/src/$PACKAGENAME
 
-
-npm install
+npm set progress=false
+npm ci
 npm run build
 
 cp -r build/ /output/
