@@ -16,7 +16,11 @@ const AVAILABLE_TYPES = [
 	{
 		name: 'gateway',
 		title: 'Gateway',
-		icon: GatewayIcon
+		icon: GatewayIcon,
+		iconStyle: {
+			width: 30,
+			height: 17
+		}
 	},
 	{
 		name: 'address',
@@ -43,6 +47,7 @@ export default class NewObjectType extends React.PureComponent {
 									className={'type-icon'}
 									src={type.icon}
 									alt={`${type.name}-icon`}
+									style={type.iconStyle}
 								/>
 							</div>
 							<p className={'option medium'}>{type.title}</p>

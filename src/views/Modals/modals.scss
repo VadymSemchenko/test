@@ -6,7 +6,7 @@
 		padding: 16px;
 
 		&.padded {
-			padding: 32px;
+			padding: 32px 40px;
 		}
 
 		@media only screen and (max-width: 992px) {
@@ -72,7 +72,7 @@
 			}
 
 			.type-icon {
-				max-width: 24px;
+				max-width: 30px;
 				max-height: 24px;
 				margin-right: 24px;
 			}
