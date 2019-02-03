@@ -16,6 +16,7 @@ export { default as MENU_POLICIES } from './img/PNG/group-8.png'
 export { default as MENU_USERS } from './img/PNG/group-7.png'
 export { default as MENU_CONTENT } from './img/PNG/group-5.png'
 export { default as MENU_ELEMENTS } from './img/PNG/group-3.png'
+export { default as MENU_OBJECTS } from './img/PNG/menu-objects.png'
 export { default as NAVBAR_SEARCH } from './img/PNG/group-46.png'
 export {
 	default as NAVBAR_NOTIFICATION_FAKE
@@ -39,3 +40,4 @@ export { default as GREEN_TICK } from './img/PNG/green_tick.png'
 export { default as FULL_SIZE_ICON } from './img/PNG/fullsize-icon.png'
 export { default as CHEVRON_DOWN_WHITE } from './img/PNG/chevron-down.png'
 export { default as NOTIFICATIONS_ARROW_RIGHT } from './img/PNG/arrow-right.png'
+export { default as INCREASE_ARROW } from './img/PNG/increase-arrow.png'

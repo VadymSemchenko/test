@@ -1,7 +1,7 @@
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { COG, INFO, TYPE_IOT } from '../../../../assets/Icons'
+import { COG, INCREASE_ARROW, INFO, TYPE_IOT } from '../../../../assets/Icons'
 import Translator from '../../../../utils/enumTranslator'
 
 import {
@@ -114,13 +114,24 @@ function StatusInfo({ data }) {
 			<div className={'centered-row status-text-container'}>
 				<img
 					src={getIconForStatus(data.status)}
-					className={'tiny-icon'}
+					className={`tiny-icon ${
+						data.status === 'connected' ? 'small-icon' : 'larger-icon'
+					}`}
 					alt={'status-icon'}
 				/>
-				<p className={'normal capitalize'}>{data.status}</p>
+				<p className={'normal capitalize status'}>{data.status}</p>
 			</div>
-			<p className={'text medium grayish space-above-8'}>Last change</p>
-			<p className={'text medium'}>{moment(data.lastChange).fromNow()}</p>
+			<p className={'text grayish last-change-label'}>Last change</p>
+			<div className={'centered-row space-above-8'}>
+				<img
+					src={INCREASE_ARROW}
+					className={'increase-arrow'}
+					alt={'increase-arrow'}
+				/>
+				<p className={'status no-margin'}>
+					{moment(data.lastChange).fromNow()}
+				</p>
+			</div>
 		</div>
 	)
 }
@@ -162,11 +173,10 @@ export default class ObjectTableItem extends React.PureComponent {
 					<StatusInfo data={data} />
 				</WrapperComponent>
 				<WrapperComponent extraClass={'field__expand'}>
-					{this.state.showAll ? (
-						<i className={'pe-7s-angle-up'} onClick={this.onClick} />
-					) : (
-						<i className={'pe-7s-angle-down'} onClick={this.onClick} />
-					)}
+					<i
+						className={`pe-7s-angle-down ${this.state.showAll && 'active'}`}
+						onClick={this.onClick}
+					/>
 				</WrapperComponent>
 				<WrapperComponent extraClass={'field__edit'}>
 					<img src={COG} alt={'edit-icon'} onClick={onEdit} />

@@ -15,6 +15,7 @@ import {
 	MENU_DOWN_ARROW,
 	MENU_ELEMENTS,
 	MENU_GOVERNANCE,
+	MENU_OBJECTS,
 	MENU_PLUS_RECT,
 	MENU_POLICIES,
 	MENU_REPORT,
@@ -114,7 +115,7 @@ class Sidebar extends Component {
 								<img
 									className={'small-image'}
 									alt={'Objects'}
-									src={MENU_ELEMENTS}
+									src={MENU_OBJECTS}
 								/>
 								<p>Objects</p>
 							</NavLink>
