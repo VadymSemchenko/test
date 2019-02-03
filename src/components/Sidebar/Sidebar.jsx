@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Redirect } from 'react-router-dom'
 import {
 	ACRETO_LOGO,
 	BACK_ARROW,
@@ -49,6 +49,12 @@ class Sidebar extends Component {
 	}
 
 	render() {
+		const { ecosystem } = this.props
+
+		if (!ecosystem) {
+			return <Redirect to={'/'} />
+		}
+
 		return (
 			<div id="sidebar" className="sidebar wedge" data-color="gray">
 				<div className="logo">
@@ -69,13 +75,10 @@ class Sidebar extends Component {
 							</NavLink>
 							<div className={'sidebar-divider'} />
 						</li>
-						<div className={'ecosystem--name'}>{this.props.ecosystem.name}</div>
+						<div className={'ecosystem--name'}>{ecosystem.name}</div>
 						<li>
 							<NavLink
-								to={'/ecosystems/:id/objects'.replace(
-									':id',
-									this.props.ecosystem.id
-								)}
+								to={'/ecosystems/:id/objects'.replace(':id', ecosystem.id)}
 								className={'nav-link root with-arrow'}
 							>
 								<div className={'left-container'}>
@@ -104,10 +107,7 @@ class Sidebar extends Component {
 							)} nested`}
 						>
 							<NavLink
-								to={'/ecosystems/:id/objects'.replace(
-									':id',
-									this.props.ecosystem.id
-								)}
+								to={'/ecosystems/:id/objects'.replace(':id', ecosystem.id)}
 								className="nav-link"
 								activeClassName="active"
 							>
@@ -125,10 +125,7 @@ class Sidebar extends Component {
 							)} nested`}
 						>
 							<NavLink
-								to={'/ecosystems/:id/contentlist'.replace(
-									':id',
-									this.props.ecosystem.id
-								)}
+								to={'/ecosystems/:id/contentlist'.replace(':id', ecosystem.id)}
 								className="nav-link"
 								activeClassName="active"
 							>
@@ -144,10 +141,7 @@ class Sidebar extends Component {
 							className={`${this.activeRoute('/ecosystems/:id/users')} nested`}
 						>
 							<NavLink
-								to={'/ecosystems/:id/users'.replace(
-									':id',
-									this.props.ecosystem.id
-								)}
+								to={'/ecosystems/:id/users'.replace(':id', ecosystem.id)}
 								className="nav-link"
 								activeClassName="active"
 							>
@@ -157,10 +151,7 @@ class Sidebar extends Component {
 						</li>
 						<li>
 							<NavLink
-								to={'/ecosystems/:id/security'.replace(
-									':id',
-									this.props.ecosystem.id
-								)}
+								to={'/ecosystems/:id/security'.replace(':id', ecosystem.id)}
 								className={'nav-link root'}
 							>
 								<img
@@ -182,10 +173,7 @@ class Sidebar extends Component {
 							)} nested`}
 						>
 							<NavLink
-								to={'/ecosystems/:id/security'.replace(
-									':id',
-									this.props.ecosystem.id
-								)}
+								to={'/ecosystems/:id/security'.replace(':id', ecosystem.id)}
 								className="nav-link"
 								activeClassName="active"
 							>
@@ -213,7 +201,7 @@ class Sidebar extends Component {
 							<NavLink
 								to={'/ecosystems/:id/addresstranslations'.replace(
 									':id',
-									this.props.ecosystem.id
+									ecosystem.id
 								)}
 								className="nav-link"
 								activeClassName="active"
@@ -228,10 +216,7 @@ class Sidebar extends Component {
 						</li>
 						<li>
 							<NavLink
-								to={'/ecosystems/:id/reports'.replace(
-									':id',
-									this.props.ecosystem.id
-								)}
+								to={'/ecosystems/:id/reports'.replace(':id', ecosystem.id)}
 								className={'nav-link root'}
 							>
 								<img
@@ -244,10 +229,7 @@ class Sidebar extends Component {
 						</li>
 						<li>
 							<NavLink
-								to={'/ecosystems/:id/governance'.replace(
-									':id',
-									this.props.ecosystem.id
-								)}
+								to={'/ecosystems/:id/governance'.replace(':id', ecosystem.id)}
 								className={'nav-link root'}
 							>
 								<img
@@ -326,6 +308,7 @@ class Sidebar extends Component {
 }
 
 Sidebar.defaultProps = {
+	ecosystem: {},
 	notifications: [
 		{
 			id: 1,

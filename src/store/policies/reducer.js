@@ -1,3 +1,4 @@
+import { CLEAR_DATA } from '../common-action-types'
 import {
 	CREATION_POLICY_SUCCESS,
 	FETCHING_POLICIES_SUCCESS,
@@ -36,6 +37,9 @@ export function policyReducer(state = initialState, { type, payload }) {
 					)
 				}
 			}
+		}
+		case CLEAR_DATA: {
+			return initialState
 		}
 		default:
 			return state

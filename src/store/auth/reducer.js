@@ -4,6 +4,10 @@ import {
 	LOCAL_ACCESS_TOKEN_KEY
 } from '../../enums'
 import {
+	extractCustomerFromToken,
+	extractUsernameFromToken
+} from '../../utils/utils'
+import {
 	LOGIN_FAILURE,
 	LOGIN_SUCCESS,
 	LOGOUT_USER,
@@ -14,19 +18,35 @@ import {
 const expiryTimeFromStorage = localStorage.getItem(
 	LOCAL_ACCESS_TOKEN_EXPIRY_TIME
 )
+const tokenFromStorage = localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY)
 
-const initialState = {
-	isAuthenticated:
-		localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY) !== null &&
-		expiryTimeFromStorage !== null &&
-		moment(expiryTimeFromStorage).isAfter(),
-	tokenExpireAt:
-		expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),
-	customers: [],
-	selectedCustomer: null
+let initialState
+
+if (tokenFromStorage !== null) {
+	initialState = {
+		isAuthenticated:
+			expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),
+		tokenExpireAt:
+			expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),
+		customers: extractCustomerFromToken(tokenFromStorage),
+		selectedCustomer: {},
+		username: extractUsernameFromToken(tokenFromStorage)
+	}
+} else {
+	initialState = {
+		isAuthenticated: false,
+		tokenExpireAt: '',
+		customers: [],
+		selectedCustomer: null,
+		username: ''
+	}
 }
 
 export function authReducer(state = initialState, { type, payload }) {
+	const expiryTime = moment()
+		.add(process.env.REACT_APP_TOKEN_EXPIRATION_TIME, 'minutes')
+		.toISOString()
+
 	switch (type) {
 		case LOGIN_FAILURE:
 			localStorage.removeItem(LOCAL_ACCESS_TOKEN_KEY)
@@ -38,35 +58,26 @@ export function authReducer(state = initialState, { type, payload }) {
 			}
 		case LOGIN_SUCCESS:
 			localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, payload.accessToken)
+			localStorage.setItem(LOCAL_ACCESS_TOKEN_EXPIRY_TIME, expiryTime)
 			return {
 				...state,
 				isAuthenticated: true,
-				tokenExpireAt: moment()
-					.add(process.env.REACT_APP_TOKEN_EXPIRATION_TIME, 'minutes')
-					.toISOString(),
-				customers: [
-					{
-						id: 1,
-						name: 'Test #1'
-					},
-					{
-						id: 2,
-						name: 'Test #2'
-					}
-				]
+				tokenExpireAt: expiryTime,
+				customers: payload.customers,
+				username: extractUsernameFromToken(payload.accessToken)
 			}
 		case LOGOUT_USER:
+			localStorage.removeItem(LOCAL_ACCESS_TOKEN_EXPIRY_TIME)
+			localStorage.removeItem(LOCAL_ACCESS_TOKEN_KEY)
 			return {
 				...state,
 				isAuthenticated: false,
 				selectedCustomer: null,
-				customers: []
+				tokenExpireAt: '',
+				customers: [],
+				username: ''
 			}
 		case RENEW_TOKEN:
-			// eslint-disable-next-line no-case-declarations
-			const expiryTime = moment()
-				.add(process.env.REACT_APP_TOKEN_EXPIRATION_TIME, 'minutes')
-				.toISOString()
 			localStorage.setItem(LOCAL_ACCESS_TOKEN_EXPIRY_TIME, expiryTime)
 			return {
 				...state,

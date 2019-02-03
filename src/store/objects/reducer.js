@@ -1,3 +1,4 @@
+import { CLEAR_DATA } from '../common-action-types'
 import {
 	CREATION_OBJECT_SUCCESS,
 	FETCHING_OBJECTS_SUCCESS,
@@ -36,6 +37,9 @@ export function objectsReducer(state = initialState, { type, payload }) {
 					)
 				}
 			}
+		}
+		case CLEAR_DATA: {
+			return initialState
 		}
 		default:
 			return state
