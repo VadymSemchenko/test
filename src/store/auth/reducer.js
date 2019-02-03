@@ -43,6 +43,10 @@ if (tokenFromStorage !== null) {
 }
 
 export function authReducer(state = initialState, { type, payload }) {
+	const expiryTime = moment()
+		.add(process.env.REACT_APP_TOKEN_EXPIRATION_TIME, 'minutes')
+		.toISOString()
+
 	switch (type) {
 		case LOGIN_FAILURE:
 			localStorage.removeItem(LOCAL_ACCESS_TOKEN_KEY)
@@ -54,12 +58,11 @@ export function authReducer(state = initialState, { type, payload }) {
 			}
 		case LOGIN_SUCCESS:
 			localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, payload.accessToken)
+			localStorage.setItem(LOCAL_ACCESS_TOKEN_EXPIRY_TIME, expiryTime)
 			return {
 				...state,
 				isAuthenticated: true,
-				tokenExpireAt: moment()
-					.add(process.env.REACT_APP_TOKEN_EXPIRATION_TIME, 'minutes')
-					.toISOString(),
+				tokenExpireAt: expiryTime,
 				customers: payload.customers,
 				username: extractUsernameFromToken(payload.accessToken)
 			}
@@ -75,10 +78,6 @@ export function authReducer(state = initialState, { type, payload }) {
 				username: ''
 			}
 		case RENEW_TOKEN:
-			// eslint-disable-next-line no-case-declarations
-			const expiryTime = moment()
-				.add(process.env.REACT_APP_TOKEN_EXPIRATION_TIME, 'minutes')
-				.toISOString()
 			localStorage.setItem(LOCAL_ACCESS_TOKEN_EXPIRY_TIME, expiryTime)
 			return {
 				...state,

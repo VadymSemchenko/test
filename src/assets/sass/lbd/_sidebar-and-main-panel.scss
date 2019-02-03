@@ -6,7 +6,7 @@
 	top: 0;
 	bottom: 0;
 	left: 0;
-	width: 260px;
+	width: 285px;
 	display: block;
 	z-index: 1;
 	color: #fff;
@@ -18,7 +18,7 @@
 		position: relative;
 		height: calc(100vh - 75px);
 		overflow: auto;
-		width: 260px;
+		width: 285px;
 		z-index: 4;
 		padding-bottom: 30px;
 	}
@@ -36,8 +36,6 @@
 	}
 
 	.logo {
-		padding: 8px;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 		position: relative;
 		z-index: 4;
 
@@ -99,7 +97,7 @@
 		li {
 			> a {
 				color: #a1a1a1;
-				padding: 12px 20px;
+				padding: 12px 32px 12px 20px;
 				border-left: 4px transparent solid;
 				opacity: 0.86;
 			}
@@ -129,7 +127,7 @@
 		p {
 			margin: 0;
 			line-height: 30px;
-			font-size: 14px;
+			font-size: 17px;
 			font-weight: 600;
 		}
 
@@ -159,7 +157,6 @@
 .sidebar,
 body > .navbar-collapse {
 	.logo {
-		padding: 8px;
 		border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
 		p {

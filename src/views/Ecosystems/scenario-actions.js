@@ -23,7 +23,7 @@ export function fetchEcosystems() {
 export function openEcosystem(ecosystem) {
 	return dispatch => {
 		dispatch(setCurrentEcosystem(ecosystem))
-		Cookie.set('currentEcosystem', ecosystem.id)
+		Cookie.set('currentEcosystem', ecosystem)
 		history.push(`/ecosystems/${ecosystem.id}/reports`) // TO BE CHANGED later
 	}
 }

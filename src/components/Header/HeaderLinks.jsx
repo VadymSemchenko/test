@@ -9,11 +9,17 @@ import {
 	NAVBAR_USER
 } from '../../assets/Icons'
 import { logout } from '../../store/common-scenario-actions'
+import { pathSlugToPageName } from '../../utils/utils'
 
 class HeaderLinks extends Component {
 	render() {
+		const splittedPath = this.props.location.pathname.split('/')
+		const path = splittedPath[splittedPath.length - 1]
 		return (
 			<div>
+				<Nav pullLeft>
+					<h2 className={'page-title'}>{pathSlugToPageName(path)}</h2>
+				</Nav>
 				<Nav pullRight>
 					{this.props.showSearch && (
 						<NavItem eventKey={0} href="#" className={'navbar-item'}>

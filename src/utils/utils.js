@@ -22,3 +22,16 @@ export function extractUsernameFromToken(token) {
 	const decodedToken = jwt.decode(token, { json: true })
 	return decodedToken.user
 }
+
+export function pathSlugToPageName(slug) {
+	switch (slug) {
+		case 'objects':
+			return 'Objects'
+		case 'contentlist':
+			return 'Content List'
+		case 'addresstranslations':
+			return 'Adress Translations'
+		default:
+			return slug
+	}
+}

@@ -8,7 +8,9 @@ import {
 
 const initialState = {
 	items: [],
-	currentEcosystem: Cookie.get('currentEcosystem'),
+	currentEcosystem: Cookie.get('currentEcosystem')
+		? JSON.parse(Cookie.get('currentEcosystem'))
+		: null,
 	dictionaries: {
 		services: [
 			{
@@ -40,7 +42,7 @@ export function ecosystemsReducer(state = initialState, { type, payload }) {
 		case SET_CURRENT_ECOSYSTEM: {
 			return {
 				...state,
-				currentEcosystem: payload.id
+				currentEcosystem: payload
 			}
 		}
 		case APPEND_NEW_SERVICE: {

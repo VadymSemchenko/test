@@ -54,6 +54,8 @@ if (process.env.REACT_APP_ENABLE_MOCK) {
 		.reply(400)
 		.onPost('/v2/auth/login')
 		.passThrough()
+		.onAny()
+		.passThrough()
 }
 
 export function fetchEcosystems() {
@@ -62,13 +64,13 @@ export function fetchEcosystems() {
 
 export function fetchObjects({ ecosystem }) {
 	return rest
-		.get(`/ecosystems/${ecosystem}/objects`)
+		.get(`/ecosystems/${ecosystem.id}/objects`)
 		.then(response => response.data)
 }
 
 export function fetchPolicies({ ecosystem }) {
 	return rest
-		.get(`/ecosystems/${ecosystem}/policies`)
+		.get(`/ecosystems/${ecosystem.id}/policies`)
 		.then(response => response.data)
 }
 
@@ -82,13 +84,13 @@ export function updateObject(object) {
 
 export function createService(service, ecosystem) {
 	return rest
-		.post(`/ecosystems/${ecosystem}/services`, service)
+		.post(`/ecosystems/${ecosystem.id}/services`, service)
 		.then(response => response.data)
 }
 
 export function createPolicy(policy, ecosystem) {
 	return rest
-		.post(`/ecosystems/${ecosystem}/policies`, policy)
+		.post(`/ecosystems/${ecosystem.id}/policies`, policy)
 		.then(response => response.data)
 }
 
