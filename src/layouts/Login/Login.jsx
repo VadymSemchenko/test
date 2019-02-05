@@ -1,8 +1,14 @@
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import connect from 'react-redux/es/connect/connect'
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import { ACRETO_LOGO, LOGIN_FOOTER } from '../../assets/Icons'
 import ProtectedRoute from '../../components/ProtectedRoute/ProtectedRoute'
+import {
+	createErrorMessageSelector,
+	createLoadingSelector
+} from '../../store/utils/selectors'
 import CustomersForm from '../../views/CustomersForm/CustomersForm'
 import LoginForm from '../../views/LoginForm/LoginForm'
 import './login.scss'
@@ -24,7 +30,14 @@ class Login extends Component {
 				</Switch>
 
 				<div className={'login-page--footer footer'}>
-					<img src={LOGIN_FOOTER} className={'footer--image'} alt={'footer'} />
+					<img
+						src={LOGIN_FOOTER}
+						className={cx({
+							'footer--image': true,
+							'slow-shake': this.props.isLoading
+						})}
+						alt={'footer'}
+					/>
 				</div>
 			</div>
 		)
@@ -32,7 +45,23 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-	location: PropTypes.object.isRequired
+	location: PropTypes.object.isRequired,
+	isLoading: PropTypes.bool.isRequired
 }
 
-export default withRouter(Login)
+const loadingSelector = createLoadingSelector(['LOGIN'])
+const errorSelector = createErrorMessageSelector(['LOGIN'])
+
+const mapStateToProps = state => {
+	return {
+		isLoading: loadingSelector(state),
+		error: errorSelector(state)
+	}
+}
+
+const ConnectedLogin = connect(
+	mapStateToProps,
+	null
+)(Login)
+
+export default withRouter(ConnectedLogin)

@@ -45,4 +45,5 @@ export function parseResponseError(error, errorsArray = {}) {
 				return 'Something went wrong. Please again later.'
 		}
 	}
+	return 'Network error'
 }

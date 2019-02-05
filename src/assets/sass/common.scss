@@ -76,3 +76,29 @@
 		pointer-events: none;
 	}
 }
+
+@keyframes slideLeftAndRight {
+	0% {
+		transform: translateX(0);
+	}
+	25% {
+		transform: translateX(-20px);
+	}
+	50% {
+		transform: translateX(0);
+	}
+	75% {
+		transform: translateX(20px);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
+
+.slow-shake {
+	animation-duration: 1.5s;
+	animation-name: slideLeftAndRight;
+	animation-iteration-count: infinite;
+	animation-direction: normal;
+	animation-timing-function: ease-in-out;
+}
