@@ -60,6 +60,18 @@ class LoginForm extends Component {
 								required={true}
 							/>
 						</div>
+						<div className={'login-rememberme-container component-coming-soon'}>
+							<label className={'checkbox-label wedge-checkbox-container'}>
+								<input
+									type="checkbox"
+									checked={true}
+									onChange={() => () => {}}
+								/>
+								<span className={'checkmark'} />
+								<span className={'title'}>Remember me</span>
+							</label>
+							<p>Forgot your password?</p>
+						</div>
 						<input type="submit" className={'login-button'} value={'Log in'} />
 					</form>
 				</div>
