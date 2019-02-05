@@ -114,6 +114,7 @@
 	}
 
 	&--footer {
+		@include transition(0.5s, $transition-ease);
 		z-index: 1;
 		position: fixed;
 		bottom: 0;
