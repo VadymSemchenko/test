@@ -1,12 +1,21 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import './customers-form.scss'
 import { BLUE_FORWARD_ARROW } from '../../assets/Icons'
+import './customers-form.scss'
 import { useCustomer } from './scenario-actions'
 
 class CustomersForm extends Component {
+	componentDidMount() {
+		if (this.props.location.state) {
+			const { afterLogin, from } = this.props.location.state
+			if (afterLogin && this.props.customers.length === 1) {
+				this.props.useCustomer(this.props.customers[0], from)
+			}
+		}
+	}
+
 	handleSelectCustomer = customer => {
 		const { from } = this.props.location.state || { from: { pathname: '/' } }
 		this.props.useCustomer(customer, from)
