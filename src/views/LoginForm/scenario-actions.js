@@ -6,7 +6,7 @@ import {
 	loginStarted,
 	loginSuccess
 } from '../../store/auth/actions'
-import { extractCustomers } from '../../utils/utils'
+import { extractCustomers, parseResponseError } from '../../utils/utils'
 
 export function login(credentials, redirect) {
 	return async dispatch => {
@@ -28,7 +28,10 @@ export function login(credentials, redirect) {
 				afterLogin: true
 			})
 		} catch (err) {
-			dispatch(loginFailed(err))
+			const errorMessage = parseResponseError(err, {
+				400: 'Your email or password is incorrect!'
+			})
+			dispatch(loginFailed({ message: errorMessage }))
 		}
 	}
 }
