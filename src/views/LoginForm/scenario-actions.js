@@ -23,7 +23,10 @@ export function login(credentials, redirect) {
 					customers: extractCustomers(decodedToken.roles)
 				})
 			)
-			history.push('/auth/customers', { from: redirect })
+			history.push('/auth/customers', {
+				from: redirect,
+				afterLogin: true
+			})
 		} catch (err) {
 			dispatch(loginFailed(err))
 		}
