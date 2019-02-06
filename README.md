@@ -15,7 +15,7 @@
 2. Copy `build` directory into destination server
 3. Point Nginx/Apache/web server on that directory to serve that files (or use S3)
 
-## Variables
+## Env variables
 
 Environmental variables can be defined in `.env` files. In root path there should be at least
 three `.env` files:
@@ -23,3 +23,5 @@ three `.env` files:
 * .env.development
 * .env.production
 Variables should be named with prefix `REACT_APP_`
+
+
