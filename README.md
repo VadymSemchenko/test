@@ -15,7 +15,7 @@
 2. Copy `build` directory into destination server
 3. Point Nginx/Apache/web server on that directory to serve that files (or use S3)
 
-## Env variables
+## Variables
 
 Environmental variables can be defined in `.env` files. In root path there should be at least
 three `.env` files:
