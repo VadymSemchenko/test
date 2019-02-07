@@ -21,6 +21,7 @@
 		}
 		.customers-form {
 			width: 400px;
+			margin-bottom: 24px;
 
 			@media only screen and (max-width: 992px) {
 				width: 360px;
@@ -54,11 +55,15 @@
 				.forward-icon {
 					width: 12px;
 					height: 10px;
+					margin-left: 20px;
 				}
 
 				&--name {
 					font-size: 18px;
 					color: $wedge-blue-gray;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
 				}
 			}
 		}
