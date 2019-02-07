@@ -12,6 +12,7 @@ class FormGroup extends React.PureComponent {
 			center = false,
 			full = false,
 			self = false,
+			required = false,
 			...rest
 		} = this.props
 		return (
@@ -20,7 +21,10 @@ class FormGroup extends React.PureComponent {
 					full ? 'full' : ''
 				} ${self ? 'self' : ''} ${rest.extraClass || ''}`}
 			>
-				<p className={'form__label'}>{label}</p>
+				<p className={'form__label'}>
+					{label}
+					{required && <span className={'asterisk'}>*</span>}
+				</p>
 				{children}
 			</div>
 		)
@@ -32,27 +36,31 @@ FormGroup.propTypes = {
 	label: PropTypes.string,
 	center: PropTypes.bool,
 	full: PropTypes.bool,
-	self: PropTypes.bool
+	self: PropTypes.bool,
+	required: PropTypes.bool
 }
 
 class TextInput extends React.PureComponent {
-	constructor(props) {
-		super(props)
-		const { value, placeholder, onChange, ...rest } = props
+	render() {
+		const {
+			value,
+			placeholder,
+			onChange,
+			extraClass,
+			multiline,
+			...rest
+		} = this.props
 		this.inputProps = {
 			type: 'text',
 			value: value,
 			placeholder: placeholder,
 			onChange: e => onChange(e.target.value),
 			className: `form__input form__textinput ${
-				rest.multiline ? 'multiline' : ''
-			} ${rest.extraClass || ''}`,
+				multiline ? 'multiline' : ''
+			} ${extraClass || ''}`,
 			...rest
 		}
-	}
-
-	render() {
-		if (this.props.multiline) {
+		if (multiline) {
 			return <textarea {...this.inputProps} />
 		} else {
 			return <input {...this.inputProps} />
@@ -62,7 +70,7 @@ class TextInput extends React.PureComponent {
 
 TextInput.propTypes = {
 	placeholder: PropTypes.string,
-	value: PropTypes.string,
+	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	onChange: PropTypes.func
 }
 
@@ -70,7 +78,7 @@ class ToggleButton extends React.PureComponent {
 	render() {
 		const { selectedClass, selected, onChange, options } = this.props
 		return (
-			<ButtonGroup>
+			<ButtonGroup className={'space-above'}>
 				{options.map(opt => (
 					<Button
 						key={`toggle-button-index-key-${opt.value}-${opt.name}`}
@@ -99,15 +107,23 @@ const colourStyles = {
 	control: styles => ({
 		...styles,
 		backgroundColor: 'white',
-		borderWidth: 0
+		paddingLeft: 0,
+		boxShadow: 'none',
+		'&:hover': { borderColor: '#f68b1e' },
+		border: '1px solid transparent'
 	}),
 	indicatorSeparator: styles => ({
 		...styles,
 		width: 0
 	}),
+	menuContainerStyle: styles => ({
+		...styles,
+
+		zIndex: 50005
+	}),
 	menu: styles => ({
 		...styles,
-		zIndex: 401
+		zIndex: 101
 	})
 }
 

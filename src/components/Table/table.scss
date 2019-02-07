@@ -10,7 +10,7 @@
 		min-width: 1100px;
 		width: 100%;
 		@media only screen and (max-width: 992px) {
-			min-width: unset;
+			min-width: unset !important;
 			width: 100%;
 			flex: 1;
 		}
@@ -22,7 +22,7 @@
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
-			padding: 16px 8px;
+			padding: 24px;
 			margin-top: 16px;
 			border-radius: 2px;
 			.empty {
@@ -34,8 +34,8 @@
 				align-content: center;
 				color: white;
 				text-transform: uppercase;
-				font-size: 12px;
-				font-weight: bold;
+				font-size: 14px;
+				font-weight: 600;
 			}
 		}
 	}

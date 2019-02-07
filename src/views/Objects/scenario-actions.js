@@ -5,7 +5,10 @@ import {
 	creationObjectSuccess,
 	fetchingObjectsFailed,
 	fetchingObjectsStarted,
-	fetchingObjectsSuccess
+	fetchingObjectsSuccess,
+	updateObjectFailed,
+	updateObjectStarted,
+	updateObjectSuccess
 } from '../../store/objects/actions'
 
 export function fetchObjects() {
@@ -15,7 +18,7 @@ export function fetchObjects() {
 			dispatch(fetchingObjectsStarted())
 			const objects = await REST.fetchObjects({
 				customer: '',
-				ecosystem
+				ecosystem: ecosystem
 			})
 			dispatch(fetchingObjectsSuccess(objects, ecosystem))
 		} catch (err) {
@@ -33,6 +36,19 @@ export function createObject(entity, type) {
 			dispatch(creationObjectSuccess(objects, ecosystem))
 		} catch (err) {
 			dispatch(creationObjectFailed(err))
+		}
+	}
+}
+
+export function updateObject(entity) {
+	return async (dispatch, getState) => {
+		try {
+			const ecosystem = getState().ecosystems.currentEcosystem
+			dispatch(updateObjectStarted())
+			const objects = await REST.updateObject(entity, ecosystem)
+			dispatch(updateObjectSuccess(objects, ecosystem))
+		} catch (err) {
+			dispatch(updateObjectFailed(err))
 		}
 	}
 }

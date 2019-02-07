@@ -1,31 +1,77 @@
 import 'leaflet/dist/leaflet.css'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button } from 'react-bootstrap'
 import { Map, TileLayer } from 'react-leaflet'
 import AddButton from '../../components/AddButton/AddButton'
 import Card from '../../components/Card/Card'
 import Form from '../../components/Form/Form'
+import {
+	ADDRESS_TYPE,
+	AVAILABLE_REGIONS,
+	EXPIRATION_TYPE,
+	EXPIRATION_TYPE_OPTIONS,
+	GATEWAY_TYPE_OPTIONS,
+	IP_MODES_OPTIONS,
+	IP_TYPE,
+	IP_TYPE_OPTIONS,
+	LOCATION_TYPE,
+	LOCATION_TYPE_OPTIONS,
+	MASKS,
+	OBJECT_ASSET_VALUES,
+	OBJECT_CATEGORIES,
+	OBJECT_TYPES
+} from '../../enums'
+import Translator from '../../utils/enumTranslator'
+import { Footer } from './commons'
 import './modals.scss'
 
-const CATEGORIES = [
-	{
-		value: 0,
-		label: 'Category #1'
-	},
-	{
-		value: 1,
-		label: 'Category #2'
-	}
-]
+function parseAdditionalNetworks(networks) {
+	return networks.map(net => ({
+		network: `${net.network.address} /${net.network.mask}`,
+		hop: net.nextHop.address
+	}))
+}
 
 class NewGatewaySurvey extends React.Component {
-	state = {
-		gatewayType: 0,
-		expiryType: 0,
-		protocolType: 0,
-		addressType: 0,
-		additionalNetworks: []
+	constructor(props) {
+		super(props)
+		if (props.edit) {
+			this.state = {
+				name: props.item.name,
+				expiryType: props.item.expiry.type,
+				expiry: props.item.expiry.date,
+				profile: Translator.profileGroup(props.item.profileGroup),
+				category: Translator.category(props.item.category),
+				type: Translator.type(props.item.type),
+				asset: OBJECT_ASSET_VALUES[props.item.assetValue], // NOT SAFE, TODO LATED
+				location: Translator.location(props.item.location.type),
+				lat: props.item.location.latitude,
+				long: props.item.location.longitude,
+				region: Translator.region(props.item.location.region),
+				description: props.item.description,
+				protocolType: Translator.protocolType(props.item.network.ip).value,
+				addressType: Translator.addressType(props.item.network.mode).value,
+				staticAddress: props.item.network.gatewayIp.address,
+				staticMask: Translator.mask(props.item.network.gatewayIp.mask),
+				defaultAddress: props.item.network.defaultRoute.address,
+				defaultMask: Translator.mask(props.item.network.defaultRoute.mask),
+				localAddress: props.item.network.gatewayLocal.address,
+				localMask: Translator.mask(props.item.network.gatewayLocal.mask),
+				additionalNetworks: parseAdditionalNetworks(
+					props.item.network.additionalNetworks
+				), //props.item.network.additionalNetworks,
+				gatewayType: Translator.gatewayType(props.item.gatewayType).value
+			}
+		} else {
+			this.state = {
+				additionalNetworks: [],
+				gatewayType: 0,
+				addressType: ADDRESS_TYPE.INTERNAL,
+				protocolType: IP_TYPE.IPv4,
+				expiryType: EXPIRATION_TYPE.HARD,
+				location: LOCATION_TYPE_OPTIONS[LOCATION_TYPE.AUTO]
+			}
+		}
 	}
 
 	changeField = (field, value) => {
@@ -55,10 +101,11 @@ class NewGatewaySurvey extends React.Component {
 	onNewAdditionalNetworkChange = val =>
 		this.changeField('newAdditionalNetwork', val)
 	onNewAdditionalHopChange = val => this.changeField('newAdditionalHop', val)
+	onRegionChange = val => this.changeField('region', val)
 
 	onFinish = () => {
 		if (this.validate()) {
-			this.props.onAdd(this.state)
+			this.props.onFinish(this.state)
 		}
 	}
 
@@ -106,10 +153,7 @@ class NewGatewaySurvey extends React.Component {
 									selected={this.state.gatewayType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onGatewayTypeChange}
-									options={[
-										{ value: 0, label: 'vGateway' },
-										{ value: 1, label: 'IPSEC' }
-									]}
+									options={GATEWAY_TYPE_OPTIONS}
 								/>
 							</Form.Group>
 						</div>
@@ -119,7 +163,7 @@ class NewGatewaySurvey extends React.Component {
 									value={this.state.category}
 									onChange={this.onCategoryChange}
 									placeholder={'Select category'}
-									options={CATEGORIES}
+									options={OBJECT_CATEGORIES}
 								/>
 							</Form.Group>
 							<Form.Group label={'Type'}>
@@ -127,7 +171,7 @@ class NewGatewaySurvey extends React.Component {
 									value={this.state.type}
 									onChange={this.onTypeChange}
 									placeholder={'Select type'}
-									options={CATEGORIES}
+									options={OBJECT_TYPES}
 								/>
 							</Form.Group>
 						</div>
@@ -144,10 +188,7 @@ class NewGatewaySurvey extends React.Component {
 									selected={this.state.expiryType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onExpiryTypeChange}
-									options={[
-										{ value: 0, label: 'Hard' },
-										{ value: 1, label: 'Soft' }
-									]}
+									options={EXPIRATION_TYPE_OPTIONS}
 								/>
 							</Form.Group>
 						</div>
@@ -159,10 +200,7 @@ class NewGatewaySurvey extends React.Component {
 								selected={this.state.protocolType}
 								selectedClass={'toggle-selected'}
 								onChange={this.onProtocolTypeChange}
-								options={[
-									{ value: 0, label: 'IPv4' },
-									{ value: 1, label: 'IPv6' }
-								]}
+								options={IP_TYPE_OPTIONS}
 							/>
 						</Form.Group>
 						<div className={'form-row space-above'}>
@@ -172,10 +210,7 @@ class NewGatewaySurvey extends React.Component {
 									selected={this.state.addressType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onAddressTypeChange}
-									options={[
-										{ value: 0, label: 'DHCP' },
-										{ value: 1, label: 'Static' }
-									]}
+									options={IP_MODES_OPTIONS}
 								/>
 							</Form.Group>
 						</div>
@@ -193,7 +228,7 @@ class NewGatewaySurvey extends React.Component {
 									onChange={this.onStaticMaskChange}
 									style={{ flex: 1 }}
 									placeholder={'Mask'}
-									options={CATEGORIES}
+									options={MASKS}
 								/>
 							</div>
 						</Form.Group>
@@ -211,7 +246,7 @@ class NewGatewaySurvey extends React.Component {
 									onChange={this.onDefaultMaskChange}
 									style={{ flex: 1 }}
 									placeholder={'Mask'}
-									options={CATEGORIES}
+									options={MASKS}
 								/>
 							</div>
 						</Form.Group>
@@ -229,7 +264,7 @@ class NewGatewaySurvey extends React.Component {
 									onChange={this.onLocalMaskChange}
 									style={{ flex: 1 }}
 									placeholder={'Mask'}
-									options={CATEGORIES}
+									options={MASKS}
 								/>
 							</div>
 						</Form.Group>
@@ -297,25 +332,39 @@ class NewGatewaySurvey extends React.Component {
 								value={this.state.location}
 								onChange={this.onLocationChange}
 								placeholder={'Select location value'}
-								options={CATEGORIES}
+								options={LOCATION_TYPE_OPTIONS}
 							/>
 						</Form.Group>
 
 						<div className={'form-row'}>
-							<Form.Group label={''}>
-								<Form.Text
-									value={this.state.lat}
-									onChange={this.onLatChange}
-									placeholder={'Latitude'}
-								/>
-							</Form.Group>
-							<Form.Group label={''}>
-								<Form.Text
-									value={this.state.long}
-									onChange={this.onLongChange}
-									placeholder={'Longitude'}
-								/>
-							</Form.Group>
+							{this.state.location.value === LOCATION_TYPE.REGION && (
+								<Form.Group label={'Region'}>
+									<Form.Select
+										value={this.state.region}
+										onChange={this.onRegionChange}
+										placeholder={'Select region'}
+										options={AVAILABLE_REGIONS}
+									/>
+								</Form.Group>
+							)}
+							{this.state.location.value === LOCATION_TYPE.COORDINATES && (
+								<React.Fragment>
+									<Form.Group label={''}>
+										<Form.Text
+											value={this.state.lat}
+											onChange={this.onLatChange}
+											placeholder={'Latitude'}
+										/>
+									</Form.Group>
+									<Form.Group label={''}>
+										<Form.Text
+											value={this.state.long}
+											onChange={this.onLongChange}
+											placeholder={'Longitude'}
+										/>
+									</Form.Group>
+								</React.Fragment>
+							)}
 						</div>
 
 						<Map
@@ -331,29 +380,17 @@ class NewGatewaySurvey extends React.Component {
 					</Card>
 				</div>
 				<div className={'wedge-modal__footer'}>
-					<Footer onClick={this.onFinish} />
+					<Footer onClick={this.onFinish} edit={this.props.edit} />
 				</div>
 			</React.Fragment>
 		)
 	}
 }
 
-export function Footer({ onClick }) {
-	return (
-		<div className={'survey__footer'}>
-			<Button bsStyle={'primary'} onClick={onClick}>
-				Add
-			</Button>
-		</div>
-	)
-}
-
 NewGatewaySurvey.propTypes = {
-	onAdd: PropTypes.func.isRequired
-}
-
-Footer.propTypes = {
-	onClick: PropTypes.func.isRequired
+	onFinish: PropTypes.func.isRequired,
+	edit: PropTypes.bool,
+	item: PropTypes.object
 }
 
 NewGatewaySurvey.Footer = Footer

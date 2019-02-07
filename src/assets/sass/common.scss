@@ -13,6 +13,11 @@
 	align-items: center;
 }
 
+.stretch {
+	flex: 1;
+	justify-content: space-between;
+}
+
 .baseline {
 	align-items: baseline;
 }
@@ -35,9 +40,9 @@
 
 .table-item {
 	background-color: white;
-	border-radius: 2px;
-	border: 1px solid #ebebeb;
-	padding: 8px;
+	border-radius: 4px;
+	border: 0.5px solid #ebebeb;
+	padding: 24px;
 	margin-top: 16px;
 	display: flex;
 	flex-direction: row;
@@ -70,4 +75,30 @@
 	* {
 		pointer-events: none;
 	}
+}
+
+@keyframes slideLeftAndRight {
+	0% {
+		transform: translateX(0);
+	}
+	25% {
+		transform: translateX(-20px);
+	}
+	50% {
+		transform: translateX(0);
+	}
+	75% {
+		transform: translateX(20px);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
+
+.slow-shake {
+	animation-duration: 1.5s;
+	animation-name: slideLeftAndRight;
+	animation-iteration-count: infinite;
+	animation-direction: normal;
+	animation-timing-function: ease-in-out;
 }

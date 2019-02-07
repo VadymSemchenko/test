@@ -1,22 +1,27 @@
+import cs from 'classnames'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
+import {
+	FAKE_CHART_DOWN,
+	FAKE_CHART_THREAT,
+	FAKE_CHART_UTIL,
+	ICON_MORE
+} from '../../../../assets/Icons'
 import UserIcon from '../../../../assets/img/PNG/Acreto_Icon 04.png'
-import ThreatImage from '../../../../assets/img/PNG/Ecosystem_Threat Index-Graph.png'
-import UtilizationImage from '../../../../assets/img/PNG/Ecosystem_Utilization-Green-Graph.png'
-import DownImage from '../../../../assets/img/PNG/Ecosystem_Down-Pie Chart.png'
-import cs from 'classnames'
-import './ecosystem-item.scss'
 import { getIconForRegionName } from '../../../../variables/Icons'
+import './ecosystem-item.scss'
 
 function NspItem({ nsp }) {
 	return (
 		<div className={'nsp'}>
-			<img
-				alt={nsp.name}
-				src={getIconForRegionName(nsp.name)}
-				className={'nsp__image'}
-			/>
+			<div className={'nsp__image-container'}>
+				<img
+					alt={nsp.name}
+					src={getIconForRegionName(nsp.name)}
+					className={'nsp__image'}
+				/>
+			</div>
 			<p className={'nsp__name'}>{nsp.name}</p>
 		</div>
 	)
@@ -72,7 +77,7 @@ export default function EcosystemItem({ ecosystem, onClick }) {
 					</p>
 				</div>
 				<div className={'item-header__more'}>
-					<i className={'pe-7s-more more-icon'} />
+					<img src={ICON_MORE} alt={'icon-more'} className={'icon-more'} />
 				</div>
 			</div>
 			<div className={'item-content'}>
@@ -87,43 +92,36 @@ export default function EcosystemItem({ ecosystem, onClick }) {
 						<p className={'owner__name'}>{ecosystem.owner.fullName}</p>
 					</div>
 				</div>
-				<div className={'charts-container'}>
+				<div className={'charts-container component-coming-soon'}>
 					<div className={'utilization'}>
 						<div className={'abs-container'}>
 							<img
 								alt={'utilization-chart'}
-								src={UtilizationImage}
+								src={FAKE_CHART_UTIL}
 								className={'chart'}
 							/>
-							<div className={'value-container'}>
-								<p className={'value'}>{ecosystem.utilization || 3}</p>
-							</div>
 						</div>
 						<p>Utilization</p>
 					</div>
 					<div className={'divider'} />
 					<div className={'threat'}>
 						<div className={'abs-container'}>
-							<img alt={'threat-chart'} src={ThreatImage} className={'chart'} />
-							<div className={'value-container'}>
-								<p className={'value'}>{ecosystem.threat || 9}</p>
-							</div>
+							<img
+								alt={'threat-chart'}
+								src={FAKE_CHART_THREAT}
+								className={'chart'}
+							/>
 						</div>
-						<p>Threat</p>
+						<p>Threat Index</p>
 					</div>
 					<div className={'divider'} />
 					<div className={'down'}>
 						<div className={'abs-container'}>
 							<img
 								alt={'down-chart'}
-								src={DownImage}
+								src={FAKE_CHART_DOWN}
 								className={'chart circle'}
 							/>
-							<div className={'value-container circle'}>
-								<p className={'value'}>
-									{ecosystem.down ? `${ecosystem.down}%` : '40%'}
-								</p>
-							</div>
 						</div>
 						<p>Down</p>
 					</div>

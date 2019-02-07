@@ -8,6 +8,7 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import dashboardRoutes from 'routes/dashboard.jsx'
 
 import { style } from 'variables/Variables.jsx'
+import ExpiryWarning from '../../components/ExpiryWarning/ExpiryWarning'
 
 class Dashboard extends Component {
 	componentDidUpdate(e) {
@@ -27,10 +28,13 @@ class Dashboard extends Component {
 	render() {
 		return (
 			<div className="wrapper">
+				<ExpiryWarning />
 				<NotificationSystem style={style} />
 				<Sidebar {...this.props} />
 				<div id="main-panel" className="main-panel">
-					<Header {...this.props} />
+					<div className={'dashboard-navbar'}>
+						<Header {...this.props} />
+					</div>
 					<Switch>
 						{dashboardRoutes.map((prop, key) => {
 							if (prop.name === 'Notifications') {

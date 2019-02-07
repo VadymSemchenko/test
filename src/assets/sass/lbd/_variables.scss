@@ -123,7 +123,7 @@ $line-height-general: 1.5 !default;
 $line-height: 20px !default;
 $line-height-lg: 54px !default;
 
-$sidebar-width: calc(100% - 260px) !default;
+$sidebar-width: calc(100% - 285px) !default;
 
 $border-radius-top: 10px 10px 0 0 !default;
 $border-radius-bottom: 0 0 10px 10px !default;
@@ -143,7 +143,7 @@ $select-coordinates: 50% -40px !default;
 
 $transition-linear: linear !default;
 $transition-bezier: cubic-bezier(0.34, 1.61, 0.7, 1) !default;
-$transition-ease: ease 0s;
+$transition-ease: ease;
 $transition-ease-in: ease-in !default;
 $transition-ease-out: ease-out !default;
 
@@ -268,6 +268,8 @@ $wedge-blue-gray: #6d8994;
 $wedge-primary-gray: #76888f;
 $wedge-secondary-gray: #dfe9ea;
 $wedge-pink: #ffd2db;
+$wedge-brown: #b0b0b0;
+$wedge-text-green: #29cc97;
 
 $wedge-badge-orange: $wedge-secondary-orange;
 $wedge-primary-color: $wedge-primary-blue;

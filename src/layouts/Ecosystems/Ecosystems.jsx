@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Navbar } from 'react-bootstrap'
 import { Route, Switch } from 'react-router-dom'
 import logo from '../../assets/img/PNG/Acreto_Logo.png'
+import ExpiryWarning from '../../components/ExpiryWarning/ExpiryWarning'
 import HeaderLinks from '../../components/Header/HeaderLinks'
 import EcosystemsPage from '../../views/Ecosystems/Ecosystems'
 import './ecosystems.scss'
@@ -46,14 +47,19 @@ class Ecosystems extends Component {
 						</div>
 					</a>
 				</div>
-				<div className={'main-panel'}>
-					<Navbar fluid>
+				<div className={'main-panel '}>
+					<Navbar className={'main-panel-content'}>
 						<Navbar.Header>
-							<Navbar.Brand>{123}</Navbar.Brand>
+							<Navbar.Brand>
+								<div className={'active'}>All ecosystems</div>
+							</Navbar.Brand>
+							<Navbar.Brand>
+								<div>Need</div>
+							</Navbar.Brand>
 							{/*<Navbar.Toggle onClick={this.mobileSidebarToggle} />*/}
 						</Navbar.Header>
 						<Navbar.Collapse>
-							<HeaderLinks />
+							<HeaderLinks showSearch={true} />
 						</Navbar.Collapse>
 					</Navbar>
 				</div>
@@ -76,6 +82,7 @@ class Ecosystems extends Component {
 	render() {
 		return (
 			<div className="wrapper ecosystems-wrapper">
+				<ExpiryWarning />
 				{this.renderNavbar()}
 				{this.renderContent()}
 			</div>

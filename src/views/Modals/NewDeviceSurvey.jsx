@@ -1,27 +1,49 @@
 import 'leaflet/dist/leaflet.css'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button } from 'react-bootstrap'
 import { Map, TileLayer } from 'react-leaflet'
 import AddButton from '../../components/AddButton/AddButton'
 import Card from '../../components/Card/Card'
 import Form from '../../components/Form/Form'
+import {
+	AVAILABLE_REGIONS,
+	EXPIRATION_TYPE,
+	EXPIRATION_TYPE_OPTIONS,
+	LOCATION_TYPE,
+	LOCATION_TYPE_OPTIONS,
+	OBJECT_ASSET_VALUES,
+	OBJECT_CATEGORIES,
+	OBJECT_TYPES,
+	PROFILE_GROUPS
+} from '../../enums'
+import Translator from '../../utils/enumTranslator'
+import { Footer } from './commons'
 import './modals.scss'
 
-const CATEGORIES = [
-	{
-		value: 0,
-		label: 'Category #1'
-	},
-	{
-		value: 1,
-		label: 'Category #2'
-	}
-]
-
 class NewDeviceSurvey extends React.Component {
-	state = {
-		expiryType: 0
+	constructor(props) {
+		super(props)
+		if (props.edit) {
+			this.state = {
+				name: props.item.name,
+				expiryType: props.item.expiry.type,
+				expiry: props.item.expiry.date,
+				profile: Translator.profileGroup(props.item.profileGroup),
+				category: Translator.category(props.item.category),
+				type: Translator.type(props.item.type),
+				asset: OBJECT_ASSET_VALUES[props.item.assetValue], // NOT SAFE, TODO LATED
+				location: Translator.location(props.item.location.type),
+				lat: props.item.location.latitude,
+				long: props.item.location.longitude,
+				region: Translator.region(props.item.location.region),
+				description: props.item.description
+			}
+		} else {
+			this.state = {
+				expiryType: EXPIRATION_TYPE.HARD,
+				location: LOCATION_TYPE_OPTIONS[LOCATION_TYPE.AUTO]
+			}
+		}
 	}
 
 	changeField = (field, value) => {
@@ -41,10 +63,11 @@ class NewDeviceSurvey extends React.Component {
 	onLatChange = val => this.changeField('lat', val)
 	onLongChange = val => this.changeField('long', val)
 	onExpiryTypeChange = val => this.changeField('expiryType', val)
+	onRegionChange = val => this.changeField('region', val)
 
 	onFinish = () => {
 		if (this.validate()) {
-			this.props.onAdd(this.state)
+			this.props.onFinish(this.state)
 		}
 	}
 
@@ -71,7 +94,7 @@ class NewDeviceSurvey extends React.Component {
 										value={this.state.profile}
 										onChange={this.onProfileChange}
 										placeholder={'Select profile group'}
-										options={CATEGORIES}
+										options={PROFILE_GROUPS}
 									/>
 									<AddButton className={'space-left'} />
 								</div>
@@ -83,7 +106,7 @@ class NewDeviceSurvey extends React.Component {
 									value={this.state.category}
 									onChange={this.onCategoryChange}
 									placeholder={'Select category'}
-									options={CATEGORIES}
+									options={OBJECT_CATEGORIES}
 								/>
 							</Form.Group>
 							<Form.Group label={'Type'}>
@@ -91,7 +114,7 @@ class NewDeviceSurvey extends React.Component {
 									value={this.state.type}
 									onChange={this.onTypeChange}
 									placeholder={'Select type'}
-									options={CATEGORIES}
+									options={OBJECT_TYPES}
 								/>
 							</Form.Group>
 						</div>
@@ -100,7 +123,7 @@ class NewDeviceSurvey extends React.Component {
 								value={this.state.asset}
 								onChange={this.onAssetChange}
 								placeholder={'Select asset value'}
-								options={CATEGORIES}
+								options={OBJECT_ASSET_VALUES}
 							/>
 						</Form.Group>
 						<div className={'form-row'}>
@@ -116,10 +139,7 @@ class NewDeviceSurvey extends React.Component {
 									selected={this.state.expiryType}
 									selectedClass={'toggle-selected'}
 									onChange={this.onExpiryTypeChange}
-									options={[
-										{ value: 0, label: 'Hard' },
-										{ value: 1, label: 'Soft' }
-									]}
+									options={EXPIRATION_TYPE_OPTIONS}
 								/>
 							</Form.Group>
 						</div>
@@ -140,25 +160,39 @@ class NewDeviceSurvey extends React.Component {
 								value={this.state.location}
 								onChange={this.onLocationChange}
 								placeholder={'Select location value'}
-								options={CATEGORIES}
+								options={LOCATION_TYPE_OPTIONS}
 							/>
 						</Form.Group>
 
 						<div className={'form-row'}>
-							<Form.Group label={''}>
-								<Form.Text
-									value={this.state.lat}
-									onChange={this.onLatChange}
-									placeholder={'Latitude'}
-								/>
-							</Form.Group>
-							<Form.Group label={''}>
-								<Form.Text
-									value={this.state.long}
-									onChange={this.onLongChange}
-									placeholder={'Longitude'}
-								/>
-							</Form.Group>
+							{this.state.location.value === LOCATION_TYPE.REGION && (
+								<Form.Group label={'Region'}>
+									<Form.Select
+										value={this.state.region}
+										onChange={this.onRegionChange}
+										placeholder={'Select region'}
+										options={AVAILABLE_REGIONS}
+									/>
+								</Form.Group>
+							)}
+							{this.state.location.value === LOCATION_TYPE.COORDINATES && (
+								<React.Fragment>
+									<Form.Group label={''}>
+										<Form.Text
+											value={this.state.lat}
+											onChange={this.onLatChange}
+											placeholder={'Latitude'}
+										/>
+									</Form.Group>
+									<Form.Group label={''}>
+										<Form.Text
+											value={this.state.long}
+											onChange={this.onLongChange}
+											placeholder={'Longitude'}
+										/>
+									</Form.Group>
+								</React.Fragment>
+							)}
 						</div>
 
 						<Map
@@ -174,29 +208,21 @@ class NewDeviceSurvey extends React.Component {
 					</Card>
 				</div>
 				<div className={'wedge-modal__footer'}>
-					<Footer onClick={this.onFinish} />
+					<Footer onClick={this.onFinish} edit={this.props.edit} />
 				</div>
 			</React.Fragment>
 		)
 	}
 }
 
-export function Footer({ onClick }) {
-	return (
-		<div className={'survey__footer'}>
-			<Button bsStyle={'primary'} onClick={onClick}>
-				Add
-			</Button>
-		</div>
-	)
+NewDeviceSurvey.defaultProps = {
+	edit: false
 }
 
 NewDeviceSurvey.propTypes = {
-	onAdd: PropTypes.func.isRequired
-}
-
-Footer.propTypes = {
-	onClick: PropTypes.func.isRequired
+	onFinish: PropTypes.func.isRequired,
+	edit: PropTypes.bool,
+	item: PropTypes.object
 }
 
 NewDeviceSurvey.Footer = Footer

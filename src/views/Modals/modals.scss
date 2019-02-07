@@ -6,7 +6,7 @@
 		padding: 16px;
 
 		&.padded {
-			padding: 32px;
+			padding: 32px 40px;
 		}
 
 		@media only screen and (max-width: 992px) {
@@ -27,7 +27,7 @@
 		.form-row {
 			@extend .flex-row;
 			justify-content: space-between;
-			align-items: center;
+			align-items: flex-start;
 
 			@media only screen and (max-width: 992px) {
 				flex-direction: column;
@@ -67,11 +67,16 @@
 				font-weight: normal;
 				color: $wedge-blue-gray;
 			}
+			.type-icon--container {
+				width: 48px;
+			}
+
 			.type-icon {
-				max-width: 24px;
+				max-width: 30px;
 				max-height: 24px;
 				margin-right: 24px;
 			}
+
 			.icon {
 				max-height: 32px;
 				color: #7f97a0;
@@ -86,8 +91,8 @@
 			opacity: 0.2;
 
 			&-horizontal {
-				margin-top: 16px;
-				margin-bottom: 16px;
+				margin-top: 32px;
+				margin-bottom: 32px;
 				height: 1px;
 				width: 100%;
 			}
@@ -97,6 +102,62 @@
 			color: #fff;
 			background-color: #36cb98;
 			border-color: darken(#36cb98, 5%);
+		}
+
+		&.new-policy-survey {
+			.advance {
+				margin-top: 48px;
+			}
+			.checkbox-label {
+				margin-top: 16px;
+				span.title {
+					position: absolute;
+					margin-left: 4px;
+					font-size: 14px;
+					font-weight: 600;
+					color: $wedge-blue-gray;
+					text-transform: none;
+					margin-top: 2px;
+				}
+			}
+			.notes-container {
+				flex: 2;
+			}
+			.expiry-container {
+				flex: 1;
+			}
+			.actions-container {
+				flex: 1;
+			}
+			.actions-container,
+			.expiry-container,
+			.description-container,
+			.services-container,
+			.applications-container,
+			.destinations-container {
+				margin-left: 16px;
+				@media (max-width: 993px) {
+					margin-left: 0;
+				}
+			}
+			.add-button {
+				margin-right: 8px;
+			}
+			.policy--application_single,
+			.policy--destination_single,
+			.policy--source_single,
+			.policy--services_single {
+				@extend .flex-row;
+				margin: 8px 0;
+				justify-content: space-between;
+				.red-delete-icon {
+					font-size: 20px;
+					margin-right: 8px;
+					color: red;
+					font-weight: bold;
+					cursor: pointer;
+				}
+			}
 		}
 
 		&.new-gateway-survey {

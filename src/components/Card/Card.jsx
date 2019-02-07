@@ -25,7 +25,7 @@ Card.propTypes = {
 	hCenter: PropTypes.bool,
 	title: PropTypes.string,
 	category: PropTypes.string,
-	children: PropTypes.element
+	children: PropTypes.oneOfType([PropTypes.element, PropTypes.array])
 }
 
 Card.defaultProps = {

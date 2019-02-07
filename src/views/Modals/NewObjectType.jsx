@@ -1,11 +1,11 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import './modals.scss'
+import React from 'react'
+import AddressIcon from '../../assets/img/PNG/address.png'
+import GoArrow from '../../assets/img/PNG/arrow.png'
 
 import DeviceIcon from '../../assets/img/PNG/device.png'
 import GatewayIcon from '../../assets/img/PNG/gateway.png'
-import AddressIcon from '../../assets/img/PNG/address.png'
-import GoArrow from '../../assets/img/PNG/arrow.png'
+import './modals.scss'
 
 const AVAILABLE_TYPES = [
 	{
@@ -16,7 +16,11 @@ const AVAILABLE_TYPES = [
 	{
 		name: 'gateway',
 		title: 'Gateway',
-		icon: GatewayIcon
+		icon: GatewayIcon,
+		iconStyle: {
+			width: 30,
+			height: 17
+		}
 	},
 	{
 		name: 'address',
@@ -38,11 +42,14 @@ export default class NewObjectType extends React.PureComponent {
 							className={'option-container'}
 							onClick={() => onTypeChoose(type.name)}
 						>
-							<img
-								className={'type-icon'}
-								src={type.icon}
-								alt={`${type.name}-icon`}
-							/>
+							<div className={'type-icon--container'}>
+								<img
+									className={'type-icon'}
+									src={type.icon}
+									alt={`${type.name}-icon`}
+									style={type.iconStyle}
+								/>
+							</div>
 							<p className={'option medium'}>{type.title}</p>
 							<img src={GoArrow} className={'go-arrow'} alt={'go-arrow'} />
 						</div>

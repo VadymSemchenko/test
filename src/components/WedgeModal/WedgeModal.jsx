@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import Modal from 'react-modal'
-import PropTypes from 'prop-types'
+import { CLOSE } from '../../assets/Icons'
 import './wedge-modal.scss'
 
 const customStyles = {
@@ -8,15 +9,16 @@ const customStyles = {
 		top: '50%',
 		left: '50%',
 		width: '60%',
-		minWidth: '350px',
-		maxWidth: '100%',
-		maxHeight: '600px',
 		right: 'auto',
 		bottom: 'auto',
 		marginRight: '-50%',
 		transform: 'translate(-50%, -50%)',
 		padding: '0px',
-		border: '0px'
+		border: '0px',
+		minWidth: '350px',
+		maxWidth: '100%',
+		maxHeight: '600px',
+		borderRadius: 0
 	},
 	overlay: {
 		position: 'fixed',
@@ -29,12 +31,38 @@ const customStyles = {
 	}
 }
 
+function getStyles(size) {
+	switch (size) {
+		case 'big':
+			return {
+				overlay: customStyles.overlay,
+				content: {
+					...customStyles.content,
+					width: '80%'
+				}
+			}
+		case 'small':
+			return {
+				overlay: customStyles.overlay,
+				content: {
+					...customStyles.content,
+					width: '40%'
+				}
+			}
+		case 'normal':
+		default:
+			return customStyles
+	}
+}
+
 export default function WedgeModal({
 	isOpen,
 	onClose,
 	afterOpen,
 	children,
 	footer,
+	size,
+	additionalAction = false,
 	title = 'Example title'
 }) {
 	return (
@@ -43,15 +71,25 @@ export default function WedgeModal({
 			shouldCloseOnOverlayClick={false}
 			onAfterOpen={afterOpen}
 			onRequestClose={onClose}
-			style={customStyles}
+			style={getStyles(size)}
 		>
 			<div className={'wedge-modal'}>
 				<div className={'wedge-modal__header header'}>
 					<p className={'header__title'}>{title}</p>
-					<i
-						className={'header__close pe-7s-close'}
-						onClick={() => onClose()}
-					/>
+					<div className={'header__actions-container'}>
+						{additionalAction && (
+							<i
+								className={`header__action ${additionalAction.icon}`}
+								onClick={additionalAction.callback}
+							/>
+						)}
+						<img
+							src={CLOSE}
+							alt={'close-icon'}
+							className={'header__close'}
+							onClick={onClose}
+						/>
+					</div>
 				</div>
 				<div className={'wedge-modal__content'}>
 					{children}
@@ -62,11 +100,17 @@ export default function WedgeModal({
 	)
 }
 
+WedgeModal.defaultProps = {
+	size: 'normal'
+}
+
 WedgeModal.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
 	afterOpen: PropTypes.func,
 	children: PropTypes.element,
 	footer: PropTypes.element,
-	title: PropTypes.string
+	title: PropTypes.string,
+	additionalAction: PropTypes.object,
+	size: PropTypes.oneOf(['small', 'normal', 'big'])
 }

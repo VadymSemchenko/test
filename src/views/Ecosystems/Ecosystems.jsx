@@ -6,6 +6,7 @@ import {
 	createErrorMessageSelector,
 	createLoadingSelector
 } from '../../store/utils/selectors'
+import AddEcosystem from './components/AddEcosystem/AddEcosystem'
 import EcosystemItem from './components/EcosystemItem/EcosystemItem'
 import './ecosystems.scss'
 import { fetchEcosystems, openEcosystem } from './scenario-actions'
@@ -30,6 +31,7 @@ class Ecosystems extends Component {
 		}
 		return (
 			<div className={'ecosystems'}>
+				<AddEcosystem />
 				{ecosystems.map((eco, index) => (
 					<EcosystemItem
 						ecosystem={eco}
