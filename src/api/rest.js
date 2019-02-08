@@ -21,6 +21,19 @@ const rest = axios.create({
 	]
 })
 
+rest.interceptors.request.use(
+	config => {
+		const token = localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY)
+
+		if (token != null) {
+			config.headers.Authorization = `Bearer ${token}`
+		}
+
+		return config
+	},
+	err => Promise.reject(err)
+)
+
 rest.interceptors.response.use(
 	response => {
 		store.dispatch(renewToken())
@@ -99,7 +112,7 @@ export function login(credentials) {
 }
 
 export function logout() {
-	return rest.post(`/v2/auth/logout`).then(response => response.data)
+	return rest.post(`/v2/auth/logout`, {}).then(response => response.data)
 }
 
 // TODO: it's mocked
