@@ -7,6 +7,7 @@ cd $WORKSPACE
 
 $WORKSPACE/builder/build -i ubuntu-deb-builder:18.04 \
     -o $WORKSPACE/output \
+    -b $gitlabSourceBranch \
     -p wedge \
     $WORKSPACE/
 
