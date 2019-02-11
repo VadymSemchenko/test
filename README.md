@@ -9,19 +9,29 @@
 4. Then: ```npm start```
 5. Navigate to `http://localhost:3000/`
 
-## Production
+## Jenkins
+1. Instead of running ```npm install``` use ```npm set progress=false && npm ci```. 
+It should decrease build time
 
-1. Build code, styles and assets with ```npm run build```
-2. Copy `build` directory into destination server
-3. Point Nginx/Apache/web server on that directory to serve that files (or use S3)
+## Production
+1. Build code, styles and assets with ```npm run build:production```
+2. Copy `build` directory to S3
+
+## Staging
+1. Build code, styles and assets with ```npm run build:staging```
+2. Copy `build` directory to S3
+
+## Development
+1. Build code, styles and assets with ```npm run build:latest```
+2. Copy `build` directory to S3
 
 ## Variables
 
 Environmental variables can be defined in `.env` files. In root path there should be at least
-three `.env` files:
+four `.env` files:
 * .env 
-* .env.development
-* .env.production
+* .env.development -> local development environment
+* .env.latest      -> development environment
+* .env.staging     -> staging environment
+* .env.production  -> production environment
 Variables should be named with prefix `REACT_APP_`
-
-

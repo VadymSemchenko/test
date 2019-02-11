@@ -10,6 +10,7 @@ Options:
   -i IMAGE   Name of the docker image (including tag) to use as package build environment.
   -o DIR     Destination directory to store packages to
   -p PACKAGE Name of package which should be built
+  -b BRANCH  Gitlab source branch
 EOF
     exit 1
 }
@@ -28,7 +29,7 @@ function abspath {
 
 [[ $# -eq 0 ]] && usage
 
-while getopts "i:o:p:d:h" opt; do
+while getopts "i:o:p:b:d:h" opt; do
     case $opt in
         i)
             image="$OPTARG"
@@ -38,6 +39,9 @@ while getopts "i:o:p:d:h" opt; do
             ;;
         p)
             package="$OPTARG"
+            ;;
+        b)
+            gitlabSourceBranch="$OPTARG"
             ;;
 	d)
 	    depdir="$OPTARG"
@@ -63,6 +67,7 @@ docker_args=" "
 # [[ ! -r "$srcdir/debian" ]] && fatal "source direcotry does not contain debian sub directory"
 [[ !    "$package"       ]] && fatal "package name was not given (-p PACKAGE)"
 [[ !    "$image"         ]] && fatal "docker image name not given (-i IMAGE)"
+[[ !    "$gitlabSourceBranch"         ]] && fatal "gitlab branch name not given (-b BRANCH)"
 
 # Check that optional parameters are valid
 if [[ "$depdir" ]]; then
@@ -80,12 +85,18 @@ docker_args+="-e USER=$(id -u) -e GROUP=$(id -g) "
 # Pass package name to container
 docker_args+=" -e PACKAGENAME=$package "
 
-
+# Pass environment to container
+if [[ "$gitlabSourceBranch" == "production" ]]; then
+  docker_args+=" -e ENVIRONMENT=production "
+elif [[ "gitlabSourceBranch" == "master" ]]; then
+  docker_args+=" -e ENVIRONMENT=staging "
+else 
+  docker_args+=" -e ENVIRONMENT=latest "
+fi
+  
 # Comment following out if you want to keep container after execution
 # for debugging
-docker_args+="--rm "
-
-
+docker_args+=" --rm "
 
 cmd="docker run $docker_args $image /build-helper.sh"
 
