@@ -53,17 +53,19 @@ if (process.env.REACT_APP_ENABLE_MOCK) {
 	mock
 		.onGet('/ecosystems')
 		.reply(200, ecosystemsExampleData)
-		.onGet('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/objects')
+		.onGet('/ecosystems/e6960bd4-2275-4d55-a1e7-a9101e79ba36/objects')
 		.reply(200, list)
-		.onGet('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/policies')
+		.onGet('/ecosystems/e6960bd4-2275-4d55-a1e7-a9101e79ba36/policies')
 		.reply(200, policiesList)
-		.onPost('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/policies')
-		.reply(400, {})
-		.onPost('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/services')
+		.onPost('/ecosystems/e6960bd4-2275-4d55-a1e7-a9101e79ba36/policies')
+		.reply(200, {})
+		.onPost('/ecosystems/e6960bd4-2275-4d55-a1e7-a9101e79ba36/services')
 		.reply(201, newService)
-		.onPost('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/objects')
+		.onPost('/ecosystems/e6960bd4-2275-4d55-a1e7-a9101e79ba36/objects')
 		.reply(201, newOne)
-		.onPut('/ecosystems/123ds-1231qwsdfsd-12eqadfgs/objects/2ewsvw234ewrdsf')
+		.onPut(
+			'/ecosystems/e6960bd4-2275-4d55-a1e7-a9101e79ba36/objects/2ewsvw234ewrdsf'
+		)
 		.reply(400)
 		.onPost('/v2/auth/login')
 		.passThrough()
@@ -115,7 +117,42 @@ export function logout() {
 	return rest.post(`/v2/auth/logout`, {}).then(response => response.data)
 }
 
+export async function fetchReports({ query, ecosystem, customer }) {
+	const hits = await rest
+		.post(
+			`/v2/customers/${customer}/ecosystems/${ecosystem}/logs/_search`,
+			query
+		)
+		.then(response => {
+			return response.data.hits.hits
+		})
+	return hits
+		.map(report => ({ ...report._source, id: report._id }))
+		.map(report => {
+			return {
+				id: report.id,
+				date: report.EventDatetime,
+				policy: report.PolicyID,
+				source: report.SourceID,
+				service: {
+					protocol: '',
+					port: report.DestinationPort,
+					tcp: 'UDP',
+					status: ''
+				},
+				application: '',
+				destination: report.DestinationID,
+				actions: [report.EventAction],
+				alert: 'Threat',
+				status: 'active'
+			}
+		})
+}
+
 // TODO: it's mocked
-function getUrlForType(type, ecosystem = '123ds-1231qwsdfsd-12eqadfgs') {
+function getUrlForType(
+	type,
+	ecosystem = 'e6960bd4-2275-4d55-a1e7-a9101e79ba36'
+) {
 	return `/ecosystems/${ecosystem}/objects`
 }
