@@ -88,12 +88,12 @@ docker_args+=" -e PACKAGENAME=$package "
 # Pass environment to container
 if [[ "$gitlabSourceBranch" == "production" ]]; then
   docker_args+=" -e ENVIRONMENT=production "
-elif [[ "gitlabSourceBranch" == "master" ]]; then
+elif [[ "$gitlabSourceBranch" == "master" ]]; then
   docker_args+=" -e ENVIRONMENT=staging "
-else 
+else
   docker_args+=" -e ENVIRONMENT=latest "
 fi
-  
+
 # Comment following out if you want to keep container after execution
 # for debugging
 docker_args+=" --rm "
