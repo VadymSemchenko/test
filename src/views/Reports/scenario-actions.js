@@ -31,7 +31,7 @@ export function fetchReports() {
 			})
 			dispatch(fetchingReportsSuccess(reports))
 		} catch (err) {
-			dispatch(fetchingReportsFailed())
+			dispatch(fetchingReportsFailed(err))
 		}
 	}
 }

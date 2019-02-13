@@ -15,6 +15,7 @@ const auth = axios.create({
 const rest = axios.create({
 	baseURL: process.env.REACT_APP_API_URL,
 	transformResponse: [
+		...axios.defaults.transformResponse,
 		data => {
 			return humps.camelizeKeys(data)
 		}
@@ -67,8 +68,6 @@ if (process.env.REACT_APP_ENABLE_MOCK) {
 			'/ecosystems/e6960bd4-2275-4d55-a1e7-a9101e79ba36/objects/2ewsvw234ewrdsf'
 		)
 		.reply(400)
-		.onPost('/v2/auth/login')
-		.passThrough()
 		.onAny()
 		.passThrough()
 }
@@ -126,23 +125,25 @@ export async function fetchReports({ query, ecosystem, customer }) {
 		.then(response => {
 			return response.data.hits.hits
 		})
+	console.log({ hits })
 	return hits
-		.map(report => ({ ...report._source, id: report._id }))
+		.map(report => ({ ...report.source, id: report.id }))
 		.map(report => {
+			console.log({ report })
 			return {
 				id: report.id,
-				date: report.EventDatetime,
-				policy: report.PolicyID,
-				source: report.SourceID,
+				date: report.eventDatetime,
+				policy: report.policyID,
+				source: report.sourceID,
 				service: {
 					protocol: '',
-					port: report.DestinationPort,
+					port: report.destinationPort,
 					tcp: 'UDP',
 					status: ''
 				},
 				application: '',
-				destination: report.DestinationID,
-				actions: [report.EventAction],
+				destination: report.destinationID,
+				actions: [report.eventAction],
 				alert: 'Threat',
 				status: 'active'
 			}
