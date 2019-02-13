@@ -134,7 +134,7 @@ export async function fetchReports({ query, ecosystem, customer }) {
 				id: report.id,
 				date: report.eventDatetime,
 				policy: report.policyID,
-				source: report.sourceID,
+				source: report.sourceGeography,
 				service: {
 					protocol: '',
 					port: report.destinationPort,
@@ -142,7 +142,7 @@ export async function fetchReports({ query, ecosystem, customer }) {
 					status: ''
 				},
 				application: '',
-				destination: report.destinationID,
+				destination: report.destinationGeography,
 				actions: [report.eventAction],
 				alert: 'Threat',
 				status: 'active'
