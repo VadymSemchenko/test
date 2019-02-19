@@ -246,12 +246,13 @@ body > .navbar-collapse {
 }
 
 .main-panel {
-	background: rgba(203, 203, 210, 0.15);
+	background-color: #f9f9f9;
 	position: relative;
 	float: right;
 	width: $sidebar-width;
 
 	> .content {
+		margin-top: 110px;
 		padding: 48px 32px;
 		min-height: calc(100% - 123px);
 	}
@@ -281,6 +282,11 @@ body > .navbar-collapse {
 	justify-content: space-between;
 	align-items: center;
 	height: 110px;
+	position: fixed;
+	width: calc(100% - 285px);
+	background-color: #f9f9f9;
+	z-index: 10;
+
 	.logo {
 		display: flex;
 		align-items: center;

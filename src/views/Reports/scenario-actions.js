@@ -1,4 +1,5 @@
 import * as ES from '../../api/elasticsearch'
+import * as api from '../../api/rest'
 import {
 	fetchingReportsFailed,
 	fetchingReportsStarted,
@@ -8,25 +9,29 @@ import {
 const REPORTS_PER_PAGE = process.env.REACT_APP_REPORTS_PER_PAGE || 50
 
 export function fetchReports() {
-	return async dispatch => {
+	return async (dispatch, getState) => {
 		try {
 			dispatch(fetchingReportsStarted())
-			const reports = await ES.fetchReports({
+			const reports = await api.fetchReports({
+				ecosystem: getState().ecosystems.currentEcosystem.id,
+				customer: getState().auth.selectedCustomer.id,
 				query: {
-					bool: {
-						must: {
-							match_all: {}
+					query: {
+						bool: {
+							must: {
+								match_all: {}
+							}
 						}
-					}
-				},
-				sort: {
-					EventDatetime: { order: 'asc' }
-				},
-				size: REPORTS_PER_PAGE
+					},
+					sort: {
+						EventDatetime: { order: 'asc' }
+					},
+					size: REPORTS_PER_PAGE
+				}
 			})
 			dispatch(fetchingReportsSuccess(reports))
 		} catch (err) {
-			dispatch(fetchingReportsFailed())
+			dispatch(fetchingReportsFailed(err))
 		}
 	}
 }

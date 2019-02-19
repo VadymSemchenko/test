@@ -2,7 +2,7 @@ import moment from 'moment'
 
 export default [
 	{
-		id: '123ds-1231qwsdfsd-12eqadfgs',
+		id: 'e6960bd4-2275-4d55-a1e7-a9101e79ba36',
 		name: 'Test Ecosystem #1',
 		lastSeen: moment()
 			.subtract(5, 'hours')

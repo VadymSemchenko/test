@@ -62,8 +62,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "build:latest": "REACT_APP_API_URL=http://dev-aws1-api-01.ops.acreto.io:7010/ npm run build",
-    "build:staging": "REACT_APP_API_URL=http://aws1-api-01.ops.acreto.io:7010/ npm run build",
-    "build:production": "REACT_APP_API_URL=http://aws1-api-01.ops.acreto.io:7010/ npm run build"
+    "build:staging": "REACT_APP_API_URL=http://staging-aws1-api-01.ops.acreto.io:7010/ npm run build",
+    "build:production": "REACT_APP_API_URL=http://34.193.233.210:7010/ npm run build"
   },
   "lint-staged": {
     "linters": {
