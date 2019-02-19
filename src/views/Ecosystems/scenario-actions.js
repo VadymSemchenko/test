@@ -24,6 +24,6 @@ export function openEcosystem(ecosystem) {
 	return dispatch => {
 		dispatch(setCurrentEcosystem(ecosystem))
 		Cookie.set('currentEcosystem', ecosystem)
-		history.push(`/ecosystems/${ecosystem.id}/reports`) // TO BE CHANGED later
+		history.push(`/ecosystems/${ecosystem.id}/objects`) // TO BE CHANGED later
 	}
 }

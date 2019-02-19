@@ -2,6 +2,8 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { LOGIN_EMAIL, LOGIN_PASSWORD } from '../../assets/Icons'
 import {
 	createErrorMessageSelector,
@@ -11,6 +13,16 @@ import './login-form.scss'
 import { login } from './scenario-actions'
 
 class LoginForm extends Component {
+	componentDidMount() {
+		const { warning } = this.props.location.state || { warning: false }
+		if (warning) {
+			toast.error('You have been logged out!', {
+				autoClose: false,
+				hideProgressBar: true
+			})
+		}
+	}
+
 	handleSubmit = e => {
 		e.preventDefault()
 		const data = new FormData(e.target)
@@ -24,6 +36,7 @@ class LoginForm extends Component {
 	render() {
 		return (
 			<div className={'login-form-page--content'}>
+				<ToastContainer />
 				<div className={'login-form'}>
 					<h2 className={'title'}>Log in</h2>
 					{this.props.error && (
