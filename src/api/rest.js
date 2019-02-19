@@ -22,10 +22,8 @@ const rest = axios.create({
 
 rest.interceptors.request.use(
 	config => {
-		console.log('REQUEST_INTERCEPTOR')
 		const token = localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY)
 
-		console.log({ token })
 		if (token === null) {
 			store.dispatch(logoutUser())
 			return config
