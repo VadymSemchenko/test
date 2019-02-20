@@ -44,6 +44,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "23.6.0",
     "babel-preset-env": "^1.7.0",
+    "env-cmd": "^8.0.2",
     "eslint": "^5.8.0",
     "eslint-config-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.11.1",
@@ -61,9 +62,9 @@
     "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "build:latest": "REACT_APP_API_URL=http://dev-aws1-api-01.ops.acreto.io:7010/ npm run build",
-    "build:staging": "REACT_APP_API_URL=http://staging-aws1-api-01.ops.acreto.io:7010/ npm run build",
-    "build:production": "REACT_APP_API_URL=http://34.193.233.210:7010/ npm run build"
+    "build:latest": "env-cmd ./.env.latest npm run build",
+    "build:staging": "env-cmd ./.env.staging npm run build",
+    "build:production": "env-cmd ./.env.production npm run build"
   },
   "lint-staged": {
     "linters": {
