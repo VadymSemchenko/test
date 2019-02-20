@@ -36,7 +36,9 @@ class ExpiryWarning extends React.Component {
 		const show = diff < process.env.REACT_APP_EXPIRY_WARNING_THRESHOLD_SHOW
 		return (
 			<div className={`expiry-warning ${show ? 'visible' : 'hidden'}`}>
-				{`You're inactive for almost 15 minutes. Perform any actions or you will be log out in ${diff} seconds!`}
+				{`You're inactive for almost ${
+					process.env.REACT_APP_TOKEN_EXPIRATION_TIME
+				} minutes. Perform any actions or you will be log out in ${diff} seconds!`}
 			</div>
 		)
 	}
