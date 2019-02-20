@@ -16,9 +16,7 @@ const rest = axios.create({
 	baseURL: process.env.REACT_APP_API_URL,
 	transformResponse: [
 		...axios.defaults.transformResponse,
-		data => {
-			return humps.camelizeKeys(data)
-		}
+		data => humps.camelizeKeys(data)
 	]
 })
 
@@ -26,9 +24,11 @@ rest.interceptors.request.use(
 	config => {
 		const token = localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY)
 
-		if (token != null) {
-			config.headers.Authorization = `Bearer ${token}`
+		if (token === null) {
+			store.dispatch(logoutUser())
+			return config
 		}
+		config.headers.Authorization = `Bearer ${token}`
 
 		return config
 	},

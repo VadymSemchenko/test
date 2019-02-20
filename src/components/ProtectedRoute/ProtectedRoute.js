@@ -16,7 +16,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
 						push
 						to={{
 							pathname: '/auth/login',
-							state: { from: props.location }
+							state: { from: props.location, warning: true }
 						}}
 					/>
 				)
