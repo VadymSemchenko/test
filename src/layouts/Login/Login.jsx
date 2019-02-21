@@ -2,7 +2,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import connect from 'react-redux/es/connect/connect'
-import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
+import { Redirect, Route, Switch, withRouter, Link } from 'react-router-dom'
 import { ACRETO_LOGO, LOGIN_FOOTER } from '../../assets/Icons'
 import ProtectedRoute from '../../components/ProtectedRoute/ProtectedRoute'
 import {
@@ -11,21 +11,52 @@ import {
 } from '../../store/utils/selectors'
 import CustomersForm from '../../views/CustomersForm/CustomersForm'
 import LoginForm from '../../views/LoginForm/LoginForm'
+import SignUpForm from '../../views/SignUpForm/SignUpForm'
 import './login.scss'
 
 class Login extends Component {
+	linkRoutes = {
+		login: '/auth/login',
+		signUp: '/auth/sign-up'
+	}
+	titles = {
+		login: 'Log In',
+		signUp: 'Sign Up'
+	}
+
 	render() {
+		const {
+			location: { pathname }
+		} = this.props
+		const linkTitle =
+			pathname === this.linkRoutes.signUp
+				? this.titles.login
+				: this.titles.signUp
+		const linkRoute =
+			pathname === this.linkRoutes.signUp
+				? this.linkRoutes.login
+				: this.linkRoutes.signUp
+		const formTitle =
+			!pathname === this.linkRoutes.signUp
+				? this.titles.login
+				: this.titles.signUp
 		return (
 			<div className="login-page">
 				<div className={'login-page--header header'}>
 					<img src={ACRETO_LOGO} alt={'acreto-logo'} className={'logo'} />
-					<div className={'button component-coming-soon'}>Sign up</div>
+					<Link to={linkRoute} className={'button component-coming-soon'}>
+						{linkTitle}
+					</Link>
 				</div>
 
 				<Switch>
 					<Route exact path={'/auth/login'} render={LoginForm} />
 					<ProtectedRoute path={'/auth/customers'} component={CustomersForm} />
-
+					<Route
+						exact
+						path={'/auth/sign-up'}
+						render={props => <SignUpForm {...props} formTitle={formTitle} />}
+					/>
 					<Redirect to={'/auth/login'} />
 				</Switch>
 
