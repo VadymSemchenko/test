@@ -1,5 +1,8 @@
 import {
 	APPEND_NEW_SERVICE,
+	CREATE_ECOSYSTEM_FAILURE,
+	CREATE_ECOSYSTEM_REQUESTED,
+	CREATE_ECOSYSTEM_SUCCESS,
 	FETCHING_ECOSYSTEMS_FAILURE,
 	FETCHING_ECOSYSTEMS_REQUESTED,
 	FETCHING_ECOSYSTEMS_SUCCESS,
@@ -32,6 +35,26 @@ export function fetchingEcosystemsFailure(err) {
 		payload: {
 			message: err
 		}
+	}
+}
+
+export function createEcosystemStarted() {
+	return {
+		type: CREATE_ECOSYSTEM_REQUESTED
+	}
+}
+
+export function createEcosystemSuccess(result) {
+	return {
+		type: CREATE_ECOSYSTEM_SUCCESS,
+		payload: result
+	}
+}
+
+export function createEcosystemFailed(err) {
+	return {
+		type: CREATE_ECOSYSTEM_FAILURE,
+		payload: err
 	}
 }
 

@@ -143,10 +143,25 @@
 			.add-button {
 				margin-right: 8px;
 			}
-			.policy--application_single,
+			.ecosystem--users_single .policy--application_single,
 			.policy--destination_single,
 			.policy--source_single,
 			.policy--services_single {
+				@extend .flex-row;
+				margin: 8px 0;
+				justify-content: space-between;
+				.red-delete-icon {
+					font-size: 20px;
+					margin-right: 8px;
+					color: red;
+					font-weight: bold;
+					cursor: pointer;
+				}
+			}
+		}
+
+		&.create-new-ecosystem {
+			.ecosystem--users_single {
 				@extend .flex-row;
 				margin: 8px 0;
 				justify-content: space-between;

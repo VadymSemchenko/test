@@ -13,7 +13,7 @@ export function fetchReports() {
 		try {
 			dispatch(fetchingReportsStarted())
 			const reports = await api.fetchReports({
-				ecosystem: getState().ecosystems.currentEcosystem.id,
+				ecosystem: getState().ecosystems.currentecosystem.uuid,
 				customer: getState().auth.selectedCustomer.id,
 				query: {
 					query: {

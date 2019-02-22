@@ -40,10 +40,10 @@ export function renderLocationDetails(data) {
 	)
 }
 
-export function Footer({ edit, onClick }) {
+export function Footer({ edit, onClick, disabled }) {
 	return (
 		<div className={'survey__footer'}>
-			<Button bsStyle={'primary'} onClick={onClick}>
+			<Button bsStyle={'primary'} disabled={disabled} onClick={onClick}>
 				{edit ? 'Edit' : 'Add'}
 			</Button>
 		</div>
@@ -51,10 +51,12 @@ export function Footer({ edit, onClick }) {
 }
 
 Footer.defaultProp = {
-	edit: false
+	edit: false,
+	disabled: false
 }
 
 Footer.propTypes = {
+	disabled: PropTypes.bool,
 	edit: PropTypes.bool,
 	onClick: PropTypes.func.isRequired
 }

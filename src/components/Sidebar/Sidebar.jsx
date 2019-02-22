@@ -36,7 +36,7 @@ class Sidebar extends Component {
 
 	activeRoute(routeName) {
 		// PROBABLY WON'T GIVE ACTIVE, BECAUSE OF :id
-		const filledPathname = routeName.replace(':id', this.props.ecosystem.id)
+		const filledPathname = routeName.replace(':id', this.props.ecosystem.uuid)
 		return this.props.location.pathname === filledPathname ? 'active' : ''
 	}
 
@@ -79,7 +79,7 @@ class Sidebar extends Component {
 						<div className={'ecosystem--name'}>{ecosystem.name}</div>
 						<li>
 							<NavLink
-								to={'/ecosystems/:id/objects'.replace(':id', ecosystem.id)}
+								to={'/ecosystems/:id/objects'.replace(':id', ecosystem.uuid)}
 								className={'nav-link root with-arrow'}
 							>
 								<div className={'left-container'}>
@@ -108,7 +108,7 @@ class Sidebar extends Component {
 							)} nested`}
 						>
 							<NavLink
-								to={'/ecosystems/:id/objects'.replace(':id', ecosystem.id)}
+								to={'/ecosystems/:id/objects'.replace(':id', ecosystem.uuid)}
 								className="nav-link"
 								activeClassName="active"
 							>
@@ -126,7 +126,10 @@ class Sidebar extends Component {
 							)} nested`}
 						>
 							<NavLink
-								to={'/ecosystems/:id/contentlist'.replace(':id', ecosystem.id)}
+								to={'/ecosystems/:id/contentlist'.replace(
+									':id',
+									ecosystem.uuid
+								)}
 								className="nav-link"
 								activeClassName="active"
 							>
@@ -142,7 +145,7 @@ class Sidebar extends Component {
 							className={`${this.activeRoute('/ecosystems/:id/users')} nested`}
 						>
 							<NavLink
-								to={'/ecosystems/:id/users'.replace(':id', ecosystem.id)}
+								to={'/ecosystems/:id/users'.replace(':id', ecosystem.uuid)}
 								className="nav-link"
 								activeClassName="active"
 							>
@@ -152,7 +155,7 @@ class Sidebar extends Component {
 						</li>
 						<li>
 							<NavLink
-								to={'/ecosystems/:id/security'.replace(':id', ecosystem.id)}
+								to={'/ecosystems/:id/security'.replace(':id', ecosystem.uuid)}
 								className={'nav-link root'}
 							>
 								<img
@@ -174,7 +177,7 @@ class Sidebar extends Component {
 							)} nested`}
 						>
 							<NavLink
-								to={'/ecosystems/:id/security'.replace(':id', ecosystem.id)}
+								to={'/ecosystems/:id/security'.replace(':id', ecosystem.uuid)}
 								className="nav-link"
 								activeClassName="active"
 							>
@@ -202,7 +205,7 @@ class Sidebar extends Component {
 							<NavLink
 								to={'/ecosystems/:id/addresstranslations'.replace(
 									':id',
-									ecosystem.id
+									ecosystem.uuid
 								)}
 								className="nav-link"
 								activeClassName="active"
@@ -217,7 +220,7 @@ class Sidebar extends Component {
 						</li>
 						<li>
 							<NavLink
-								to={'/ecosystems/:id/reports'.replace(':id', ecosystem.id)}
+								to={'/ecosystems/:id/reports'.replace(':id', ecosystem.uuid)}
 								className={'nav-link root'}
 							>
 								<img
@@ -230,7 +233,7 @@ class Sidebar extends Component {
 						</li>
 						<li>
 							<NavLink
-								to={'/ecosystems/:id/governance'.replace(':id', ecosystem.id)}
+								to={'/ecosystems/:id/governance'.replace(':id', ecosystem.uuid)}
 								className={'nav-link root'}
 							>
 								<img
@@ -243,7 +246,7 @@ class Sidebar extends Component {
 						</li>
 					</ul>
 					<div className={'sidebar-divider'} />
-					<div className={'sidebar-item threat-index'}>
+					<div className={'sidebar-item threat-index component-coming-soon'}>
 						<div className={'flex-column'}>
 							<div className={'centered-row'}>
 								<p className={'threat-index--value'}>40</p>
@@ -262,7 +265,7 @@ class Sidebar extends Component {
 						/>
 					</div>
 					<div className={'sidebar-divider'} />
-					<div className={'sidebar-item status-info'}>
+					<div className={'sidebar-item status-info component-coming-soon'}>
 						<div className={'flex-column equal'}>
 							<p className={'status-info--good-value'}>15</p>
 							<p className={'status-info--title'}>Connected</p>
@@ -274,7 +277,7 @@ class Sidebar extends Component {
 						</div>
 					</div>
 					<div className={'sidebar-divider'} />
-					<div className={'sidebar-item notifications'}>
+					<div className={'sidebar-item notifications component-coming-soon'}>
 						<div className={'centered-row notifications--title-container'}>
 							<p className={'notifications--title'}>Status notifications</p>
 							<img

@@ -8,6 +8,11 @@
 	flex-direction: column;
 }
 
+.flex-column-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
 .centered-row {
 	@extend .flex-row;
 	align-items: center;
@@ -93,6 +98,25 @@
 	100% {
 		transform: translateX(0);
 	}
+}
+
+@keyframes flickerAnimation {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.25;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+.animate-flicker {
+	animation-duration: 1.5s;
+	animation-name: flickerAnimation;
+	animation-iteration-count: infinite;
+	animation-direction: normal;
+	animation-timing-function: ease-in-out;
 }
 
 .slow-shake {

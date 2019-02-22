@@ -12,8 +12,8 @@ export function policyReducer(state = initialState, { type, payload }) {
 		case FETCHING_POLICIES_SUCCESS: {
 			return {
 				...state,
-				[payload.ecosystem.id]: {
-					...state[payload.ecosystem.id],
+				[payload.ecosystem.uuid]: {
+					...state[payload.ecosystem.uuid],
 					policies: payload.results
 				}
 			}
@@ -22,17 +22,17 @@ export function policyReducer(state = initialState, { type, payload }) {
 			return {
 				...state,
 				[payload.ecosystem]: {
-					...state[payload.ecosystem.id],
-					policies: [payload.result, ...state[payload.ecosystem.id].policies]
+					...state[payload.ecosystem.uuid],
+					policies: [payload.result, ...state[payload.ecosystem.uuid].policies]
 				}
 			}
 		}
 		case UPDATE_POLICY_SUCCESS: {
 			return {
 				...state,
-				[payload.ecosystem.id]: {
-					...state[payload.ecosystem.id],
-					policies: state[payload.ecosystem.id].policies.map(ob =>
+				[payload.ecosystem.uuid]: {
+					...state[payload.ecosystem.uuid],
+					policies: state[payload.ecosystem.uuid].policies.map(ob =>
 						ob.id === payload.result.id ? payload.result : ob
 					)
 				}

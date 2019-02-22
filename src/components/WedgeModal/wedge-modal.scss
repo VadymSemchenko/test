@@ -2,7 +2,13 @@
 @import '../../assets/sass/common.scss';
 
 .wedge-modal {
+	max-height: 600px;
+	overflow-y: auto;
+
 	&__header {
+		position: fixed;
+		width: 100%;
+		z-index: 10001;
 		background-color: $wedge-primary-color;
 		padding: 24px 32px;
 		color: white;
@@ -12,6 +18,7 @@
 	}
 
 	&__content {
+		margin-top: 78px;
 		background-color: #f7f7f7;
 	}
 

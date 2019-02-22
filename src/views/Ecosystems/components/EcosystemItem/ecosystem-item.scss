@@ -171,6 +171,7 @@
 			margin-bottom: 36px;
 			border: 1px rgba(#bfbfbf, 0.55) solid;
 			border-radius: 20px;
+			align-items: center;
 			@extend .flex-row;
 			.divider {
 				height: 32px;
@@ -184,9 +185,9 @@
 			}
 			&__icon {
 				color: $wedge-blue-gray;
-				margin: 4px 12px;
-				height: 24px;
-				width: 24px;
+				margin: 4px 10px 4px 12px;
+				height: 14px;
+				width: 12px;
 			}
 		}
 	}

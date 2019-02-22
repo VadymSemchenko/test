@@ -22,7 +22,11 @@ class HeaderLinks extends Component {
 				</Nav>
 				<Nav pullRight>
 					{this.props.showSearch && (
-						<NavItem eventKey={0} href="#" className={'navbar-item'}>
+						<NavItem
+							eventKey={0}
+							href="#"
+							className={'navbar-item component-coming-soon'}
+						>
 							<div>
 								<img
 									src={NAVBAR_SEARCH}
@@ -32,7 +36,11 @@ class HeaderLinks extends Component {
 							</div>
 						</NavItem>
 					)}
-					<NavItem eventKey={1} href="#" className={'navbar-item'}>
+					<NavItem
+						eventKey={1}
+						href="#"
+						className={'navbar-item component-coming-soon'}
+					>
 						<div>
 							<img
 								src={NAVBAR_NOTIFICATION_FAKE}

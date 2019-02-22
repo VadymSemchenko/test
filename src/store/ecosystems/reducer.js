@@ -1,7 +1,9 @@
 import Cookie from 'js-cookie'
+import sortBy from 'lodash/sortBy'
 import { CLEAR_DATA } from '../common-action-types'
 import {
 	APPEND_NEW_SERVICE,
+	CREATE_ECOSYSTEM_SUCCESS,
 	FETCHING_ECOSYSTEMS_SUCCESS,
 	SET_CURRENT_ECOSYSTEM
 } from './action-types'
@@ -36,7 +38,13 @@ export function ecosystemsReducer(state = initialState, { type, payload }) {
 		case FETCHING_ECOSYSTEMS_SUCCESS: {
 			return {
 				...state,
-				items: payload
+				items: sortBy(payload, eco => eco.name)
+			}
+		}
+		case CREATE_ECOSYSTEM_SUCCESS: {
+			return {
+				...state,
+				items: sortBy([payload, ...state.items], eco => eco.name)
 			}
 		}
 		case SET_CURRENT_ECOSYSTEM: {

@@ -6,3 +6,15 @@
 	flex-wrap: wrap;
 	justify-content: center;
 }
+
+.error-container {
+	margin-top: 16px;
+	display: flex;
+	justify-content: center;
+}
+
+.refresh-button {
+	position: absolute;
+	bottom: 8px;
+	right: 8px;
+}
