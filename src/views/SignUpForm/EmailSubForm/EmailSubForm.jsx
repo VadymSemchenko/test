@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 import { compose } from 'recompose'
 import { withFormik } from 'formik'
 import { func, string, shape, bool } from 'prop-types'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
+import _ from 'lodash'
 import { emailValidationSchema } from '../../../utils/validationSchemas'
-import 'react-toastify/dist/ReactToastify.css'
 import { LOGIN_EMAIL } from '../../../assets/Icons'
 import '../sign-up-form.scss'
 
@@ -29,13 +29,20 @@ class EmailSubForm extends Component {
 	}
 
 	onSubmit = event => {
-		toast.error(this.props.errors.email, {
-			hideProgressBar: true
-		})
-
 		event.preventDefault()
-		const { handleSubmit } = this.props
-		handleSubmit()
+		const { isValid, handleSubmit } = this.props
+		const debounceTime = 1000
+		const checkAndSubmit = () => {
+			if (isValid !== true) {
+				toast.error(this.props.errors.email, {
+					hideProgressBar: true,
+					autoClose: debounceTime
+				})
+			} else {
+				handleSubmit()
+			}
+		}
+		_.debounce(checkAndSubmit, 1000)()
 	}
 
 	handleInputChange = event => {
@@ -47,7 +54,6 @@ class EmailSubForm extends Component {
 		const { buttonTitle, values, isValid, setFieldTouched } = this.props
 		return (
 			<form onSubmit={this.onSubmit}>
-				<ToastContainer />
 				<div className={'input-container'}>
 					<div className={'icon-container'}>
 						<img
@@ -60,7 +66,6 @@ class EmailSubForm extends Component {
 						value={values.email}
 						name={'email'}
 						placeholder={'Email'}
-						type={'email'}
 						required={true}
 						onChange={this.handleInputChange}
 						onBlur={() => setFieldTouched('email')}

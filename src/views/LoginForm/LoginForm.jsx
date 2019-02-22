@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { LOGIN_EMAIL, LOGIN_PASSWORD } from '../../assets/Icons'
 import {
@@ -36,7 +36,6 @@ class LoginForm extends Component {
 	render() {
 		return (
 			<div className={'login-form-page--content'}>
-				<ToastContainer />
 				<div className={'login-form'}>
 					<h2 className={'title'}>Log in</h2>
 					{this.props.error && (
@@ -51,12 +50,7 @@ class LoginForm extends Component {
 									alt={'input-icon'}
 								/>
 							</div>
-							<input
-								name={'email'}
-								placeholder={'Email'}
-								// type={'email'}
-								required={true}
-							/>
+							<input name={'email'} placeholder={'Email'} required={true} />
 						</div>
 						<div className={'input-container'}>
 							<div className={'icon-container'}>

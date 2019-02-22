@@ -54,7 +54,8 @@
     "husky": "^1.1.2",
     "lint-staged": "^8.0.3",
     "prettier": "^1.14.3",
-    "pretty-quick": "^1.8.0"
+    "pretty-quick": "^1.8.0",
+    "redux-devtools-extension": "^2.13.8"
   },
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
