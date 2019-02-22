@@ -200,3 +200,4 @@ export const MOCK_OPTIONS = [
 
 export const LOCAL_ACCESS_TOKEN_KEY = 'wedge_access_token'
 export const LOCAL_ACCESS_TOKEN_EXPIRY_TIME = 'wedge_token_expiry_time'
+export const LOCAL_CUSTOMER_KEY = 'wedge_customer_key'

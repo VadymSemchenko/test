@@ -6,9 +6,9 @@ import {
 	FAKE_CHART_DOWN,
 	FAKE_CHART_THREAT,
 	FAKE_CHART_UTIL,
-	ICON_MORE
+	ICON_MORE,
+	ECOSYSTEM_OWNER
 } from '../../../../assets/Icons'
-import UserIcon from '../../../../assets/img/PNG/Acreto_Icon 04.png'
 import { getIconForRegionName } from '../../../../variables/Icons'
 import './ecosystem-item.scss'
 
@@ -18,7 +18,7 @@ function NspItem({ nsp }) {
 			<div className={'nsp__image-container'}>
 				<img
 					alt={nsp.name}
-					src={getIconForRegionName(nsp.name)}
+					src={getIconForRegionName(nsp.name, nsp.status === 'green')}
 					className={'nsp__image'}
 				/>
 			</div>
@@ -73,7 +73,7 @@ export default function EcosystemItem({ ecosystem, onClick }) {
 				<div className={'item-header__caption'}>
 					<h2 className={'item-header__name'}>{ecosystem.name}</h2>
 					<p className={'item-header__subtitle'}>
-						{moment(ecosystem.lastSeen).fromNow()}
+						{moment(ecosystem.created).fromNow()}
 					</p>
 				</div>
 				<div className={'item-header__more'}>
@@ -87,9 +87,13 @@ export default function EcosystemItem({ ecosystem, onClick }) {
 				</div>
 				<div className={'owner-container'}>
 					<div className={'owner'}>
-						<img src={UserIcon} alt={'user-icon'} className={'owner__icon'} />
+						<img
+							src={ECOSYSTEM_OWNER}
+							alt={'user-icon'}
+							className={'owner__icon'}
+						/>
 						<div className={'divider'} />
-						<p className={'owner__name'}>{ecosystem.owner.fullName}</p>
+						<p className={'owner__name'}>{ecosystem.owner.username}</p>
 					</div>
 				</div>
 				<div className={'charts-container component-coming-soon'}>
@@ -132,10 +136,27 @@ export default function EcosystemItem({ ecosystem, onClick }) {
 }
 
 NspItem.propTypes = {
-	nsp: PropTypes.object.isRequired
+	nsp: PropTypes.shape({
+		name: PropTypes.string.isRequired,
+		status: PropTypes.oneOf(['green', 'yellow', 'red'])
+	}).isRequired
 }
 
 EcosystemItem.propTypes = {
-	ecosystem: PropTypes.object.isRequired,
+	ecosystem: PropTypes.shape({
+		created: PropTypes.string.isRequired,
+		description: PropTypes.string,
+		name: PropTypes.string.isRequired,
+		nsps: PropTypes.arrayOf(
+			PropTypes.shape({
+				name: PropTypes.string.isRequired,
+				status: PropTypes.oneOf(['green', 'yellow', 'red'])
+			})
+		).isRequired,
+		owner: PropTypes.shape({
+			username: PropTypes.string.isRequired
+		}).isRequired,
+		uuid: PropTypes.string.isRequired
+	}),
 	onClick: PropTypes.func.isRequired
 }

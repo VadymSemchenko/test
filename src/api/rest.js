@@ -4,7 +4,6 @@ import humps from 'humps'
 import { LOCAL_ACCESS_TOKEN_KEY } from '../enums'
 import store from '../store'
 import { logoutUser, renewToken } from '../store/auth/actions'
-import ecosystemsExampleData from './mocks/fetch_ecosystems'
 import { list, newOne } from './mocks/fetch_objects'
 import { newService, policiesList } from './mocks/fetch_policies'
 
@@ -52,9 +51,7 @@ rest.interceptors.response.use(
 if (process.env.REACT_APP_ENABLE_MOCK) {
 	const mock = new MockAdapter(rest)
 	mock
-		.onGet('/ecosystems')
-		.reply(200, ecosystemsExampleData)
-		.onGet('/ecosystems/e6960bd4-2275-4d55-a1e7-a9101e79ba36/objects')
+		.onGet('/ecosystems/00790f55-a0a5-f4a4-6041-f291324f89a1/objects')
 		.reply(200, list)
 		.onGet('/ecosystems/e6960bd4-2275-4d55-a1e7-a9101e79ba36/policies')
 		.reply(200, policiesList)
@@ -72,19 +69,30 @@ if (process.env.REACT_APP_ENABLE_MOCK) {
 		.passThrough()
 }
 
-export function fetchEcosystems() {
-	return rest.get('/ecosystems').then(response => response.data)
+export function fetchEcosystems({ customer }) {
+	return rest
+		.get(`/v2/customers/${customer}/ecosystems`)
+		.then(response => response.data)
+}
+
+export function createEcosystem({ customer, entity }) {
+	return rest
+		.post(`/v2/customers/${customer}/ecosystems`, {
+			name: entity.name,
+			nsps: ['EWR1']
+		})
+		.then(response => response.data)
 }
 
 export function fetchObjects({ ecosystem }) {
 	return rest
-		.get(`/ecosystems/${ecosystem.id}/objects`)
+		.get(`/ecosystems/${ecosystem.uuid}/objects`)
 		.then(response => response.data)
 }
 
 export function fetchPolicies({ ecosystem }) {
 	return rest
-		.get(`/ecosystems/${ecosystem.id}/policies`)
+		.get(`/ecosystems/${ecosystem.uuid}/policies`)
 		.then(response => response.data)
 }
 
@@ -98,13 +106,13 @@ export function updateObject(object) {
 
 export function createService(service, ecosystem) {
 	return rest
-		.post(`/ecosystems/${ecosystem.id}/services`, service)
+		.post(`/ecosystems/${ecosystem.uuid}/services`, service)
 		.then(response => response.data)
 }
 
 export function createPolicy(policy, ecosystem) {
 	return rest
-		.post(`/ecosystems/${ecosystem.id}/policies`, policy)
+		.post(`/ecosystems/${ecosystem.uuid}/policies`, policy)
 		.then(response => response.data)
 }
 
@@ -125,11 +133,9 @@ export async function fetchReports({ query, ecosystem, customer }) {
 		.then(response => {
 			return response.data.hits.hits
 		})
-	console.log({ hits })
 	return hits
 		.map(report => ({ ...report.source, id: report.id }))
 		.map(report => {
-			console.log({ report })
 			return {
 				id: report.id,
 				date: report.eventDatetime,

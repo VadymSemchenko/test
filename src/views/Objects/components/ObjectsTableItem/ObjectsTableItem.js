@@ -2,13 +2,10 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { COG, INCREASE_ARROW, INFO, TYPE_IOT } from '../../../../assets/Icons'
+import Nsp from '../../../../components/Nsp/Nsp'
 import Translator from '../../../../utils/enumTranslator'
 
-import {
-	getArrow,
-	getIconForRegionName,
-	getIconForStatus
-} from '../../../../variables/Icons'
+import { getIconForStatus } from '../../../../variables/Icons'
 
 import './objects-table-item.scss'
 
@@ -71,32 +68,7 @@ function NspInfo({ data, showAll = false, onExpand }) {
 							Secondary NSP
 						</p>
 					)}
-					<div key={`nsp-info-index-${index}`} className={'primary-container'}>
-						<img
-							src={getArrow(d.status === 'good')}
-							className={'arrow-status'}
-							alt={'arrow-status'}
-						/>
-						<img
-							src={getIconForRegionName(d.name, d.status === 'good')}
-							alt={'region-icon'}
-							className={'region-icon'}
-						/>
-						<div className={'divider big'} />
-						<div className={'flex-column'}>
-							<p className={'semi-strong nsp-name'}>{d.name}</p>
-							<div className={'flex-row'}>
-								<p className={'nsp-values'}>
-									{d.ping} <span className={'unit'}>ms</span>
-								</p>
-								<div className={'divider small'} />
-								<p className={'nsp-values'}>
-									{`${d.loss}% `}
-									<span className={'unit'}>Loss</span>
-								</p>
-							</div>
-						</div>
-					</div>
+					<Nsp key={`nsp-info-index-${index}`} nsp={d} />
 				</div>
 			))}
 			{!showAll && (

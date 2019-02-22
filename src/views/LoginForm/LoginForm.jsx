@@ -2,8 +2,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { toast } from 'react-toastify'
 import { LOGIN_EMAIL, LOGIN_PASSWORD } from '../../assets/Icons'
 import {
 	createErrorMessageSelector,
@@ -36,7 +35,6 @@ class LoginForm extends Component {
 	render() {
 		return (
 			<div className={'login-form-page--content'}>
-				<ToastContainer />
 				<div className={'login-form'}>
 					<h2 className={'title'}>Log in</h2>
 					{this.props.error && (

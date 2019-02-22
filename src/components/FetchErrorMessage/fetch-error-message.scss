@@ -1,0 +1,32 @@
+.fetch-error-message {
+	padding: 8px 16px;
+	background-color: #f2dede;
+	border: 1px solid #a94442;
+	color: #a94442;
+	padding: 16px;
+	border-radius: 2px;
+	&--container {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	&--text {
+		font-size: 14px;
+		margin-right: 64px;
+		color: #a94442;
+		font-weight: 600;
+	}
+	&--retry-button {
+		padding: 8px 16px;
+		color: #a94442;
+		background-color: darken(#f2dede, 5);
+		border-radius: 2px;
+		cursor: pointer;
+		font-weight: 600;
+		text-transform: uppercase;
+		&:hover {
+			background-color: darken(#f2dede, 10);
+		}
+	}
+}

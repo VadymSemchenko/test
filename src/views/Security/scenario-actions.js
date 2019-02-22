@@ -13,7 +13,6 @@ export function fetchPolicies() {
 	return async (dispatch, getState) => {
 		try {
 			const ecosystem = getState().ecosystems.currentEcosystem
-			console.log(ecosystem)
 			dispatch(fetchingPoliciesStarted())
 			const objects = await REST.fetchPolicies({
 				customer: '',
@@ -29,7 +28,7 @@ export function fetchPolicies() {
 export function createPolicy(policy) {
 	return async (dispatch, getState) => {
 		try {
-			const ecosystem = getState().ecosystems.currentEcosystem.id
+			const ecosystem = getState().ecosystems.currentecosystem.uuid
 			dispatch(creationPolicyStarted())
 			const createdPolicy = await REST.createPolicy(policy, ecosystem)
 			dispatch(creationPolicySuccess(createdPolicy, ecosystem))

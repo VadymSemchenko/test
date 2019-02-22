@@ -34,9 +34,10 @@ export function getIconForRegionName(regionName, showGreen = true) {
 			return showGreen ? US_EAST_GREEN : US_EAST_RED
 		case 'us-west-1':
 			return UsWest
-
+		case 'EWR1':
+			return showGreen ? US_EAST_GREEN : US_EAST_RED
 		default:
-			return UsWest
+			return showGreen ? US_EAST_GREEN : US_EAST_RED
 	}
 }
 

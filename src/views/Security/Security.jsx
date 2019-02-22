@@ -221,8 +221,8 @@ const mapStateToProps = state => {
 const policiesSelector = state => {
 	const ecosystem = state.ecosystems.currentEcosystem
 	if (ecosystem) {
-		return state.policies[ecosystem.id]
-			? state.policies[ecosystem.id].policies
+		return state.policies[ecosystem.uuid]
+			? state.policies[ecosystem.uuid].policies
 			: []
 	}
 

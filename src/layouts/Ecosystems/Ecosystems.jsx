@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Navbar } from 'react-bootstrap'
 import { Route, Switch } from 'react-router-dom'
-import logo from '../../assets/img/PNG/Acreto_Logo.png'
+import logo from '../../assets/img/SVG/logo.svg'
 import ExpiryWarning from '../../components/ExpiryWarning/ExpiryWarning'
 import HeaderLinks from '../../components/Header/HeaderLinks'
 import EcosystemsPage from '../../views/Ecosystems/Ecosystems'
@@ -53,7 +53,7 @@ class Ecosystems extends Component {
 							<Navbar.Brand>
 								<div className={'active'}>All ecosystems</div>
 							</Navbar.Brand>
-							<Navbar.Brand>
+							<Navbar.Brand className={'component-coming-soon'}>
 								<div>Need</div>
 							</Navbar.Brand>
 							{/*<Navbar.Toggle onClick={this.mobileSidebarToggle} />*/}

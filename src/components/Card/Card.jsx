@@ -4,7 +4,11 @@ import React, { PureComponent } from 'react'
 export class Card extends PureComponent {
 	render() {
 		return (
-			<div className={'card' + (this.props.plain ? ' card-plain' : '')}>
+			<div
+				className={`card ${this.props.plain ? ' card-plain' : ''} ${
+					this.props.className
+				}`}
+			>
 				{this.props.header && (
 					<div
 						className={'header' + (this.props.hCenter ? ' text-center' : '')}
@@ -20,6 +24,7 @@ export class Card extends PureComponent {
 }
 
 Card.propTypes = {
+	className: PropTypes.string,
 	header: PropTypes.bool,
 	plain: PropTypes.bool,
 	hCenter: PropTypes.bool,

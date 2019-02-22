@@ -316,7 +316,7 @@ class NewGatewaySurvey extends React.Component {
 						</Form.Group>
 					</Card>
 
-					<Card header={false}>
+					<Card header={false} className={'component-coming-soon'}>
 						<Form.Group full={true} label={'Description'}>
 							<Form.Text
 								value={this.state.description}

@@ -1,7 +1,8 @@
 import moment from 'moment'
 import {
 	LOCAL_ACCESS_TOKEN_EXPIRY_TIME,
-	LOCAL_ACCESS_TOKEN_KEY
+	LOCAL_ACCESS_TOKEN_KEY,
+	LOCAL_CUSTOMER_KEY
 } from '../../enums'
 import {
 	extractCustomerFromToken,
@@ -19,6 +20,7 @@ const expiryTimeFromStorage = localStorage.getItem(
 	LOCAL_ACCESS_TOKEN_EXPIRY_TIME
 )
 const tokenFromStorage = localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY)
+const customer = localStorage.getItem(LOCAL_CUSTOMER_KEY)
 
 let initialState
 
@@ -29,7 +31,7 @@ if (tokenFromStorage !== null) {
 		tokenExpireAt:
 			expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),
 		customers: extractCustomerFromToken(tokenFromStorage),
-		selectedCustomer: {},
+		selectedCustomer: customer !== null ? JSON.parse(customer) : {},
 		username: extractUsernameFromToken(tokenFromStorage)
 	}
 } else {
@@ -69,6 +71,7 @@ export function authReducer(state = initialState, { type, payload }) {
 		case LOGOUT_USER:
 			localStorage.removeItem(LOCAL_ACCESS_TOKEN_EXPIRY_TIME)
 			localStorage.removeItem(LOCAL_ACCESS_TOKEN_KEY)
+			localStorage.removeItem(LOCAL_CUSTOMER_KEY)
 			return {
 				...state,
 				isAuthenticated: false,
@@ -84,6 +87,7 @@ export function authReducer(state = initialState, { type, payload }) {
 				tokenExpireAt: expiryTime
 			}
 		case SET_CUSTOMER:
+			localStorage.setItem(LOCAL_CUSTOMER_KEY, JSON.stringify(payload))
 			return {
 				...state,
 				selectedCustomer: payload

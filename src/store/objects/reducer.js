@@ -12,8 +12,8 @@ export function objectsReducer(state = initialState, { type, payload }) {
 		case FETCHING_OBJECTS_SUCCESS: {
 			return {
 				...state,
-				[payload.ecosystem.id]: {
-					...state[payload.ecosystem.id],
+				[payload.ecosystem.uuid]: {
+					...state[payload.ecosystem.uuid],
 					objects: payload.results
 				}
 			}
@@ -21,18 +21,18 @@ export function objectsReducer(state = initialState, { type, payload }) {
 		case CREATION_OBJECT_SUCCESS: {
 			return {
 				...state,
-				[payload.ecosystem.id]: {
-					...state[payload.ecosystem.id],
-					objects: [payload.result, ...state[payload.ecosystem.id].objects]
+				[payload.ecosystem.uuid]: {
+					...state[payload.ecosystem.uuid],
+					objects: [payload.result, ...state[payload.ecosystem.uuid].objects]
 				}
 			}
 		}
 		case UPDATE_OBJECT_SUCCESS: {
 			return {
 				...state,
-				[payload.ecosystem.id]: {
-					...state[payload.ecosystem.id],
-					objects: state[payload.ecosystem.id].objects.map(ob =>
+				[payload.ecosystem.uuid]: {
+					...state[payload.ecosystem.uuid],
+					objects: state[payload.ecosystem.uuid].objects.map(ob =>
 						ob.id === payload.result.id ? payload.result : ob
 					)
 				}

@@ -262,7 +262,7 @@ class NewPolicySurvey extends React.Component {
 								</label>
 							</Form.Group>
 						</div>
-						<div className={'advance'}>
+						<div className={'advance component-coming-soon'}>
 							<AdvancedContainer>
 								<div className={'form-row'}>
 									<Form.Group

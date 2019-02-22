@@ -144,7 +144,7 @@ class NewDeviceSurvey extends React.Component {
 							</Form.Group>
 						</div>
 					</Card>
-					<Card header={false}>
+					<Card header={false} className={'component-coming-soon'}>
 						<Form.Group full={true} label={'Description'}>
 							<Form.Text
 								value={this.state.description}
