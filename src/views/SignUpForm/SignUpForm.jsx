@@ -26,9 +26,13 @@ class LoginForm extends Component {
 		error: '',
 		isLoading: false,
 		formTitle: 'Sign Up',
+		// auth: {
+		// 	email: 'test@email.com',
+		// 	activated: true
+		// }
 		auth: {
-			email: 'test@email.com',
-			activated: true
+			email: '',
+			activated: false
 		}
 	}
 
