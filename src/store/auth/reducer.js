@@ -40,7 +40,12 @@ if (tokenFromStorage !== null) {
 		tokenExpireAt: '',
 		customers: [],
 		selectedCustomer: null,
-		username: ''
+		username: '',
+		email: '',
+		uuid: '',
+		firstName: '',
+		lastName: '',
+		activated: false
 	}
 }
 

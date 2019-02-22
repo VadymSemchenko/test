@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { LOGIN_EMAIL, LOGIN_PASSWORD } from '../../assets/Icons'
 import {
 	createErrorMessageSelector,
@@ -49,12 +50,7 @@ class LoginForm extends Component {
 									alt={'input-icon'}
 								/>
 							</div>
-							<input
-								name={'email'}
-								placeholder={'Email'}
-								// type={'email'}
-								required={true}
-							/>
+							<input name={'email'} placeholder={'Email'} required={true} />
 						</div>
 						<div className={'input-container'}>
 							<div className={'icon-container'}>

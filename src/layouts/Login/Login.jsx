@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import connect from 'react-redux/es/connect/connect'
 import { Redirect, Route, Switch, withRouter, Link } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import { ACRETO_LOGO, LOGIN_FOOTER } from '../../assets/Icons'
 import ProtectedRoute from '../../components/ProtectedRoute/ProtectedRoute'
 import {
@@ -42,6 +43,7 @@ class Login extends Component {
 				: this.titles.signUp
 		return (
 			<div className="login-page">
+				<ToastContainer />
 				<div className={'login-page--header header'}>
 					<img src={ACRETO_LOGO} alt={'acreto-logo'} className={'logo'} />
 					<Link to={linkRoute} className={'button component-coming-soon'}>

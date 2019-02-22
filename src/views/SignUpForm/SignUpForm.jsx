@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
 import EmailSubForm from './EmailSubForm/EmailSubForm'
+import PersonalInfoSubForm from './PersonalInfoSubForm/PersonalInfoSubForm'
 import {
 	createErrorMessageSelector,
 	createLoadingSelector
@@ -17,17 +18,22 @@ class LoginForm extends Component {
 		error: PropTypes.string.isRequired,
 		isLoading: PropTypes.bool.isRequired,
 		location: PropTypes.object.isRequired,
-		formTitle: PropTypes.string.isRequired
+		formTitle: PropTypes.string.isRequired,
+		auth: PropTypes.object
 	}
 
 	static defaultProps = {
 		error: '',
 		isLoading: false,
-		formTitle: 'Sign Up'
+		formTitle: 'Sign Up',
+		auth: {
+			email: 'test@email.com',
+			activated: true
+		}
 	}
 
 	render() {
-		const { formTitle } = this.props
+		const { formTitle, auth } = this.props
 		return (
 			<div className={'login-form-page--content'}>
 				<div className={'login-form'}>
@@ -35,7 +41,11 @@ class LoginForm extends Component {
 					{this.props.error && (
 						<div className={'alert alert-danger'}>{this.props.error}</div>
 					)}
-					<EmailSubForm buttonTitle={formTitle} />
+					{auth.activated === false ? (
+						<EmailSubForm buttonTitle={formTitle} />
+					) : (
+						<PersonalInfoSubForm buttonTitle={formTitle} email={auth.email} />
+					)}
 				</div>
 			</div>
 		)
