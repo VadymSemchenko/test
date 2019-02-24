@@ -1,4 +1,4 @@
 export { default as emailValidationSchema } from './emailValidationSchema'
 export {
-	default as personalInfoValidationScema
-} from './personalInfoValidationScema'
+	default as personalInfoValidationSchema
+} from './personalInfoValidationSchema'

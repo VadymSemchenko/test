@@ -2,53 +2,34 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { compose } from 'recompose'
 import 'react-toastify/dist/ReactToastify.css'
 import EmailSubForm from './EmailSubForm/EmailSubForm'
 import PersonalInfoSubForm from './PersonalInfoSubForm/PersonalInfoSubForm'
-import {
-	createErrorMessageSelector,
-	createLoadingSelector
-} from '../../store/utils/selectors'
+import { emailSelector } from '../../store/user/selectors'
 import './sign-up-form.scss'
-import { login } from './scenario-actions'
 
-class LoginForm extends Component {
+class SignUpForm extends Component {
 	static propTypes = {
-		login: PropTypes.func.isRequired,
-		error: PropTypes.string.isRequired,
-		isLoading: PropTypes.bool.isRequired,
-		location: PropTypes.object.isRequired,
 		formTitle: PropTypes.string.isRequired,
-		auth: PropTypes.object
+		email: PropTypes.string.isRequired
 	}
 
 	static defaultProps = {
-		error: '',
-		isLoading: false,
-		formTitle: 'Sign Up',
-		// auth: {
-		// 	email: 'test@email.com',
-		// 	activated: true
-		// }
-		auth: {
-			email: '',
-			activated: false
-		}
+		formTitle: 'Sign Up'
 	}
 
 	render() {
-		const { formTitle, auth } = this.props
+		const { formTitle, email } = this.props
+		const isEmailSubmitted = !!email
 		return (
 			<div className={'login-form-page--content'}>
 				<div className={'login-form'}>
 					<h2 className={'title'}>{formTitle}</h2>
-					{this.props.error && (
-						<div className={'alert alert-danger'}>{this.props.error}</div>
-					)}
-					{auth.activated === false ? (
-						<EmailSubForm buttonTitle={formTitle} />
+					{isEmailSubmitted ? (
+						<PersonalInfoSubForm buttonTitle={formTitle} email={email} />
 					) : (
-						<PersonalInfoSubForm buttonTitle={formTitle} email={auth.email} />
+						<EmailSubForm buttonTitle={formTitle} />
 					)}
 				</div>
 			</div>
@@ -56,24 +37,9 @@ class LoginForm extends Component {
 	}
 }
 
-const loadingSelector = createLoadingSelector(['LOGIN'])
-const errorSelector = createErrorMessageSelector(['LOGIN'])
+const mapStateToProps = state => ({ email: emailSelector(state) })
 
-const mapStateToProps = state => {
-	return {
-		isLoading: loadingSelector(state),
-		error: errorSelector(state)
-	}
-}
-
-const mapDispatchToProps = dispatch => {
-	return {
-		login: (credentials, redirect) => dispatch(login(credentials, redirect))
-	}
-}
-
-const ConnectedLogin = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(LoginForm)
-export default withRouter(ConnectedLogin)
+export default compose(
+	connect(mapStateToProps),
+	withRouter
+)(SignUpForm)
