@@ -3,10 +3,17 @@ import React, { Component } from 'react'
 import { compose } from 'recompose'
 import { withFormik } from 'formik'
 import { func, string, shape, bool } from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { toast } from 'react-toastify'
-import _ from 'lodash'
+import { debounce } from 'lodash'
+
 import { emailValidationSchema } from '../../../utils/validationSchemas'
 import { LOGIN_EMAIL } from '../../../assets/Icons'
+
+import { registerEmail } from '../scenario-actions'
+import { clearError } from '../../../store/user/actions'
+import { errorSelector } from '../../../store/user/selectors'
 import '../sign-up-form.scss'
 
 class EmailSubForm extends Component {
@@ -21,37 +28,57 @@ class EmailSubForm extends Component {
 		}),
 		isValid: bool.isRequired,
 		setFieldTouched: func.isRequired,
-		handleChange: func.isRequired
+		handleChange: func.isRequired,
+		registerEmail: func.isRequired,
+		serverError: string.isRequired,
+		clearError: func.isRequired
 	}
 
 	static defaultProps = {
 		buttonTitle: 'Sign Up'
 	}
 
-	onSubmit = event => {
-		event.preventDefault()
-		const { isValid, handleSubmit } = this.props
-		const debounceTime = 1000
-		const checkAndSubmit = () => {
-			if (isValid !== true) {
-				toast.error(this.props.errors.email, {
-					hideProgressBar: true,
-					autoClose: debounceTime
-				})
-			} else {
-				handleSubmit()
-			}
+	componentDidUpdate(prevProps) {
+		if (this.props.serverError !== prevProps.serverError) {
+			toast.error(this.props.serverError, {
+				hideProgressBar: true,
+				autoClose: this.debounceTime
+			})
 		}
-		_.debounce(checkAndSubmit, 1000)()
 	}
 
-	handleInputChange = event => {
-		const { handleChange } = this.props
-		handleChange(event)
+	debounceTime = 1000
+
+	toastError = () => {
+		const { errors, serverError } = this.props
+		toast.error(errors.email || serverError, {
+			hideProgressBar: true,
+			autoClose: this.debounceTime
+		})
+	}
+
+	onSubmit = event => {
+		event.preventDefault()
+		const { isValid, registerEmail, values, serverError } = this.props
+		const debouncedError = debounce(this.toastError, this.debounceTime, {
+			leading: true
+		})
+		if (isValid !== true || serverError) {
+			debouncedError()
+		} else {
+			registerEmail(values.email)
+		}
 	}
 
 	render() {
-		const { buttonTitle, values, isValid, setFieldTouched } = this.props
+		const {
+			buttonTitle,
+			values,
+			isValid,
+			setFieldTouched,
+			handleChange,
+			clearError
+		} = this.props
 		return (
 			<form onSubmit={this.onSubmit}>
 				<div className={'input-container'}>
@@ -67,7 +94,8 @@ class EmailSubForm extends Component {
 						name={'email'}
 						placeholder={'Email'}
 						required={true}
-						onChange={this.handleInputChange}
+						onFocus={clearError}
+						onChange={handleChange}
 						onBlur={() => setFieldTouched('email')}
 					/>
 				</div>
@@ -87,12 +115,28 @@ class EmailSubForm extends Component {
 	}
 }
 
+const mapStateToProps = state => ({
+	serverError: errorSelector(state)
+})
+
+const mapDispatchToProps = dispatch =>
+	bindActionCreators(
+		{
+			registerEmail,
+			clearError
+		},
+		dispatch
+	)
+
 export default compose(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	),
 	withFormik({
 		mapPropsToValues: () => ({
 			email: ''
 		}),
-		handleSubmit: values => console.log('FORMIK SUBMIT EVENT', values),
 		validationSchema: emailValidationSchema
 	})
 )(EmailSubForm)

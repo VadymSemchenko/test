@@ -6,6 +6,7 @@ import store from '../store'
 import { logoutUser, renewToken } from '../store/auth/actions'
 import { list, newOne } from './mocks/fetch_objects'
 import { newService, policiesList } from './mocks/fetch_policies'
+import { get, omit } from 'lodash'
 
 const auth = axios.create({
 	baseURL: process.env.REACT_APP_API_URL
@@ -154,6 +155,14 @@ export async function fetchReports({ query, ecosystem, customer }) {
 				status: 'active'
 			}
 		})
+}
+
+export const createUser = email => auth.post('/v2/users', { email })
+
+export const fulfillUser = creds => {
+	const uuid = get(creds, 'uuid')
+	omit(creds, ['uuid'])
+	return auth.put(`/v2/user/${uuid}`, creds)
 }
 
 // TODO: it's mocked
