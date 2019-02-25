@@ -57,6 +57,11 @@ class EmailSubForm extends Component {
 		})
 	}
 
+	resetError = () => {
+		const { serverError, clearError } = this.props
+		serverError && clearError()
+	}
+
 	onSubmit = event => {
 		event.preventDefault()
 		const { isValid, registerEmail, values, serverError } = this.props
@@ -76,8 +81,7 @@ class EmailSubForm extends Component {
 			values,
 			isValid,
 			setFieldTouched,
-			handleChange,
-			clearError
+			handleChange
 		} = this.props
 		return (
 			<form onSubmit={this.onSubmit}>
@@ -94,7 +98,7 @@ class EmailSubForm extends Component {
 						name={'email'}
 						placeholder={'Email'}
 						required={true}
-						onFocus={clearError}
+						onFocus={this.resetError}
 						onChange={handleChange}
 						onBlur={() => setFieldTouched('email')}
 					/>
