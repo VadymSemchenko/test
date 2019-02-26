@@ -55,20 +55,20 @@ const dashboardRoutes = [
 		iconImage: MENU_ELEMENTS,
 		paths: [
 			{
-				path: '/dashboard/objects',
+				path: '/ecosystems/:id/objects',
 				name: 'Objects',
 				icon: 'pe-7s-albums',
 				component: LoadableObjects
 			},
 			{
-				path: '/dashboard/contentlist',
+				path: '/ecosystems/:id/contentlist',
 				name: 'Content List',
 				icon: 'pe-7s-menu',
 				iconImage: MENU_CONTENT,
 				component: LoadableContentList
 			},
 			{
-				path: '/dashboard/users',
+				path: '/ecosystems/:id/users',
 				name: 'Users',
 				icon: 'pe-7s-user',
 				iconImage: MENU_USERS,
@@ -83,14 +83,14 @@ const dashboardRoutes = [
 		iconImage: MENU_POLICIES,
 		paths: [
 			{
-				path: '/dashboard/security',
+				path: '/ecosystems/:id/security',
 				name: 'Security',
 				icon: 'pe-7s-unlock',
 				iconImage: MENU_SECURITY,
 				component: LoadableSecurity
 			},
 			{
-				path: '/dashboard/addresstranslations',
+				path: '/ecosystems/:id/addresstranslations',
 				name: 'Address Translation',
 				icon: 'pe-7s-way',
 				iconImage: MENU_ADDRESS,
@@ -99,20 +99,20 @@ const dashboardRoutes = [
 		]
 	},
 	{
-		path: '/dashboard/reports',
+		path: '/ecosystems/:id/reports',
 		name: 'Reports',
 		icon: 'pe-7s-note2',
 		iconImage: MENU_REPORT,
 		component: LoadableReports
 	},
 	{
-		path: '/dashboard/governance',
+		path: '/ecosystems/:id/governance',
 		name: 'Governance',
 		icon: 'pe-7s-users',
 		iconImage: MENU_GOVERNANCE,
 		component: LoadableGovernance
 	},
-	{ redirect: true, path: '/', to: '/dashboard/reports', name: 'Reports' }
+	{ redirect: true, path: '/', to: '/ecosystems/:id/reports', name: 'Reports' }
 ]
 
 export default dashboardRoutes
