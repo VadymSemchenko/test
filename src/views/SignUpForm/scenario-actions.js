@@ -6,7 +6,8 @@ import {
 	setError,
 	setUser
 } from '../../store/user/actions'
-import { LOCAL_ACCESS_TOKEN_KEY } from '../../enums'
+import history from '../../history'
+import { loginSuccess } from '../../store/auth/actions'
 
 export const registerEmail = email => async dispatch => {
 	dispatch(startLoading())
@@ -43,10 +44,13 @@ export const completeUser = creds => async (dispatch, getState) => {
 	set(creds, 'uuid', uuid)
 	try {
 		const result = await loginUserForToken(email)
-		const token = get(result, ['data', 'accessToken'], '')
-		localStorage.removeItem(LOCAL_ACCESS_TOKEN_KEY)
-		localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, token)
-		// dispatch(loginSuccess(token))
+		const accessToken = get(result, ['data', 'accessToken'], '')
+		dispatch(
+			loginSuccess({
+				accessToken,
+				customers: []
+			})
+		)
 	} catch (error) {
 		const status = get(error, ['response', 'status'], null)
 		dispatch(finishLoading())
@@ -70,6 +74,7 @@ export const completeUser = creds => async (dispatch, getState) => {
 	try {
 		const user = await fulfillUser(creds)
 		dispatch(setUser(user))
+		history.replace('/auth/customers')
 	} catch (error) {
 		const status = get(error, ['response', 'status'], null)
 		switch (+status) {

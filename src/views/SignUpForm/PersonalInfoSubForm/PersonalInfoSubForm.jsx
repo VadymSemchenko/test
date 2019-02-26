@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { debounce } from 'lodash'
 
 import { personalInfoValidationSchema } from '../../../utils/validationSchemas'
-import { LOGIN_PASSWORD, PERSON } from '../../../assets/Icons'
+import { PERSON } from '../../../assets/Icons'
 import { completeUser } from '../scenario-actions'
 import Spinner from 'react-spinner-material'
 import { isLoadingSelector, errorSelector } from '../../../store/user/selectors'
@@ -19,13 +19,12 @@ class PersonalInfoSubForm extends Component {
 	static propTypes = {
 		buttonTitle: string,
 		values: shape({
-			email: string
+			firstName: string,
+			lastName: string
 		}).isRequired,
 		errors: shape({
 			firstName: string,
-			lastName: string,
-			password: string,
-			confirmPassword: string
+			lastName: string
 		}),
 		isValid: bool.isRequired,
 		setFieldTouched: func.isRequired,
@@ -57,7 +56,7 @@ class PersonalInfoSubForm extends Component {
 		const {
 			isValid,
 			errors,
-			values: { firstName, lastName, password },
+			values: { firstName, lastName },
 			completeUser
 		} = this.props
 		const checkAndSubmit = () => {
@@ -72,8 +71,7 @@ class PersonalInfoSubForm extends Component {
 			} else {
 				completeUser({
 					firstName,
-					lastName,
-					password
+					lastName
 				})
 			}
 		}
@@ -117,42 +115,6 @@ class PersonalInfoSubForm extends Component {
 						onBlur={() => setFieldTouched('lastName')}
 					/>
 				</div>
-				<div className={'input-container'}>
-					<div className={'icon-container'}>
-						<img
-							src={LOGIN_PASSWORD}
-							className={'input-icon'}
-							alt={'input-icon'}
-						/>
-					</div>
-					<input
-						value={values.password}
-						name={'password'}
-						placeholder={'Your password'}
-						required={true}
-						type="password"
-						onChange={handleChange}
-						onBlur={() => setFieldTouched('password')}
-					/>
-				</div>
-				<div className={'input-container'}>
-					<div className={'icon-container'}>
-						<img
-							src={LOGIN_PASSWORD}
-							className={'input-icon'}
-							alt={'input-icon'}
-						/>
-					</div>
-					<input
-						value={values.confirmPassword}
-						name={'confirmPassword'}
-						placeholder={'Confirm your password'}
-						required={true}
-						type="password"
-						onChange={handleChange}
-						onBlur={() => setFieldTouched('confirmPassword')}
-					/>
-				</div>
 				{isLoading ? (
 					<Spinner spinnerColor="#4986c5" className="spinner" />
 				) : (
@@ -191,9 +153,7 @@ export default compose(
 	withFormik({
 		mapPropsToValues: () => ({
 			firstName: '',
-			lastName: '',
-			password: '',
-			confirmPassword: ''
+			lastName: ''
 		}),
 		validationSchema: personalInfoValidationSchema
 	})
