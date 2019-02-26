@@ -20,7 +20,7 @@ export default function App() {
 				<Router history={history}>
 					<Switch>
 						<ProtectedRoute path={'/'} exact component={Ecosystems} />
-						<ProtectedRoute path={'/dashboard'} component={Dashboard} />
+						<ProtectedRoute path={'/ecosystems'} component={Dashboard} />
 						<Route path={'/auth'} component={Login} />
 					</Switch>
 				</Router>
