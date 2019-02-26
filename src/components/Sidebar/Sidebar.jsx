@@ -79,7 +79,7 @@ class Sidebar extends Component {
 						<div className={'ecosystem--name'}>{ecosystem.name}</div>
 						<li>
 							<NavLink
-								to={'/ecosystems/:id/objects'.replace(':id', ecosystem.uuid)}
+								to={'/dashboard/objects'}
 								className={'nav-link root with-arrow'}
 							>
 								<div className={'left-container'}>
@@ -102,13 +102,9 @@ class Sidebar extends Component {
 								/>
 							</NavLink>
 						</li>
-						<li
-							className={`${this.activeRoute(
-								'/ecosystems/:id/objects'
-							)} nested`}
-						>
+						<li className={`${this.activeRoute('/dashboard/objects')} nested`}>
 							<NavLink
-								to={'/ecosystems/:id/objects'.replace(':id', ecosystem.uuid)}
+								to={'/dashboard/objects'}
 								className="nav-link"
 								activeClassName="active"
 							>
@@ -121,15 +117,10 @@ class Sidebar extends Component {
 							</NavLink>
 						</li>
 						<li
-							className={`${this.activeRoute(
-								'/ecosystems/:id/contentlist'
-							)} nested`}
+							className={`${this.activeRoute('/dashboard/contentlist')} nested`}
 						>
 							<NavLink
-								to={'/ecosystems/:id/contentlist'.replace(
-									':id',
-									ecosystem.uuid
-								)}
+								to={'/dashboard/contentlist'}
 								className="nav-link"
 								activeClassName="active"
 							>
@@ -141,11 +132,9 @@ class Sidebar extends Component {
 								<p>Content List</p>
 							</NavLink>
 						</li>
-						<li
-							className={`${this.activeRoute('/ecosystems/:id/users')} nested`}
-						>
+						<li className={`${this.activeRoute('/dashboard/users')} nested`}>
 							<NavLink
-								to={'/ecosystems/:id/users'.replace(':id', ecosystem.uuid)}
+								to={'/dashboard/users'}
 								className="nav-link"
 								activeClassName="active"
 							>
@@ -154,10 +143,7 @@ class Sidebar extends Component {
 							</NavLink>
 						</li>
 						<li>
-							<NavLink
-								to={'/ecosystems/:id/security'.replace(':id', ecosystem.uuid)}
-								className={'nav-link root'}
-							>
+							<NavLink to={'/dashboard/security'} className={'nav-link root'}>
 								<img
 									className={'small-image'}
 									alt={'Policies'}
@@ -171,13 +157,9 @@ class Sidebar extends Component {
 								/>
 							</NavLink>
 						</li>
-						<li
-							className={`${this.activeRoute(
-								'/ecosystems/:id/security'
-							)} nested`}
-						>
+						<li className={`${this.activeRoute('/dashboard/security')} nested`}>
 							<NavLink
-								to={'/ecosystems/:id/security'.replace(':id', ecosystem.uuid)}
+								to={'/dashboard/security'}
 								className="nav-link"
 								activeClassName="active"
 							>
@@ -199,11 +181,11 @@ class Sidebar extends Component {
 						</li>
 						<li
 							className={`${this.activeRoute(
-								'/ecosystems/:id/addresstranslations'
+								'/dashboard/addresstranslations'
 							)} nested`}
 						>
 							<NavLink
-								to={'/ecosystems/:id/addresstranslations'.replace(
+								to={'/dashboard/addresstranslations'.replace(
 									':id',
 									ecosystem.uuid
 								)}
@@ -219,10 +201,7 @@ class Sidebar extends Component {
 							</NavLink>
 						</li>
 						<li>
-							<NavLink
-								to={'/ecosystems/:id/reports'.replace(':id', ecosystem.uuid)}
-								className={'nav-link root'}
-							>
+							<NavLink to={'/dashboard/reports'} className={'nav-link root'}>
 								<img
 									className={'small-image'}
 									alt={'Reports'}
@@ -232,10 +211,7 @@ class Sidebar extends Component {
 							</NavLink>
 						</li>
 						<li>
-							<NavLink
-								to={'/ecosystems/:id/governance'.replace(':id', ecosystem.uuid)}
-								className={'nav-link root'}
-							>
+							<NavLink to={'/dashboard/governance'} className={'nav-link root'}>
 								<img
 									className={'small-image users'}
 									alt={'Governance'}
