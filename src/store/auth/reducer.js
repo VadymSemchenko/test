@@ -22,7 +22,7 @@ const tokenFromStorage = localStorage.getItem(LOCAL_ACCESS_TOKEN_KEY)
 
 let initialState
 
-if (tokenFromStorage !== null) {
+if (tokenFromStorage) {
 	initialState = {
 		isAuthenticated:
 			expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),

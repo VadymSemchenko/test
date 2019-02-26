@@ -7,7 +7,6 @@ import { logoutUser, renewToken } from '../store/auth/actions'
 import ecosystemsExampleData from './mocks/fetch_ecosystems'
 import { list, newOne } from './mocks/fetch_objects'
 import { newService, policiesList } from './mocks/fetch_policies'
-import { get, omit } from 'lodash'
 
 const auth = axios.create({
 	baseURL: process.env.REACT_APP_API_URL
@@ -151,12 +150,15 @@ export async function fetchReports({ query, ecosystem, customer }) {
 		})
 }
 
-export const createUser = email => auth.post('/v2/users', { email })
+export const createUser = email => rest.post('/v2/users', { email })
 
-export const fulfillUser = creds => {
-	const uuid = get(creds, 'uuid')
-	omit(creds, ['uuid'])
-	return auth.put(`/v2/user/${uuid}`, creds)
+export const loginUserForToken = email =>
+	rest.post(`v2/auth/login`, { username: email, password: 'VeryLongDefP@SS' })
+
+export const fulfillUser = ({ email, firstName, lastName }) => {
+	const path = `/v2/users/${email}`
+	// const requestPayload = omit(creds, ['uuid'])
+	return rest.put(path, { email, firstName, lastName })
 }
 
 // TODO: it's mocked

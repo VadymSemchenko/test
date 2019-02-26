@@ -6,7 +6,7 @@ import { func, string, shape, bool } from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { toast } from 'react-toastify'
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 
 import { emailValidationSchema } from '../../../utils/validationSchemas'
 import { LOGIN_EMAIL } from '../../../assets/Icons'
