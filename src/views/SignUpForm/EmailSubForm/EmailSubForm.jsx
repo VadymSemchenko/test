@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import Spinner from 'react-spinner-material'
 import React, { Component } from 'react'
 import { compose } from 'recompose'
 import { withFormik } from 'formik'
@@ -13,7 +14,7 @@ import { LOGIN_EMAIL } from '../../../assets/Icons'
 
 import { registerEmail } from '../scenario-actions'
 import { clearError } from '../../../store/user/actions'
-import { errorSelector } from '../../../store/user/selectors'
+import { errorSelector, isLoadingSelector } from '../../../store/user/selectors'
 import '../sign-up-form.scss'
 
 class EmailSubForm extends Component {
@@ -31,7 +32,8 @@ class EmailSubForm extends Component {
 		handleChange: func.isRequired,
 		registerEmail: func.isRequired,
 		serverError: string.isRequired,
-		clearError: func.isRequired
+		clearError: func.isRequired,
+		isLoading: bool.isRequired
 	}
 
 	static defaultProps = {
@@ -81,7 +83,8 @@ class EmailSubForm extends Component {
 			values,
 			isValid,
 			setFieldTouched,
-			handleChange
+			handleChange,
+			isLoading
 		} = this.props
 		return (
 			<form onSubmit={this.onSubmit}>
@@ -103,14 +106,18 @@ class EmailSubForm extends Component {
 						onBlur={() => setFieldTouched('email')}
 					/>
 				</div>
-				<input
-					type="submit"
-					className={cx({
-						'login-button': true,
-						invalid: !isValid
-					})}
-					value={buttonTitle}
-				/>
+				{isLoading ? (
+					<Spinner spinnerColor="#4986c5" className="spinner" />
+				) : (
+					<input
+						type="submit"
+						className={cx({
+							'login-button': true,
+							invalid: !isValid
+						})}
+						value={buttonTitle}
+					/>
+				)}
 				<div>
 					<span />
 				</div>
@@ -120,7 +127,8 @@ class EmailSubForm extends Component {
 }
 
 const mapStateToProps = state => ({
-	serverError: errorSelector(state)
+	serverError: errorSelector(state),
+	isLoading: isLoadingSelector(state)
 })
 
 const mapDispatchToProps = dispatch =>
