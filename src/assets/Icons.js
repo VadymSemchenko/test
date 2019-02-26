@@ -22,7 +22,7 @@ export {
 	default as NAVBAR_NOTIFICATION_FAKE
 } from './img/PNG/group-44-fake.png'
 export { default as NAVBAR_USER } from './img/SVG/profile-icon.svg'
-export { default as ICON_MORE } from './img/PNG/more.png'
+export { default as ICON_MORE } from './img/SVG/menu_vert.svg'
 export { default as FAKE_CHART_UTIL } from './img/PNG/chart-1.png'
 export { default as FAKE_CHART_THREAT } from './img/PNG/chart-2.png'
 export { default as FAKE_CHART_DOWN } from './img/PNG/chart-3.png'
