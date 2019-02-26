@@ -74,7 +74,7 @@ export const completeUser = creds => async (dispatch, getState) => {
 	try {
 		const user = await fulfillUser(creds)
 		dispatch(setUser(user))
-		history.replace('/auth/customers')
+		history.replace('/auth/customers/new')
 	} catch (error) {
 		const status = get(error, ['response', 'status'], null)
 		switch (+status) {
