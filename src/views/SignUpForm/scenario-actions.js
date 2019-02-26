@@ -44,10 +44,10 @@ export const completeUser = creds => async (dispatch, getState) => {
 	try {
 		const result = await loginUserForToken(email)
 		const token = get(result, ['data', 'accessToken'], '')
+		localStorage.removeItem(LOCAL_ACCESS_TOKEN_KEY)
 		localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, token)
 		// dispatch(loginSuccess(token))
 	} catch (error) {
-		console.log('ERROR AT REGISTERING FOR TOKEN')
 		const status = get(error, ['response', 'status'], null)
 		dispatch(finishLoading())
 		switch (+status) {
@@ -68,12 +68,9 @@ export const completeUser = creds => async (dispatch, getState) => {
 		}
 	}
 	try {
-		console.log('ATTEMPT TO FULFILL USER')
 		const user = await fulfillUser(creds)
-		console.log('USER', user)
 		dispatch(setUser(user))
 	} catch (error) {
-		console.log('ERROR AT REGISTERING USER', error)
 		const status = get(error, ['response', 'status'], null)
 		switch (+status) {
 			case 400:
