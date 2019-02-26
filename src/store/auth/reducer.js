@@ -24,7 +24,7 @@ const customer = localStorage.getItem(LOCAL_CUSTOMER_KEY)
 
 let initialState
 
-if (tokenFromStorage !== null) {
+if (tokenFromStorage) {
 	initialState = {
 		isAuthenticated:
 			expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),
