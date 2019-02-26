@@ -6,6 +6,7 @@ import { Redirect, Route, Switch, withRouter, Link } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import { ACRETO_LOGO, LOGIN_FOOTER } from '../../assets/Icons'
 import ProtectedRoute from '../../components/ProtectedRoute/ProtectedRoute'
+import UnauthorizedRoute from '../../components/UnauthorizedRoute/UnauthorizedRoute'
 import {
 	createErrorMessageSelector,
 	createLoadingSelector
@@ -54,10 +55,11 @@ class Login extends Component {
 				<Switch>
 					<Route exact path={'/auth/login'} render={LoginForm} />
 					<ProtectedRoute path={'/auth/customers'} component={CustomersForm} />
-					<Route
+					<UnauthorizedRoute
 						exact
 						path={'/auth/sign-up'}
-						render={props => <SignUpForm {...props} formTitle={formTitle} />}
+						component={SignUpForm}
+						formTitle={formTitle}
 					/>
 					<Redirect to={'/auth/login'} />
 				</Switch>

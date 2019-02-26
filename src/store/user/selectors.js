@@ -15,3 +15,10 @@ export const errorSelector = createSelector(
 	userSelector,
 	user => get(user, ['error'])
 )
+
+export const authSelector = state => get(state, ['auth'])
+
+export const isAuthenticatedSelector = createSelector(
+	authSelector,
+	auth => get(auth, ['isAuthenticated'])
+)
