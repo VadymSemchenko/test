@@ -125,11 +125,9 @@ export async function fetchReports({ query, ecosystem, customer }) {
 		.then(response => {
 			return response.data.hits.hits
 		})
-	console.log({ hits })
 	return hits
 		.map(report => ({ ...report.source, id: report.id }))
 		.map(report => {
-			console.log({ report })
 			return {
 				id: report.id,
 				date: report.eventDatetime,

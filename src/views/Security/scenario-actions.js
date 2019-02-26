@@ -13,7 +13,6 @@ export function fetchPolicies() {
 	return async (dispatch, getState) => {
 		try {
 			const ecosystem = getState().ecosystems.currentEcosystem
-			console.log(ecosystem)
 			dispatch(fetchingPoliciesStarted())
 			const objects = await REST.fetchPolicies({
 				customer: '',
