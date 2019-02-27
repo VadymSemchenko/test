@@ -49,7 +49,7 @@ class HeaderLinks extends Component {
 							/>
 						</div>
 					</NavItem>
-					<NavItem eventKey={2} href="#" className={'navbar-item last'}>
+					<div className={'navbar-item last'}>
 						<div className={'flex-row nav-profile'}>
 							<Dropdown id={'dropdown-profile-options'}>
 								<Dropdown.Toggle id="dropdown-basic">
@@ -79,7 +79,7 @@ class HeaderLinks extends Component {
 								</Dropdown.Menu>
 							</Dropdown>
 						</div>
-					</NavItem>
+					</div>
 				</Nav>
 			</div>
 		)

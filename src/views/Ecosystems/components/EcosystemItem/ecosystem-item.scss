@@ -41,6 +41,10 @@
 			color: $wedge-white;
 			font-weight: normal;
 			margin: 0;
+			text-overflow: ellipsis;
+			width: 220px;
+			white-space: nowrap;
+			overflow: hidden;
 		}
 		&__subtitle {
 			font-size: 16px;

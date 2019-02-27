@@ -1,5 +1,4 @@
 import React from 'react'
-import { Provider } from 'react-redux'
 import { Route, Router, Switch } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -9,23 +8,55 @@ import Dashboard from './layouts/Dashboard/Dashboard'
 import Ecosystems from './layouts/Ecosystems/Ecosystems'
 import Login from './layouts/Login/Login'
 import './reset.scss'
-import configureStore from './store'
+import { startup } from './store/common-scenario-actions'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import GlobalLoader from './components/GlobalLoader/GlobalLoader'
 
-const store = configureStore
+class App extends React.Component {
+	componentDidMount() {
+		this.props.startup()
+	}
 
-export default function App() {
-	return (
-		<Provider store={store}>
+	render() {
+		const { startupFinished } = this.props
+		return (
 			<React.Fragment>
-				<Router history={history}>
-					<Switch>
-						<ProtectedRoute path={'/'} exact component={Ecosystems} />
-						<ProtectedRoute path={'/ecosystems'} component={Dashboard} />
-						<Route path={'/auth'} component={Login} />
-					</Switch>
-				</Router>
+				{startupFinished ? (
+					<Router history={history}>
+						<Switch>
+							<ProtectedRoute path={'/'} exact component={Ecosystems} />
+							<ProtectedRoute path={'/ecosystems'} component={Dashboard} />
+							<Route path={'/auth'} component={Login} />
+						</Switch>
+					</Router>
+				) : (
+					<GlobalLoader />
+				)}
 				<ToastContainer />
 			</React.Fragment>
-		</Provider>
-	)
+		)
+	}
 }
+
+App.propTypes = {
+	startup: PropTypes.func.isRequired,
+	startupFinished: PropTypes.bool.isRequired
+}
+
+const mapStateToProps = state => {
+	return {
+		startupFinished: state.global.startupFinished
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		startup: () => dispatch(startup())
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(App)
