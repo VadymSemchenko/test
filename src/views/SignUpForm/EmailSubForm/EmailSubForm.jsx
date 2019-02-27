@@ -87,7 +87,7 @@ class EmailSubForm extends Component {
 			isLoading
 		} = this.props
 		return (
-			<form onSubmit={this.onSubmit}>
+			<form onSubmit={this.onSubmit} className={'form-container'}>
 				<div className={'input-container'}>
 					<div className={'icon-container'}>
 						<img

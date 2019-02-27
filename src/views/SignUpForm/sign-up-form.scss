@@ -5,12 +5,16 @@
 	&--content {
 		display: flex;
 		position: relative;
+		flex-direction: column;
 		z-index: 4;
 		padding-top: 100px;
 		justify-content: center;
 
 		@media only screen and (max-width: 992px) {
 			padding-top: 32px;
+		}
+		.stepper-container {
+			margin-bottom: 30px;
 		}
 
 		.title {
@@ -21,9 +25,16 @@
 		}
 		.login-form {
 			width: 400px;
+			margin: 0 auto;
+			display: flex;
+			align-items: center;
+			flex-direction: column;
 
 			@media only screen and (max-width: 992px) {
 				width: 360px;
+			}
+			.form-container {
+				width: 100%;
 			}
 
 			.input-container {
@@ -32,6 +43,7 @@
 				background-color: white;
 				border: 1px solid #d0d4d6;
 				display: flex;
+				width: 100%;
 				align-items: center;
 				justify-content: flex-start;
 			}
