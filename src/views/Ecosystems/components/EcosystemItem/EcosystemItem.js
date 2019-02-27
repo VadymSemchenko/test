@@ -72,8 +72,9 @@ export default function EcosystemItem({ ecosystem, onClick }) {
 			<div className={'item-header'}>
 				<div className={'item-header__caption'}>
 					<h2 className={'item-header__name'}>{ecosystem.name}</h2>
+					<h3 className={'item-header__uuid'}>{ecosystem.uuid}</h3>
 					<p className={'item-header__subtitle'}>
-						{moment(ecosystem.created).fromNow()}
+						{moment(ecosystem.created).format('D MMMM YYYY h:ma')}
 					</p>
 				</div>
 				<div className={'item-header__more'}>
