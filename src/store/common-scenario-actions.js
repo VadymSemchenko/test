@@ -9,7 +9,6 @@ import { finishStartup } from './global/actions'
 
 export function startup() {
 	return async (dispatch, getState) => {
-		console.log('STARTUP')
 		if (getState().auth.isAuthenticated) {
 			try {
 				dispatch(fetchingEcosystemsStarted())
@@ -22,6 +21,8 @@ export function startup() {
 			} finally {
 				dispatch(finishStartup())
 			}
+		} else {
+			dispatch(finishStartup())
 		}
 	}
 }
