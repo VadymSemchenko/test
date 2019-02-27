@@ -1,17 +1,17 @@
 import React from 'react'
 import { Panel } from 'react-bootstrap'
-import { CLOSE_BLACK } from '../../assets/Icons'
+import { SUCCESS } from '../../assets/Icons'
 import { string, func } from 'prop-types'
-import './error-panel.scss'
+import './success-panel.scss'
 
-const ErrorPanel = ({ message, buttonClickHandler }) => (
-	<Panel bsStyle="danger">
+const SuccessPanel = ({ message, buttonClickHandler }) => (
+	<Panel bsStyle="success">
 		<Panel.Heading>
-			<div className="error-container">
+			<div className="success-container">
 				<div>{message}</div>
 				<img
-					src={CLOSE_BLACK}
-					className="close-icon"
+					src={SUCCESS}
+					className="icon"
 					alt={'input-icon'}
 					onClick={buttonClickHandler}
 				/>
@@ -20,9 +20,9 @@ const ErrorPanel = ({ message, buttonClickHandler }) => (
 	</Panel>
 )
 
-ErrorPanel.propTypes = {
+SuccessPanel.propTypes = {
 	message: string.isRequired,
 	buttonClickHandler: func.isRequired
 }
 
-export default ErrorPanel
+export default SuccessPanel

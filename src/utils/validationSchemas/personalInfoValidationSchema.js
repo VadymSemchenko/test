@@ -1,12 +1,10 @@
 import { object, string } from 'yup'
 
-const emailValidationSchema = object({
-	firstName: string('Enter your first name')
-		.min(2)
-		.required('First name is required'),
-	lastName: string('Enter your last name')
-		.min(2)
-		.required('Last name is required')
+const personalInfoValidationSchema = object({
+	fullName: string('Full name')
+		.min(2, 'Full Name Should Contain At Least 2 Characters!')
+		.max(100)
+		.required('Full name is required')
 })
 
-export default emailValidationSchema
+export default personalInfoValidationSchema

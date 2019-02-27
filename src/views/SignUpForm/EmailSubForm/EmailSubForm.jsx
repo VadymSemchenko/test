@@ -89,23 +89,7 @@ class EmailSubForm extends Component {
 		return (
 			<form onSubmit={this.onSubmit} className={'form-container'}>
 				{shouldErrorBeDisplayed && (
-					// <Panel bsStyle="danger">
-					// 	<Panel.Heading>
-					// 		<div className="error-container">
-					// 			<div>{error}</div>
-					// 			<img
-					// 				src={CLOSE}
-					// 				className="close-icon"
-					// 				alt={'input-icon'}
-					// 				onClick={this.disableError}
-					// 			/>
-					// 		</div>
-					// 	</Panel.Heading>
-					// </Panel>
-					<ErrorPanel
-						errorMessage={error}
-						closeClickHandler={this.disableError}
-					/>
+					<ErrorPanel message={error} buttonClickHandler={this.disableError} />
 				)}
 				<div className={'input-container'}>
 					<div className={'icon-container'}>
