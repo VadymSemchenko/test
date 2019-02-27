@@ -2,6 +2,9 @@ import jwt from 'jsonwebtoken'
 import unique from 'lodash/uniqBy'
 
 export function extractCustomers(roles) {
+	if (!roles || roles === ' ') {
+		return []
+	}
 	const split = roles.split(' ')
 	const customers = split.map(part => {
 		return {
@@ -20,7 +23,7 @@ export function extractCustomerFromToken(token) {
 
 export function extractUsernameFromToken(token) {
 	const decodedToken = jwt.decode(token, { json: true })
-	return decodedToken.user
+	return decodedToken.username
 }
 
 export function pathSlugToPageName(slug) {

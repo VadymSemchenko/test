@@ -10,7 +10,11 @@ class CustomersForm extends Component {
 	componentDidMount() {
 		if (this.props.location.state) {
 			const { afterLogin, from } = this.props.location.state
-			if (afterLogin && this.props.customers.length === 1) {
+			if (
+				afterLogin &&
+				this.props.customers &&
+				this.props.customers.length === 1
+			) {
 				this.props.useCustomer(this.props.customers[0], from)
 			}
 		}
@@ -21,33 +25,43 @@ class CustomersForm extends Component {
 		this.props.useCustomer(customer, from)
 	}
 
+	renderCustomers = () => {
+		const length = this.props.customers ? this.props.customers.length : 0
+		if (length) {
+			return (
+				<div className={'customers-container'}>
+					{this.props.customers.map((customer, index) => {
+						const last = index + 1 === length
+						return (
+							<React.Fragment key={`customer-index-${index}-${customer.id}`}>
+								<div
+									className={`single-customer`}
+									onClick={() => this.handleSelectCustomer(customer)}
+								>
+									<p className={`single-customer--name`}>{customer.id}</p>
+									<img
+										src={BLUE_FORWARD_ARROW}
+										alt={'blue-forward'}
+										className={'forward-icon'}
+									/>
+								</div>
+								{!last && <div className={'divider'} />}
+							</React.Fragment>
+						)
+					})}
+				</div>
+			)
+		} else {
+			return <h4>You have no customers!</h4>
+		}
+	}
+
 	render() {
-		const length = this.props.customers.length
 		return (
 			<div className={'customers-form-page--content'}>
 				<div className={'customers-form'}>
 					<h2 className={'title'}>All customers</h2>
-					<div className={'customers-container'}>
-						{this.props.customers.map((customer, index) => {
-							const last = index + 1 === length
-							return (
-								<React.Fragment key={`customer-index-${index}-${customer.id}`}>
-									<div
-										className={`single-customer`}
-										onClick={() => this.handleSelectCustomer(customer)}
-									>
-										<p className={`single-customer--name`}>{customer.id}</p>
-										<img
-											src={BLUE_FORWARD_ARROW}
-											alt={'blue-forward'}
-											className={'forward-icon'}
-										/>
-									</div>
-									{!last && <div className={'divider'} />}
-								</React.Fragment>
-							)
-						})}
-					</div>
+					{this.renderCustomers()}
 				</div>
 			</div>
 		)

@@ -6,7 +6,9 @@ import {
 	FETCHING_ECOSYSTEMS_FAILURE,
 	FETCHING_ECOSYSTEMS_REQUESTED,
 	FETCHING_ECOSYSTEMS_SUCCESS,
-	SET_CURRENT_ECOSYSTEM
+	SET_CURRENT_ECOSYSTEM,
+	LOAD_ECOSYSTEM_REQUESTED,
+	LOAD_ECOSYSTEM_SUCCESS
 } from './action-types'
 
 export function setCurrentEcosystem(ecosystem) {
@@ -65,5 +67,17 @@ export function appendNewService(service, ecosystem) {
 			ecosystem,
 			service
 		}
+	}
+}
+
+export function loadEcosystemStarted() {
+	return {
+		type: LOAD_ECOSYSTEM_REQUESTED
+	}
+}
+
+export function loadEcosystemSuccess() {
+	return {
+		type: LOAD_ECOSYSTEM_SUCCESS
 	}
 }
