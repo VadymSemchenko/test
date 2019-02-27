@@ -3,10 +3,8 @@ import React, { Component } from 'react'
 import { compose } from 'recompose'
 import { withFormik } from 'formik'
 import { func, string, shape, bool } from 'prop-types'
-import { toast } from 'react-toastify'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { debounce } from 'lodash'
 
 import { personalInfoValidationSchema } from '../../../utils/validationSchemas'
 import { PERSON } from '../../../assets/Icons'
@@ -40,42 +38,45 @@ class PersonalInfoSubForm extends Component {
 		isLoading: true
 	}
 
-	componentDidUpdate(prevProps) {
-		if (this.props.serverError !== prevProps.serverError) {
-			toast.error(this.props.serverError, {
-				hideProgressBar: true,
-				autoClose: this.debounceTime
-			})
-		}
-	}
+	// componentDidUpdate(prevProps) {
+	// 	if (this.props.serverError !== prevProps.serverError) {
+	// 		toast.error(this.props.serverError, {
+	// 			hideProgressBar: true,
+	// 			autoClose: this.debounceTime
+	// 		})
+	// 	}
+	// }
 
-	debounceTime = 1000
+	// debounceTime = 1000
 
 	onSubmit = event => {
 		event.preventDefault()
 		const {
 			isValid,
-			errors,
+			// errors,
 			values: { firstName, lastName },
 			completeUser
 		} = this.props
-		const checkAndSubmit = () => {
-			if (isValid !== true) {
-				Object.values(errors).forEach(message => {
-					toast.error(message, {
-						hideProgressBar: true,
-						autoClose: this.debounceTime
-					})
-				})
-				return
-			} else {
-				completeUser({
-					firstName,
-					lastName
-				})
-			}
+		// const checkAndSubmit = () => {
+		if (isValid !== true) {
+			this.setState({
+				showError: true
+			})
+			// Object.values(errors).forEach(message => {
+			// 	toast.error(message, {
+			// 		hideProgressBar: true,
+			// 		autoClose: this.debounceTime
+			// 	})
+			// })
+			return
+		} else {
+			completeUser({
+				firstName,
+				lastName
+			})
 		}
-		debounce(checkAndSubmit, 1000, { leading: true })()
+		// }
+		// debounce(checkAndSubmit, 1000, { leading: true })()
 	}
 
 	render() {

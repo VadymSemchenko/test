@@ -93,6 +93,7 @@ class SignUpForm extends Component {
 			fontSize +
 			circleBorderWidth * 2}px`
 		const disabledSteps = setDisabledSteps(steps, stepIndex)
+		const shouldStepsBeDisplayed = stepIndex !== 0
 		return (
 			<div className={'login-form-page--content'}>
 				<div
@@ -101,30 +102,32 @@ class SignUpForm extends Component {
 						height: stepperContainerHeight
 					}}
 				>
-					<Stepper
-						steps={steps}
-						activeStep={stepIndex}
-						size={circleSize}
-						titleTop={titleTop}
-						circleFontSize={numberSize}
-						titleFontSize={fontSize}
-						circleTop={circleTop}
-						disabledSteps={disabledSteps}
-						defaultBarColor={activeColor}
-						completeBarColor={completeColor}
-						activeTitleColor={activeColor}
-						completeTitleColor={completeColor}
-						defaultTitleColor={completeColor}
-						activeColor={activeColor}
-						activeBorderColor={activeColor}
-						completeColor={completeColor}
-						completeBorderColor={completeColor}
-						defaultColor={completeColor}
-						defaultBorderColor={activeColor}
-						circleFontColor={numberColor}
-						defaultBorderStyle="solid"
-						defaultBorderWidth={1}
-					/>
+					{shouldStepsBeDisplayed && (
+						<Stepper
+							steps={steps}
+							activeStep={stepIndex}
+							size={circleSize}
+							titleTop={titleTop}
+							circleFontSize={numberSize}
+							titleFontSize={fontSize}
+							circleTop={circleTop}
+							disabledSteps={disabledSteps}
+							defaultBarColor={activeColor}
+							completeBarColor={completeColor}
+							activeTitleColor={activeColor}
+							completeTitleColor={completeColor}
+							defaultTitleColor={completeColor}
+							activeColor={activeColor}
+							activeBorderColor={activeColor}
+							completeColor={completeColor}
+							completeBorderColor={completeColor}
+							defaultColor={completeColor}
+							defaultBorderColor={activeColor}
+							circleFontColor={numberColor}
+							defaultBorderStyle="solid"
+							defaultBorderWidth={1}
+						/>
+					)}
 				</div>
 				<div className={'login-form'}>
 					<h2 className={'title'}>{formTitle}</h2>

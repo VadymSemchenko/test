@@ -1,14 +1,13 @@
-import cx from 'classnames'
 import Spinner from 'react-spinner-material'
+// import { Panel } from 'react-bootstrap'
 import React, { Component } from 'react'
 import { compose } from 'recompose'
 import { withFormik } from 'formik'
 import { func, string, shape, bool } from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { toast } from 'react-toastify'
-import debounce from 'lodash/debounce'
 
+import ErrorPanel from '../../../components/ErrorPanel/ErrorPanel'
 import { emailValidationSchema } from '../../../utils/validationSchemas'
 import { LOGIN_EMAIL } from '../../../assets/Icons'
 
@@ -18,6 +17,10 @@ import { errorSelector, isLoadingSelector } from '../../../store/user/selectors'
 import '../sign-up-form.scss'
 
 class EmailSubForm extends Component {
+	state = {
+		showError: false
+	}
+
 	static propTypes = {
 		buttonTitle: string,
 		handleSubmit: func.isRequired,
@@ -40,54 +43,70 @@ class EmailSubForm extends Component {
 		buttonTitle: 'Sign Up'
 	}
 
-	componentDidUpdate(prevProps) {
-		if (this.props.serverError !== prevProps.serverError) {
-			toast.error(this.props.serverError, {
-				hideProgressBar: true,
-				autoClose: this.debounceTime
-			})
-		}
-	}
-
-	debounceTime = 1000
-
-	toastError = () => {
-		const { errors, serverError } = this.props
-		toast.error(errors.email || serverError, {
-			hideProgressBar: true,
-			autoClose: this.debounceTime
-		})
-	}
-
 	resetError = () => {
 		const { serverError, clearError } = this.props
 		serverError && clearError()
 	}
 
+	disableError = () => {
+		this.setState({
+			showError: false
+		})
+	}
+
 	onSubmit = event => {
 		event.preventDefault()
 		const { isValid, registerEmail, values, serverError } = this.props
-		const debouncedError = debounce(this.toastError, this.debounceTime, {
-			leading: true
-		})
 		if (isValid !== true || serverError) {
-			debouncedError()
+			this.setState({
+				showError: true
+			})
 		} else {
 			registerEmail(values.email)
 		}
+	}
+
+	handleInputChange = event => {
+		const { handleChange } = this.props
+		this.setState({
+			showError: false
+		})
+		handleChange(event)
 	}
 
 	render() {
 		const {
 			buttonTitle,
 			values,
-			isValid,
 			setFieldTouched,
-			handleChange,
-			isLoading
+			isLoading,
+			errors,
+			serverError
 		} = this.props
+		const { showError } = this.state
+		const error = errors.email || serverError
+		const shouldErrorBeDisplayed = showError && error
 		return (
 			<form onSubmit={this.onSubmit} className={'form-container'}>
+				{shouldErrorBeDisplayed && (
+					// <Panel bsStyle="danger">
+					// 	<Panel.Heading>
+					// 		<div className="error-container">
+					// 			<div>{error}</div>
+					// 			<img
+					// 				src={CLOSE}
+					// 				className="close-icon"
+					// 				alt={'input-icon'}
+					// 				onClick={this.disableError}
+					// 			/>
+					// 		</div>
+					// 	</Panel.Heading>
+					// </Panel>
+					<ErrorPanel
+						errorMessage={error}
+						closeClickHandler={this.disableError}
+					/>
+				)}
 				<div className={'input-container'}>
 					<div className={'icon-container'}>
 						<img
@@ -102,21 +121,14 @@ class EmailSubForm extends Component {
 						placeholder={'Email'}
 						required={true}
 						onFocus={this.resetError}
-						onChange={handleChange}
+						onChange={this.handleInputChange}
 						onBlur={() => setFieldTouched('email')}
 					/>
 				</div>
 				{isLoading ? (
 					<Spinner spinnerColor="#4986c5" className="spinner" />
 				) : (
-					<input
-						type="submit"
-						className={cx({
-							'login-button': true,
-							invalid: !isValid
-						})}
-						value={buttonTitle}
-					/>
+					<input type="submit" className="login-button" value={buttonTitle} />
 				)}
 				<div>
 					<span />
