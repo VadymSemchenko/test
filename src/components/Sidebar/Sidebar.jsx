@@ -71,7 +71,11 @@ class Sidebar extends Component {
 						{this.state.width <= 991 ? <HeaderLinks /> : null}
 						<li className={''}>
 							<NavLink to={'/'} className="nav-link ecosystem">
-								<img src={BACK_ARROW} className={'back-arrow'} />
+								<img
+									src={BACK_ARROW}
+									alt="back-arrow"
+									className={'back-arrow'}
+								/>
 								<p className={'ecosystem--text'}>All Ecosystems</p>
 							</NavLink>
 							<div className={'sidebar-divider'} />

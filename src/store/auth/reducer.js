@@ -29,7 +29,9 @@ if (tokenFromStorage !== null) {
 		isAuthenticated:
 			expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),
 		tokenExpireAt:
-			expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter(),
+			expiryTimeFromStorage !== null && moment(expiryTimeFromStorage).isAfter()
+				? expiryTimeFromStorage
+				: null,
 		customers: extractCustomerFromToken(tokenFromStorage),
 		selectedCustomer: customer !== null ? JSON.parse(customer) : {},
 		username: extractUsernameFromToken(tokenFromStorage)

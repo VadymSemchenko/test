@@ -6,6 +6,7 @@ import loadingReducer from './store/loading/reducer'
 import { objectsReducer } from './store/objects/reducer'
 import { policyReducer } from './store/policies/reducer'
 import { reportsReducer } from './store/reports'
+import { globalReducer } from './store/global/reducer'
 
 export default combineReducers({
 	auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
 	objects: objectsReducer,
 	policies: policyReducer,
 	loading: loadingReducer,
-	errors: errorReducer
+	errors: errorReducer,
+	global: globalReducer
 })
