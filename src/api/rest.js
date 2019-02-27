@@ -156,6 +156,17 @@ export async function fetchReports({ query, ecosystem, customer }) {
 		})
 }
 
+export const createUser = email => rest.post('/v2/users', { email })
+
+export const loginUserForToken = email =>
+	rest.post(`v2/auth/login`, { username: email, password: 'VeryLongDefP@SS' })
+
+export const fulfillUser = ({ email, firstName, lastName }) => {
+	const path = `/v2/users/${email}`
+	// const requestPayload = omit(creds, ['uuid'])
+	return rest.put(path, { email, firstName, lastName })
+}
+
 // TODO: it's mocked
 function getUrlForType(
 	type,

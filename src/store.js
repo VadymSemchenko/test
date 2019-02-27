@@ -2,6 +2,7 @@ import { applyMiddleware, createStore } from 'redux'
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import reducers from './reducers'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 let middlewares = [thunk]
 
@@ -15,7 +16,7 @@ if (process.env.NODE_ENV === `development`) {
 
 const configureStore = (initialState = {}) => {
 	const middleware = applyMiddleware(...middlewares)
-	return createStore(reducers, initialState, middleware)
+	return createStore(reducers, initialState, composeWithDevTools(middleware))
 }
 
 export default configureStore()
