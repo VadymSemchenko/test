@@ -29,6 +29,7 @@ cd /build/src/$PACKAGENAME
 
 npm set progress=false
 npm ci
+CI=true npm run test
 npm run build:$ENVIRONMENT
 
 cp -r build/ /output/
