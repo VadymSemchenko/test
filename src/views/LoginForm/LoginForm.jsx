@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { toast } from 'react-toastify'
+// import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { LOGIN_EMAIL, LOGIN_PASSWORD } from '../../assets/Icons'
 import {
@@ -11,16 +11,18 @@ import {
 } from '../../store/utils/selectors'
 import './login-form.scss'
 import { login } from './scenario-actions'
+import { clearError as clearLogoutError } from '../../store/user/actions'
+import ErrorPanel from '../../components/ErrorPanel/ErrorPanel'
+import { errorSelector as logoutErrorSelector } from '../../store/user/selectors'
 
 class LoginForm extends Component {
-	componentDidMount() {
-		const { warning } = this.props.location.state || { warning: false }
-		if (warning) {
-			toast.error('You have been logged out!', {
-				autoClose: false,
-				hideProgressBar: true
-			})
-		}
+	state = {
+		authError: 'You are not logged in!'
+	}
+
+	static getDerivedStateFromProps({ logoutError }) {
+		if (logoutError) return { authError: logoutError }
+		else return null
 	}
 
 	handleSubmit = e => {
@@ -33,7 +35,13 @@ class LoginForm extends Component {
 		this.props.login({ email, password }, from)
 	}
 
+	removeErrorMessage = () => {
+		const { logoutError, clearLogoutError } = this.props
+		logoutError ? clearLogoutError() : this.setState({ authError: '' })
+	}
+
 	render() {
+		const { authError } = this.state
 		return (
 			<div className={'login-form-page--content'}>
 				<div className={'login-form'}>
@@ -42,6 +50,12 @@ class LoginForm extends Component {
 						<div className={'alert alert-danger'}>{this.props.error}</div>
 					)}
 					<form onSubmit={this.handleSubmit}>
+						{authError && (
+							<ErrorPanel
+								message={authError}
+								buttonClickHandler={this.removeErrorMessage}
+							/>
+						)}
 						<div className={'input-container'}>
 							<div className={'icon-container'}>
 								<img
@@ -91,7 +105,9 @@ LoginForm.propTypes = {
 	login: PropTypes.func.isRequired,
 	error: PropTypes.string.isRequired,
 	isLoading: PropTypes.bool.isRequired,
-	location: PropTypes.object.isRequired
+	location: PropTypes.object.isRequired,
+	clearLogoutError: PropTypes.string.isRequired,
+	logoutError: PropTypes.string.isRequired
 }
 
 LoginForm.defaultProps = {
@@ -105,13 +121,15 @@ const errorSelector = createErrorMessageSelector(['LOGIN'])
 const mapStateToProps = state => {
 	return {
 		isLoading: loadingSelector(state),
-		error: errorSelector(state)
+		error: errorSelector(state),
+		logoutError: logoutErrorSelector(state)
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		login: (credentials, redirect) => dispatch(login(credentials, redirect))
+		login: (credentials, redirect) => dispatch(login(credentials, redirect)),
+		clearLogoutError: () => dispatch(clearLogoutError())
 	}
 }
 
