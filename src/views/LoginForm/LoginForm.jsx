@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-// import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { LOGIN_EMAIL, LOGIN_PASSWORD } from '../../assets/Icons'
 import {
@@ -106,7 +105,7 @@ LoginForm.propTypes = {
 	error: PropTypes.string.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	location: PropTypes.object.isRequired,
-	clearLogoutError: PropTypes.string.isRequired,
+	clearLogoutError: PropTypes.func.isRequired,
 	logoutError: PropTypes.string.isRequired
 }
 
