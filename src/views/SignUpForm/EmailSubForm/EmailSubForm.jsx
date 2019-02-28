@@ -91,16 +91,6 @@ class EmailSubForm extends Component {
 		const { showError } = this.state
 		const error = errors.email || serverError
 		const shouldErrorBeDisplayed = showError && error
-		console.log(
-			'EMAIL_ERROR',
-			errors.email,
-			'SERVER_ERROR',
-			serverError,
-			'JUST_ERROR',
-			error,
-			'SHOULD_ERROR_BE_DISPLAYED',
-			shouldErrorBeDisplayed
-		)
 		return (
 			<form onSubmit={this.onSubmit} className={'form-container'}>
 				{shouldErrorBeDisplayed && (
