@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { toast, Slide } from 'react-toastify'
 import { LOGIN_EMAIL, LOGIN_PASSWORD } from '../../assets/Icons'
 import {
 	createErrorMessageSelector,
@@ -16,8 +16,9 @@ class LoginForm extends Component {
 		const { warning } = this.props.location.state || { warning: false }
 		if (warning) {
 			toast.error('You have been logged out!', {
-				autoClose: false,
-				hideProgressBar: true
+				autoClose: 3500,
+				hideProgressBar: true,
+				transition: Slide
 			})
 		}
 	}
