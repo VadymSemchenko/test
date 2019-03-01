@@ -1,20 +1,19 @@
-import PropTypes from 'prop-types'
+import { string, bool } from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { compose } from 'recompose'
-import cx from 'classnames'
+import { withRouter } from 'react-router-dom'
 
-import 'react-toastify/dist/ReactToastify.css'
+import Stepper from '../../components/Stepper/Stepper'
 import EmailSubForm from './EmailSubForm/EmailSubForm'
 import PersonalInfoSubForm from './PersonalInfoSubForm/PersonalInfoSubForm'
-import { emailSelector } from '../../store/user/selectors'
 import './sign-up-form.scss'
 
 class SignUpForm extends Component {
 	static propTypes = {
-		formTitle: PropTypes.string.isRequired,
-		email: PropTypes.string.isRequired
+		formTitle: string.isRequired,
+		isEmailConfirmed: bool.isRequired,
+		email: string.isRequired
 	}
 
 	static defaultProps = {
@@ -24,14 +23,14 @@ class SignUpForm extends Component {
 	state = {
 		activeStepIndex: 0
 	}
-	static getDerivedStateFromProps({ email }) {
-		if (email) return { activeStepIndex: 1 }
+	static getDerivedStateFromProps({ isEmailConfirmed }) {
+		if (isEmailConfirmed) return { activeStepIndex: 1 }
 		return null
 	}
 
 	steps = [
 		{
-			title: 'SIGNUP'
+			title: 'SIGN UP'
 		},
 		{
 			title: 'PERSONAL INFORMATION'
@@ -41,79 +40,45 @@ class SignUpForm extends Component {
 		}
 	]
 
-	renderSteps = () => {
-		const { activeStepIndex } = this.state
-		return (
-			<>
-				{this.steps.map(({ title }, index, stepsArray) => {
-					const active = index === activeStepIndex
-					const done = index < activeStepIndex
-					const pending = index > activeStepIndex
-					const last = stepsArray.length - index === 1
-					return (
-						<div key={title} className="single-step-container">
-							<div
-								className={cx('step-title', {
-									active
-								})}
-							>
-								{title}
-							</div>
-							<div
-								className={cx('round-step-wrapper', {
-									active,
-									done,
-									pending,
-									last
-								})}
-							>
-								<div
-									className={cx('round-step', {
-										active,
-										done,
-										pending,
-										last
-									})}
-								>
-									{++index}
-								</div>
-							</div>
-						</div>
-					)
-				})}
-			</>
-		)
+	renderSubForm = () => {
+		const { formTitle, email, isEmailConfirmed } = this.props
+		if (isEmailConfirmed) {
+			return <PersonalInfoSubForm buttonTitle={formTitle} email={email} />
+		}
+		return <EmailSubForm buttonTitle={formTitle} />
 	}
 
 	render() {
-		const { formTitle, email } = this.props
-		const isEmailSubmitted = !!email
+		const { formTitle } = this.props
 		const { activeStepIndex } = this.state
 		const shouldStepsBeDisplayed = activeStepIndex !== 0
 		const shouldFormTitleBeDisplayed = !shouldStepsBeDisplayed
 		return (
 			<div className={'signup-form-page--content'}>
-				<div className="stepper-container">
-					{shouldStepsBeDisplayed && this.renderSteps()}
-				</div>
+				{shouldStepsBeDisplayed && (
+					<Stepper steps={this.steps} activeStepIndex={activeStepIndex} />
+				)}
 				<div className={'login-form'}>
 					{shouldFormTitleBeDisplayed && (
 						<div className="form-title-container">
 							<h2 className={'title'}>{formTitle}</h2>
 						</div>
 					)}
-					{isEmailSubmitted ? (
-						<PersonalInfoSubForm buttonTitle={formTitle} email={email} />
-					) : (
-						<EmailSubForm buttonTitle={formTitle} />
-					)}
+					{this.renderSubForm()}
 				</div>
 			</div>
 		)
 	}
 }
 
-const mapStateToProps = state => ({ email: emailSelector(state) })
+// const mapStateToProps = state => ({ email: emailSelector(state) })
+// const mapStateToProps = state => ({
+// 	isEmailConfirmed: isEmailConfirmedSelector(state)
+// })
+
+const mapStateToProps = () => ({
+	isEmailConfirmed: true
+})
 
 export default compose(
 	connect(mapStateToProps),

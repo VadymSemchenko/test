@@ -22,3 +22,8 @@ export const isAuthenticatedSelector = createSelector(
 	authSelector,
 	auth => get(auth, ['isAuthenticated'])
 )
+
+export const isEmailConfirmedSelector = createSelector(
+	userSelector,
+	user => get(user, ['isEmailConfirmed'])
+)

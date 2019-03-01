@@ -7,11 +7,11 @@ import { logoutUser, renewToken } from '../store/auth/actions'
 import { list, newOne } from './mocks/fetch_objects'
 import { newService, policiesList } from './mocks/fetch_policies'
 
-const auth = axios.create({
+export const auth = axios.create({
 	baseURL: process.env.REACT_APP_API_URL
 })
 
-const rest = axios.create({
+export const rest = axios.create({
 	baseURL: process.env.REACT_APP_API_URL,
 	transformResponse: [
 		...axios.defaults.transformResponse,
@@ -156,16 +156,15 @@ export async function fetchReports({ query, ecosystem, customer }) {
 		})
 }
 
-export const createUser = email => rest.post('/v2/users', { email })
+// export const createUser = email => rest.post('/v2/users', { email })
 
-export const loginUserForToken = email =>
-	rest.post(`v2/auth/login`, { username: email, password: 'VeryLongDefP@SS' })
+// export const loginUserForToken = email =>
+// 	rest.post(`v2/auth/login`, { username: email, password: 'VeryLongDefP@SS' })
 
-export const fulfillUser = ({ email, firstName, lastName }) => {
-	const path = `/v2/users/${email}`
-	// const requestPayload = omit(creds, ['uuid'])
-	return rest.put(path, { email, firstName, lastName })
-}
+// export const fulfillUser = ({ email, firstName, lastName }) => {
+// 	const path = `/v2/users/${email}`
+// 	return rest.put(path, { email, firstName, lastName })
+// }
 
 // TODO: it's mocked
 function getUrlForType(

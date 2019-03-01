@@ -1,30 +1,63 @@
 import Spinner from 'react-spinner-material'
-// import { Panel } from 'react-bootstrap'
 import React, { Component } from 'react'
 import { compose } from 'recompose'
 import { withFormik } from 'formik'
-import { func, string, shape, bool } from 'prop-types'
+import { func, string, shape, bool, object } from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import qs from 'query-string'
+import { withRouter } from 'react-router-dom'
 
 import ErrorPanel from '../../../components/ErrorPanel/ErrorPanel'
 import { emailValidationSchema } from '../../../utils/validationSchemas'
 import { LOGIN_EMAIL } from '../../../assets/Icons'
-
+import { checkIfTheTokenIsValid } from '../scenario-actions'
 import { registerEmail } from '../scenario-actions'
-import { clearError } from '../../../store/user/actions'
-import { errorSelector, isLoadingSelector } from '../../../store/user/selectors'
+import {
+	clearError
+	// checkEmailConfirmationCode
+} from '../../../store/user/actions'
+import {
+	errorSelector,
+	isLoadingSelector,
+	emailSelector
+} from '../../../store/user/selectors'
 import '../sign-up-form.scss'
+import SuccessPanel from '../../../components/SuccessPanel/SuccessPanel'
 
 class EmailSubForm extends Component {
 	state = {
-		showError: false
+		showError: false,
+		token: '',
+		username: '',
+		needsTokenCheck: true
+	}
+
+	constructor(props) {
+		super(props)
+		const {
+			location: { search }
+		} = props
+		const { token, username } = qs.parse(search)
+		this.username = username || ''
+		this.token = token || ''
+		console.log('USERNAME', this.username)
 	}
 
 	static getDerivedStateFromProps({ serverError }) {
 		if (serverError) return { showError: true }
 		return null
 	}
+
+	// componentDidUpdate() {
+	// 	const { checkIfTheTokenIsValid } = this.props
+	// 	const search = get(this.props, ['location', 'search'])
+	// 	const { token, username } = qs.parse(search)
+	// 	console.log('TOKEN', token, 'USERNAME', username)
+	// 	localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, token)
+	// 	// setToken(token)
+	// 	checkIfTheTokenIsValid({ token, username })
+	// }
 
 	static propTypes = {
 		buttonTitle: string,
@@ -41,11 +74,33 @@ class EmailSubForm extends Component {
 		registerEmail: func.isRequired,
 		serverError: string.isRequired,
 		clearError: func.isRequired,
-		isLoading: bool.isRequired
+		isLoading: bool.isRequired,
+		location: object.isRequired,
+		email: string.isRequired
 	}
 
 	static defaultProps = {
 		buttonTitle: 'Sign Up'
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		const { checkIfTheTokenIsValid, serverError, isLoading } = prevProps
+		const { needsTokenCheck } = prevState
+
+		const shouldCheckToken =
+			this.token &&
+			this.username &&
+			!serverError &&
+			!isLoading &&
+			needsTokenCheck
+		console.log('SHOULD_CHECK_TOKEN', shouldCheckToken)
+		if (shouldCheckToken) {
+			console.log('I AM CHECKING')
+			checkIfTheTokenIsValid({ token: this.token, username: this.username })
+			this.setState(() => ({
+				needsTokenCheck: false
+			}))
+		}
 	}
 
 	resetError = () => {
@@ -86,6 +141,7 @@ class EmailSubForm extends Component {
 			setFieldTouched,
 			isLoading,
 			errors,
+			email,
 			serverError
 		} = this.props
 		const { showError } = this.state
@@ -96,29 +152,45 @@ class EmailSubForm extends Component {
 				{shouldErrorBeDisplayed && (
 					<ErrorPanel message={error} buttonClickHandler={this.disableError} />
 				)}
-				<div className={'input-container'}>
-					<div className={'icon-container'}>
-						<img
-							src={LOGIN_EMAIL}
-							className={'input-icon'}
-							alt={'input-icon'}
-						/>
-					</div>
-					<input
-						value={values.email}
-						name={'email'}
-						placeholder={'Email'}
-						required={true}
-						onFocus={this.resetError}
-						onChange={this.handleInputChange}
-						onBlur={() => setFieldTouched('email')}
-					/>
-				</div>
-				{isLoading ? (
-					<Spinner spinnerColor="#4986c5" className="spinner" />
-				) : (
-					<input type="submit" className="login-button" value={buttonTitle} />
+				{!email && (
+					<>
+						<div className={'input-container'}>
+							<div className={'icon-container'}>
+								<img
+									src={LOGIN_EMAIL}
+									className={'input-icon'}
+									alt={'input-icon'}
+								/>
+							</div>
+							<input
+								value={values.email}
+								name={'email'}
+								placeholder={'Email'}
+								required={true}
+								onFocus={this.resetError}
+								onChange={this.handleInputChange}
+								onBlur={() => setFieldTouched('email')}
+							/>
+						</div>
+						<>
+							{isLoading ? (
+								<Spinner spinnerColor="#4986c5" className="spinner" />
+							) : (
+								<input
+									type="submit"
+									className="signup-button"
+									value={buttonTitle}
+								/>
+							)}
+						</>
+					</>
 				)}
+				{email && !this.username && (
+					<SuccessPanel message="Confirmation link has been sent to your email" />
+				)}
+				{/* {email && this.username && (
+					
+				)} */}
 				<div>
 					<span />
 				</div>
@@ -129,19 +201,24 @@ class EmailSubForm extends Component {
 
 const mapStateToProps = state => ({
 	serverError: errorSelector(state),
-	isLoading: isLoadingSelector(state)
+	isLoading: isLoadingSelector(state),
+	error: errorSelector(state),
+	email: emailSelector(state)
+	// email: 'test@email.com'
 })
 
 const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
 			registerEmail,
-			clearError
+			clearError,
+			checkIfTheTokenIsValid
 		},
 		dispatch
 	)
 
 export default compose(
+	withRouter,
 	connect(
 		mapStateToProps,
 		mapDispatchToProps

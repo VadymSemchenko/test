@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import connect from 'react-redux/es/connect/connect'
 import { Redirect, Route, Switch, withRouter, Link } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import { ACRETO_LOGO, LOGIN_FOOTER } from '../../assets/Icons'
 import ProtectedRoute from '../../components/ProtectedRoute/ProtectedRoute'
 import UnauthorizedRoute from '../../components/UnauthorizedRoute/UnauthorizedRoute'
@@ -17,38 +17,56 @@ import SignUpForm from '../../views/SignUpForm/SignUpForm'
 import './login.scss'
 
 class Login extends Component {
-	linkRoutes = {
-		login: '/auth/login',
-		signUp: '/auth/sign-up'
-	}
-	titles = {
-		login: 'Log In',
-		signUp: 'Sign Up'
-	}
+	// linkRoutes = {
+	// 	login: '/auth/login',
+	// 	signUp: '/auth/sign-up'
+	// }
+	// titles = {
+	// 	login: 'Log In',
+	// 	signUp: 'Sign Up'
+	// }
 
+	configs = {
+		signup: {
+			linkRoute: '/auth/sign-up',
+			formTitle: 'Sign Up',
+			authButtonTitle: 'Sign Up'
+		},
+		login: {
+			linkRoute: '/auth/login',
+			formTitle: 'Log In',
+			authButtonTitle: 'Log In'
+		}
+	}
 	render() {
 		const {
 			location: { pathname }
 		} = this.props
-		const linkTitle =
-			pathname === this.linkRoutes.signUp
-				? this.titles.login
-				: this.titles.signUp
-		const linkRoute =
-			pathname === this.linkRoutes.signUp
-				? this.linkRoutes.login
-				: this.linkRoutes.signUp
-		const formTitle =
-			!pathname === this.linkRoutes.signUp
-				? this.titles.login
-				: this.titles.signUp
+		// const linkTitle =
+		// 	pathname === this.linkRoutes.signUp
+		// 		? this.titles.login
+		// 		: this.titles.signUp
+		// const linkRoute =
+		// 	pathname === this.linkRoutes.signUp
+		// 		? this.linkRoutes.login
+		// 		: this.linkRoutes.signUp
+		// const formTitle =
+		// 	!pathname === this.linkRoutes.signUp
+		// 		? this.titles.login
+		// 		: this.titles.signUp
+		const currentConfig =
+			pathname === this.configs.signup.linkRoute
+				? this.configs.login
+				: this.configs.signup
+		const { linkRoute, formTitle, authButtonTitle } = currentConfig
+
 		return (
 			<div className="login-page">
-				<ToastContainer />
+				{/* <ToastContainer /> */}
 				<div className={'login-page--header header'}>
 					<img src={ACRETO_LOGO} alt={'acreto-logo'} className={'logo'} />
 					<Link to={linkRoute} className={'button component-coming-soon'}>
-						{linkTitle}
+						{authButtonTitle}
 					</Link>
 				</div>
 

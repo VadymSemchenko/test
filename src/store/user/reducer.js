@@ -16,7 +16,7 @@ const initialState = {
 	uuid: '',
 	firstName: '',
 	lastName: '',
-	activated: false,
+	isEmailVerified: false,
 	isLoading: false,
 	error: ''
 }

@@ -1,5 +1,6 @@
-import { set, get } from 'lodash'
-import { createUser, fulfillUser, loginUserForToken } from '../../api/rest'
+import get from 'lodash/get'
+import set from 'lodash/set'
+import { rest } from '../../api/rest'
 import {
 	startLoading,
 	finishLoading,
@@ -8,6 +9,16 @@ import {
 } from '../../store/user/actions'
 import history from '../../history'
 import { loginSuccess } from '../../store/auth/actions'
+
+export const createUser = email => rest.post('/v2/users', { email })
+
+export const loginUserForToken = email =>
+	rest.post(`v2/auth/login`, { username: email, password: 'VeryLongDefP@SS' })
+
+export const fulfillUser = ({ email, firstName, lastName }) => {
+	const path = `/v2/users/${email}`
+	return rest.put(path, { email, firstName, lastName })
+}
 
 export const registerEmail = email => async dispatch => {
 	dispatch(startLoading())
@@ -95,6 +106,19 @@ export const completeUser = creds => async (dispatch, getState) => {
 			default:
 				return dispatch(setError('Error while registering user!'))
 		}
+	} finally {
+		dispatch(finishLoading())
+	}
+}
+
+export const checkIfTheTokenIsValid = username => async dispatch => {
+	console.log('START TOKEN CHECKING')
+	dispatch(startLoading())
+	try {
+		const response = await rest.get(`users/${username}`)
+		console.log('RESPONSE AT CHECK IF TOKEN IS VALID', response)
+	} catch (error) {
+		console.log('ERROR AT CHECK IF TOKEN IS VALID', error)
 	} finally {
 		dispatch(finishLoading())
 	}

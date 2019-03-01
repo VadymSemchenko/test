@@ -9,9 +9,14 @@ import Spinner from 'react-spinner-material'
 import { personalInfoValidationSchema } from '../../../utils/validationSchemas'
 import { PERSON } from '../../../assets/Icons'
 import { completeUser } from '../scenario-actions'
+import EmailDisplay from '../../../components/EmailDisplay/EmailDisplay'
 import ErrorPanel from '../../../components/ErrorPanel/ErrorPanel'
 import SuccessPanel from '../../../components/SuccessPanel/SuccessPanel'
-import { isLoadingSelector, errorSelector } from '../../../store/user/selectors'
+import {
+	isLoadingSelector,
+	errorSelector,
+	emailSelector
+} from '../../../store/user/selectors'
 import '../sign-up-form.scss'
 
 class PersonalInfoSubForm extends Component {
@@ -88,16 +93,20 @@ class PersonalInfoSubForm extends Component {
 			setFieldTouched,
 			isLoading,
 			errors,
-			serverError
+			serverError,
+			email
 		} = this.props
 		const { showEmailVerificationMessage, showError } = this.state
 		return (
 			<form onSubmit={this.onSubmit} className="form-container">
 				{showEmailVerificationMessage && (
-					<SuccessPanel
-						message="Your email has been successfully verified"
-						buttonClickHandler={this.closeEmailVerificationMessage}
-					/>
+					<>
+						<SuccessPanel
+							message="Your email has been successfully verified"
+							buttonClickHandler={this.closeEmailVerificationMessage}
+						/>
+						<EmailDisplay email={email} />
+					</>
 				)}
 				{showError && (
 					<ErrorPanel
@@ -130,7 +139,8 @@ class PersonalInfoSubForm extends Component {
 
 const mapStateToProps = state => ({
 	isLoading: isLoadingSelector(state),
-	serverError: errorSelector(state)
+	serverError: errorSelector(state),
+	email: emailSelector(state)
 })
 
 const mapDispatchToProps = dispatch =>
