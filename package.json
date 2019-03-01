@@ -80,7 +80,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "CI=true npm run test --ci && lint-staged",
+      "pre-commit": "CI=true npm run test && lint-staged",
       "post-merge": "npm install"
     }
   },
