@@ -1,7 +1,7 @@
 import React from 'react'
 import { Panel } from 'react-bootstrap'
-import { CLOSE_BLACK } from '../../assets/Icons'
 import { string, func } from 'prop-types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './error-panel.scss'
 
 const ErrorPanel = ({ message, buttonClickHandler }) => (
@@ -9,12 +9,9 @@ const ErrorPanel = ({ message, buttonClickHandler }) => (
 		<Panel.Heading>
 			<div className="error-container">
 				<div>{message}</div>
-				<img
-					src={CLOSE_BLACK}
-					className="close-icon"
-					alt={'input-icon'}
-					onClick={buttonClickHandler}
-				/>
+				<div className="email-icon-container" onClick={buttonClickHandler}>
+					<FontAwesomeIcon icon="times" />
+				</div>
 			</div>
 		</Panel.Heading>
 	</Panel>

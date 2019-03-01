@@ -13,10 +13,7 @@ import { emailValidationSchema } from '../../../utils/validationSchemas'
 import { LOGIN_EMAIL } from '../../../assets/Icons'
 import { checkIfTheTokenIsValid } from '../scenario-actions'
 import { registerEmail } from '../scenario-actions'
-import {
-	clearError
-	// checkEmailConfirmationCode
-} from '../../../store/user/actions'
+import { clearError } from '../../../store/user/actions'
 import {
 	errorSelector,
 	isLoadingSelector,
@@ -41,23 +38,12 @@ class EmailSubForm extends Component {
 		const { token, username } = qs.parse(search)
 		this.username = username || ''
 		this.token = token || ''
-		console.log('USERNAME', this.username)
 	}
 
 	static getDerivedStateFromProps({ serverError }) {
 		if (serverError) return { showError: true }
 		return null
 	}
-
-	// componentDidUpdate() {
-	// 	const { checkIfTheTokenIsValid } = this.props
-	// 	const search = get(this.props, ['location', 'search'])
-	// 	const { token, username } = qs.parse(search)
-	// 	console.log('TOKEN', token, 'USERNAME', username)
-	// 	localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, token)
-	// 	// setToken(token)
-	// 	checkIfTheTokenIsValid({ token, username })
-	// }
 
 	static propTypes = {
 		buttonTitle: string,
@@ -93,9 +79,7 @@ class EmailSubForm extends Component {
 			!serverError &&
 			!isLoading &&
 			needsTokenCheck
-		console.log('SHOULD_CHECK_TOKEN', shouldCheckToken)
 		if (shouldCheckToken) {
-			console.log('I AM CHECKING')
 			checkIfTheTokenIsValid({ token: this.token, username: this.username })
 			this.setState(() => ({
 				needsTokenCheck: false
@@ -188,9 +172,6 @@ class EmailSubForm extends Component {
 				{email && !this.username && (
 					<SuccessPanel message="Confirmation link has been sent to your email" />
 				)}
-				{/* {email && this.username && (
-					
-				)} */}
 				<div>
 					<span />
 				</div>

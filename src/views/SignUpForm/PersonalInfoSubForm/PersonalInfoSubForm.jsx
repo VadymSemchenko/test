@@ -9,6 +9,7 @@ import Spinner from 'react-spinner-material'
 import { personalInfoValidationSchema } from '../../../utils/validationSchemas'
 import { PERSON } from '../../../assets/Icons'
 import { completeUser } from '../scenario-actions'
+import { clearError } from '../../../store/user/actions'
 import EmailDisplay from '../../../components/EmailDisplay/EmailDisplay'
 import ErrorPanel from '../../../components/ErrorPanel/ErrorPanel'
 import SuccessPanel from '../../../components/SuccessPanel/SuccessPanel'
@@ -21,7 +22,8 @@ import '../sign-up-form.scss'
 
 class PersonalInfoSubForm extends Component {
 	state = {
-		showEmailVerificationMessage: true
+		showEmailVerificationMessage: true,
+		showError: true
 	}
 
 	static propTypes = {
@@ -39,12 +41,21 @@ class PersonalInfoSubForm extends Component {
 		email: string.isRequired,
 		isLoading: bool.isRequired,
 		completeUser: func.isRequired,
-		serverError: string.isRequired
+		serverError: string.isRequired,
+		clearError: func.isRequired
 	}
 
 	static defaultProps = {
 		buttonTitle: 'Sign Up',
 		isLoading: true
+	}
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.serverError !== this.props.serverError) {
+			this.setState({
+				showError: true
+			})
+		}
 	}
 
 	onSubmit = event => {
@@ -73,7 +84,8 @@ class PersonalInfoSubForm extends Component {
 	}
 
 	handleInputChange = event => {
-		const { handleChange } = this.props
+		const { handleChange, clearError, serverError } = this.props
+		if (serverError) clearError()
 		const { showEmailVerificationMessage, showError } = this.state
 		showEmailVerificationMessage && this.closeEmailVerificationMessage()
 		showError && this.closeErrorPanel()
@@ -81,6 +93,8 @@ class PersonalInfoSubForm extends Component {
 	}
 
 	closeErrorPanel = () => {
+		const { clearError, serverError } = this.props
+		if (serverError) clearError()
 		this.setState({
 			showError: false
 		})
@@ -88,7 +102,6 @@ class PersonalInfoSubForm extends Component {
 
 	render() {
 		const {
-			buttonTitle,
 			values,
 			setFieldTouched,
 			isLoading,
@@ -96,7 +109,9 @@ class PersonalInfoSubForm extends Component {
 			serverError,
 			email
 		} = this.props
+		const error = errors.fullName || serverError
 		const { showEmailVerificationMessage, showError } = this.state
+		const shouldErrorBeDisplayed = showError && error
 		return (
 			<form onSubmit={this.onSubmit} className="form-container">
 				{showEmailVerificationMessage && (
@@ -108,9 +123,9 @@ class PersonalInfoSubForm extends Component {
 						<EmailDisplay email={email} />
 					</>
 				)}
-				{showError && (
+				{shouldErrorBeDisplayed && (
 					<ErrorPanel
-						message={errors.fullName || serverError}
+						message={error}
 						buttonClickHandler={this.closeErrorPanel}
 					/>
 				)}
@@ -130,7 +145,7 @@ class PersonalInfoSubForm extends Component {
 				{isLoading ? (
 					<Spinner spinnerColor="#4986c5" className="spinner" />
 				) : (
-					<input type="submit" className="login-button" value={buttonTitle} />
+					<input type="submit" className="signup-button" value="Next" />
 				)}
 			</form>
 		)
@@ -146,7 +161,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
-			completeUser
+			completeUser,
+			clearError
 		},
 		dispatch
 	)

@@ -7,13 +7,13 @@ import { withRouter } from 'react-router-dom'
 import Stepper from '../../components/Stepper/Stepper'
 import EmailSubForm from './EmailSubForm/EmailSubForm'
 import PersonalInfoSubForm from './PersonalInfoSubForm/PersonalInfoSubForm'
+import { isEmailConfirmedSelector } from '../../store/user/selectors'
 import './sign-up-form.scss'
 
 class SignUpForm extends Component {
 	static propTypes = {
 		formTitle: string.isRequired,
-		isEmailConfirmed: bool.isRequired,
-		email: string.isRequired
+		isEmailConfirmed: bool.isRequired
 	}
 
 	static defaultProps = {
@@ -41,9 +41,9 @@ class SignUpForm extends Component {
 	]
 
 	renderSubForm = () => {
-		const { formTitle, email, isEmailConfirmed } = this.props
+		const { formTitle, isEmailConfirmed } = this.props
 		if (isEmailConfirmed) {
-			return <PersonalInfoSubForm buttonTitle={formTitle} email={email} />
+			return <PersonalInfoSubForm />
 		}
 		return <EmailSubForm buttonTitle={formTitle} />
 	}
@@ -71,14 +71,13 @@ class SignUpForm extends Component {
 	}
 }
 
-// const mapStateToProps = state => ({ email: emailSelector(state) })
-// const mapStateToProps = state => ({
-// 	isEmailConfirmed: isEmailConfirmedSelector(state)
-// })
-
-const mapStateToProps = () => ({
-	isEmailConfirmed: true
+const mapStateToProps = state => ({
+	isEmailConfirmed: isEmailConfirmedSelector(state)
 })
+
+// const mapStateToProps = () => ({
+// 	isEmailConfirmed: true
+// })
 
 export default compose(
 	connect(mapStateToProps),

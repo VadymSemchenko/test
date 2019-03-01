@@ -6,7 +6,8 @@ import {
 	FINISH_LOADING,
 	SET_ERROR,
 	CLEAR_ERROR,
-	SET_TOKEN
+	SET_TOKEN,
+	CONFIRM_EMAIL
 } from './actionTypes'
 
 export const setUser = createAction(SET_USER)
@@ -16,3 +17,4 @@ export const finishLoading = createAction(FINISH_LOADING)
 export const setError = createAction(SET_ERROR)
 export const clearError = createAction(CLEAR_ERROR)
 export const setToken = createAction(SET_TOKEN)
+export const confirmEmail = createAction(CONFIRM_EMAIL)

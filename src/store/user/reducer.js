@@ -8,7 +8,8 @@ import {
 	FINISH_LOADING,
 	SET_ERROR,
 	CLEAR_ERROR,
-	SET_TOKEN
+	SET_TOKEN,
+	CONFIRM_EMAIL
 } from './actionTypes'
 
 const initialState = {
@@ -16,7 +17,7 @@ const initialState = {
 	uuid: '',
 	firstName: '',
 	lastName: '',
-	isEmailVerified: false,
+	isEmailConfirmed: false,
 	isLoading: false,
 	error: ''
 }
@@ -29,7 +30,8 @@ export const userReducer = handleActions(
 		[FINISH_LOADING]: state => assign({}, state, { isLoading: false }),
 		[SET_ERROR]: (state, { payload: error }) => assign({}, state, { error }),
 		[CLEAR_ERROR]: state => assign({}, state, { error: '' }),
-		[SET_TOKEN]: (state, { payload }) => assign({}, state, { token: payload })
+		[SET_TOKEN]: (state, { payload }) => assign({}, state, { token: payload }),
+		[CONFIRM_EMAIL]: state => assign({}, state, { isEmailConfirmed: true })
 	},
 	initialState
 )

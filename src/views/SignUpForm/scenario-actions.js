@@ -1,11 +1,13 @@
 import get from 'lodash/get'
 import set from 'lodash/set'
-import { rest } from '../../api/rest'
+import { rest, auth } from '../../api/rest'
+import { LOCAL_ACCESS_TOKEN_KEY } from '../../enums'
 import {
 	startLoading,
 	finishLoading,
 	setError,
-	setUser
+	setUser,
+	confirmEmail
 } from '../../store/user/actions'
 import history from '../../history'
 import { loginSuccess } from '../../store/auth/actions'
@@ -13,7 +15,7 @@ import { loginSuccess } from '../../store/auth/actions'
 export const createUser = email => rest.post('/v2/users', { email })
 
 export const loginUserForToken = email =>
-	rest.post(`v2/auth/login`, { username: email, password: 'VeryLongDefP@SS' })
+	auth.post(`v2/auth/login`, { username: email, password: 'VeryLongDefP@SS' })
 
 export const fulfillUser = ({ email, firstName, lastName }) => {
 	const path = `/v2/users/${email}`
@@ -112,10 +114,15 @@ export const completeUser = creds => async (dispatch, getState) => {
 }
 
 export const checkIfTheTokenIsValid = username => async dispatch => {
-	console.log('START TOKEN CHECKING')
 	dispatch(startLoading())
 	try {
+		const result = await loginUserForToken(username)
+		const accessToken = get(result, ['data', 'accessToken'], '')
+		console.log('ACCESS_TOKEN', accessToken)
+		localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, accessToken)
 		const response = await rest.get(`users/${username}`)
+		console.log('RESPONE AT CHECK TOKEN FOR VALIDITY', response)
+		dispatch(confirmEmail())
 		console.log('RESPONSE AT CHECK IF TOKEN IS VALID', response)
 	} catch (error) {
 		console.log('ERROR AT CHECK IF TOKEN IS VALID', error)

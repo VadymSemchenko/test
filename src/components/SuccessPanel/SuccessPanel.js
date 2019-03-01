@@ -1,23 +1,26 @@
 import React from 'react'
-import { SUCCESS } from '../../assets/Icons'
-import { string, func } from 'prop-types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import { string } from 'prop-types'
 import './success-panel.scss'
 
-const SuccessPanel = ({ message, buttonClickHandler }) => (
+const SuccessPanel = ({ message }) => (
 	<div className="panel-success-container">
 		<div>{message}</div>
-		<img
+		{/* <img
 			src={SUCCESS}
 			className="icon"
 			alt={'input-icon'}
 			onClick={buttonClickHandler}
-		/>
+		/> */}
+		<div className="icon-container">
+			<FontAwesomeIcon icon="check" />
+		</div>
 	</div>
 )
 
 SuccessPanel.propTypes = {
-	message: string.isRequired,
-	buttonClickHandler: func.isRequired
+	message: string.isRequired
 }
 
 export default SuccessPanel
