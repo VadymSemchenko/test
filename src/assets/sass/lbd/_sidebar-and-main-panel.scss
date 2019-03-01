@@ -374,6 +374,25 @@ body > .navbar-collapse {
 			font-size: 24px;
 		}
 	}
+	.icon-with-badge {
+		position: relative;
+		&--badge {
+			width: 18px;
+			height: 14px;
+			padding: 0 2px;
+			position: absolute;
+			background-color: $wedge-secondary-orange;
+			margin: 0;
+			font-size: 12px;
+			font-weight: normal;
+			color: white !important;
+			top: -6px;
+			left: -7px;
+			border-radius: 3px;
+			line-height: 14px;
+			text-align: center;
+		}
+	}
 	.navbar-default {
 		flex: 1;
 		background-color: $wedge-white-two;

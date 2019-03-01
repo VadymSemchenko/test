@@ -1,17 +1,35 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { Dropdown, MenuItem, Nav, NavItem } from 'react-bootstrap'
+import {
+	Dropdown,
+	MenuItem,
+	Nav,
+	NavItem,
+	OverlayTrigger
+} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import {
 	NAVBAR_NOTIFICATION_FAKE,
 	NAVBAR_SEARCH,
-	NAVBAR_USER
+	NAVBAR_USER,
+	COMMIT_ICON
 } from '../../assets/Icons'
 import { logout } from '../../store/common-scenario-actions'
 import { pathSlugToPageName } from '../../utils/utils'
+import CommitPopover from '../CommitPopover/CommitPopover'
 
 class HeaderLinks extends Component {
+	state = {
+		show: false,
+		target: null
+	}
+
+	handleCommitDropdownClick = ({ target }) => {
+		console.log(target)
+		this.setState(s => ({ target, show: !s.show }))
+	}
+
 	render() {
 		const splittedPath = this.props.location.pathname.split('/')
 		const path = splittedPath[splittedPath.length - 1]
@@ -21,6 +39,33 @@ class HeaderLinks extends Component {
 					<h2 className={'page-title'}>{pathSlugToPageName(path)}</h2>
 				</Nav>
 				<Nav pullRight>
+					{this.props.showCommit && (
+						<NavItem eventKey={0} href="#" className={'navbar-item'}>
+							<OverlayTrigger
+								trigger="click"
+								placement="bottom"
+								key={'commit'}
+								rootClose
+								overlay={<CommitPopover target={this.state.target} />}
+							>
+								<div
+									onClick={this.handleCommitDropdownClick}
+									className={'flex-row nav-profile'}
+								>
+									<div className="icon-with-badge">
+										<img
+											src={COMMIT_ICON}
+											alt={'navbar-commit'}
+											className={'navbar-user'}
+										/>
+										<div className="icon-with-badge--badge">5</div>
+									</div>
+									<p>Commit</p>
+									<i className={'pe-7s-angle-down'} />
+								</div>
+							</OverlayTrigger>
+						</NavItem>
+					)}
 					{this.props.showSearch && (
 						<NavItem
 							eventKey={0}
@@ -87,11 +132,13 @@ class HeaderLinks extends Component {
 }
 
 HeaderLinks.defaultProps = {
-	showSearch: false
+	showSearch: false,
+	showCommit: false
 }
 
 HeaderLinks.propTypes = {
 	showSearch: PropTypes.bool.isRequired,
+	showCommit: PropTypes.bool.isRequired,
 	match: PropTypes.object.isRequired,
 	location: PropTypes.object.isRequired,
 	history: PropTypes.object.isRequired,
