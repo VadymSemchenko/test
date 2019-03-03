@@ -40,7 +40,7 @@ class EmailSubForm extends Component {
 		const { token, username } = qs.parse(search)
 		const shouldCheckToken = token && username
 		if (shouldCheckToken) {
-			checkIfTheTokenIsValid({ token: this.token, username: this.username })
+			checkIfTheTokenIsValid({ token, username })
 		}
 	}
 

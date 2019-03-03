@@ -14,4 +14,4 @@ export const fulfillUser = ({ email, firstName, lastName }) => {
 	return rest.put(path, { email, firstName, lastName })
 }
 
-export const readUserData = username => rest.get(`users/${username}`)
+export const readUserData = username => rest.get(`v2/users/${username}`)

@@ -19,7 +19,8 @@ const initialState = {
 	lastName: '',
 	isActivated: false,
 	isLoading: false,
-	error: ''
+	error: '',
+	isEmailConfirmed: false
 }
 
 export const userReducer = handleActions(
@@ -31,7 +32,7 @@ export const userReducer = handleActions(
 		[SET_ERROR]: (state, { payload }) => assign({}, state, { error: payload }),
 		[CLEAR_ERROR]: state => assign({}, state, { error: '' }),
 		[SET_TOKEN]: (state, { payload }) => assign({}, state, { token: payload }),
-		[CONFIRM_EMAIL]: state => assign({}, state, { isActivated: true })
+		[CONFIRM_EMAIL]: state => assign({}, state, { isEmailConfirmed: true })
 	},
 	initialState
 )

@@ -7,6 +7,11 @@ import store from '../store'
 import { logoutUser, renewToken } from '../store/auth/actions'
 import { list, newOne } from './mocks/fetch_objects'
 import { newService, policiesList } from './mocks/fetch_policies'
+import {
+	extractDataFromConfig,
+	extractEmailFromConfigUrl,
+	randomResponseCreator
+} from '../utils/axiosMockHelpers'
 
 export const auth = axios.create({
 	baseURL: process.env.REACT_APP_API_URL
@@ -66,28 +71,46 @@ if (process.env.REACT_APP_ENABLE_MOCK) {
 			'/ecosystems/e6960bd4-2275-4d55-a1e7-a9101e79ba36/objects/2ewsvw234ewrdsf'
 		)
 		.reply(400)
+		.onGet(new RegExp('/v2/users/*'))
+		.reply(config => {
+			const email = extractEmailFromConfigUrl(config)
+			return randomResponseCreator({
+				success: {
+					code: 200,
+					response: {
+						email,
+						fullName: 'Test User',
+						uuid: 'awes0meuuid',
+						activated: false
+					}
+				},
+				failure: {
+					code: 403,
+					response: {}
+				}
+			})
+		})
 		.onAny()
 		.passThrough()
 
 	const authMock = new MockAdapter(auth, { delayResponse: 300 })
 	authMock.onPost(`v2/users`).reply(config => {
-		let { data } = config
-		data = JSON.parse(data)
-		const { email } = data
-		const random = Math.random() - 0.5 > 0
-		if (random) {
-			return [
-				201,
-				{
+		const { email } = extractDataFromConfig(config)
+		return randomResponseCreator({
+			success: {
+				code: 201,
+				response: {
 					uuid: 'awes0meuuid',
 					email,
 					isActivated: false,
 					fullName: ''
 				}
-			]
-		} else {
-			return [504, {}]
-		}
+			},
+			failure: {
+				code: 504,
+				reponse: {}
+			}
+		})
 	})
 }
 

@@ -27,3 +27,8 @@ export const isActivatedSelector = createSelector(
 	userSelector,
 	user => get(user, ['isActivated'])
 )
+
+export const isEmailConfirmedSelector = createSelector(
+	userSelector,
+	user => get(user, ['isEmailConfirmed'])
+)

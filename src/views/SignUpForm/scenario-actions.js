@@ -26,12 +26,9 @@ export const registerEmail = email => async dispatch => {
 	dispatch(startLoading())
 	try {
 		const result = await createUser(email)
-		console.log('RESULT AT REGISTER EMAIL', result)
 		const { data } = result
-		// const { data } = await createUser(email)
 		dispatch(setUser(data))
 	} catch (error) {
-		console.dir(error)
 		const status = extractResponseErrorStatus(error)
 		const specificErrorHandler = {
 			409: 'This email is already taken!',
@@ -102,20 +99,30 @@ export const completeUser = creds => async (dispatch, getState) => {
 	}
 }
 
-export const checkIfTheTokenIsValid = username => async dispatch => {
-	console.log('USERNAME AT CHECK IF THE TOKEN IS VALID', username)
+export const checkIfTheTokenIsValid = ({
+	token,
+	username
+}) => async dispatch => {
+	localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, token)
 	dispatch(startLoading())
 	try {
-		const result = await loginUserForToken(username)
-		const accessToken = get(result, ['data', 'accessToken'], '')
-		console.log('ACCESS_TOKEN', accessToken)
-		localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, accessToken)
-		const response = await readUserData(username)
-		console.log('RESPONE AT CHECK TOKEN FOR VALIDITY', response)
+		const { data } = await readUserData(username)
+		dispatch(setUser(data))
 		dispatch(confirmEmail())
-		console.log('RESPONSE AT CHECK IF TOKEN IS VALID', response)
 	} catch (error) {
-		console.log('ERROR AT CHECK IF TOKEN IS VALID', error)
+		const status = extractResponseErrorStatus(error)
+		const specificErrorHandler = {
+			403: 'Incorrect link!',
+			401: 'Your token has expired. We`ve sent you a new email',
+			400: 'Wrong payload, missing username',
+			404: 'Usernot found',
+			default: 'Error while confirming email!'
+		}
+		const errorMessage = createResponseErrorMessage({
+			specificErrorHandler,
+			status
+		})
+		dispatch(setError(errorMessage))
 	} finally {
 		dispatch(finishLoading())
 	}
