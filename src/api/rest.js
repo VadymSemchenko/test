@@ -1,6 +1,7 @@
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import humps from 'humps'
+
 import { LOCAL_ACCESS_TOKEN_KEY } from '../enums'
 import store from '../store'
 import { logoutUser, renewToken } from '../store/auth/actions'
@@ -49,8 +50,8 @@ rest.interceptors.response.use(
 )
 
 if (process.env.REACT_APP_ENABLE_MOCK) {
-	const mock = new MockAdapter(rest)
-	mock
+	const restMock = new MockAdapter(rest, { delayResponse: 300 })
+	restMock
 		.onGet('/ecosystems/00790f55-a0a5-f4a4-6041-f291324f89a1/objects')
 		.reply(200, list)
 		.onGet('/ecosystems/e6960bd4-2275-4d55-a1e7-a9101e79ba36/policies')
@@ -67,6 +68,27 @@ if (process.env.REACT_APP_ENABLE_MOCK) {
 		.reply(400)
 		.onAny()
 		.passThrough()
+
+	const authMock = new MockAdapter(auth, { delayResponse: 300 })
+	authMock.onPost(`v2/users`).reply(config => {
+		let { data } = config
+		data = JSON.parse(data)
+		const { email } = data
+		const random = Math.random() - 0.5 > 0
+		if (random) {
+			return [
+				201,
+				{
+					uuid: 'awes0meuuid',
+					email,
+					isActivated: false,
+					fullName: ''
+				}
+			]
+		} else {
+			return [504, {}]
+		}
+	})
 }
 
 export function fetchEcosystems({ customer }) {
@@ -155,16 +177,6 @@ export async function fetchReports({ query, ecosystem, customer }) {
 			}
 		})
 }
-
-// export const createUser = email => rest.post('/v2/users', { email })
-
-// export const loginUserForToken = email =>
-// 	rest.post(`v2/auth/login`, { username: email, password: 'VeryLongDefP@SS' })
-
-// export const fulfillUser = ({ email, firstName, lastName }) => {
-// 	const path = `/v2/users/${email}`
-// 	return rest.put(path, { email, firstName, lastName })
-// }
 
 // TODO: it's mocked
 function getUrlForType(

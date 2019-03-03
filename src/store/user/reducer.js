@@ -17,7 +17,7 @@ const initialState = {
 	uuid: '',
 	firstName: '',
 	lastName: '',
-	isEmailConfirmed: false,
+	isActivated: false,
 	isLoading: false,
 	error: ''
 }
@@ -28,10 +28,10 @@ export const userReducer = handleActions(
 		[SET_EMAIL]: (state, { payload: email }) => assign({}, state, { email }),
 		[START_LOADING]: state => assign({}, state, { isLoading: true }),
 		[FINISH_LOADING]: state => assign({}, state, { isLoading: false }),
-		[SET_ERROR]: (state, { payload: error }) => assign({}, state, { error }),
+		[SET_ERROR]: (state, { payload }) => assign({}, state, { error: payload }),
 		[CLEAR_ERROR]: state => assign({}, state, { error: '' }),
 		[SET_TOKEN]: (state, { payload }) => assign({}, state, { token: payload }),
-		[CONFIRM_EMAIL]: state => assign({}, state, { isEmailConfirmed: true })
+		[CONFIRM_EMAIL]: state => assign({}, state, { isActivated: true })
 	},
 	initialState
 )

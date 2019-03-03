@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Spinner from 'react-spinner-material'
 
-import { personalInfoValidationSchema } from '../../../utils/validationSchemas'
+import { personalInfoValidationSchema } from '../../../validationSchemas'
 import { PERSON } from '../../../assets/Icons'
 import { completeUser } from '../scenario-actions'
 import { clearError } from '../../../store/user/actions'
@@ -24,30 +24,6 @@ class PersonalInfoSubForm extends Component {
 	state = {
 		showEmailVerificationMessage: true,
 		showError: true
-	}
-
-	static propTypes = {
-		buttonTitle: string,
-		values: shape({
-			fullName: string
-		}).isRequired,
-		errors: shape({
-			firstName: string,
-			lastName: string
-		}),
-		isValid: bool.isRequired,
-		setFieldTouched: func.isRequired,
-		handleChange: func.isRequired,
-		email: string.isRequired,
-		isLoading: bool.isRequired,
-		completeUser: func.isRequired,
-		serverError: string.isRequired,
-		clearError: func.isRequired
-	}
-
-	static defaultProps = {
-		buttonTitle: 'Sign Up',
-		isLoading: true
 	}
 
 	componentDidUpdate(prevProps) {
@@ -106,8 +82,7 @@ class PersonalInfoSubForm extends Component {
 			setFieldTouched,
 			isLoading,
 			errors,
-			serverError,
-			email
+			serverError
 		} = this.props
 		const error = errors.fullName || serverError
 		const { showEmailVerificationMessage, showError } = this.state
@@ -120,7 +95,7 @@ class PersonalInfoSubForm extends Component {
 							message="Your email has been successfully verified"
 							buttonClickHandler={this.closeEmailVerificationMessage}
 						/>
-						<EmailDisplay email={email} />
+						<EmailDisplay />
 					</>
 				)}
 				{shouldErrorBeDisplayed && (
@@ -150,6 +125,30 @@ class PersonalInfoSubForm extends Component {
 			</form>
 		)
 	}
+}
+
+PersonalInfoSubForm.propTypes = {
+	buttonTitle: string,
+	values: shape({
+		fullName: string
+	}).isRequired,
+	errors: shape({
+		firstName: string,
+		lastName: string
+	}),
+	isValid: bool.isRequired,
+	setFieldTouched: func.isRequired,
+	handleChange: func.isRequired,
+	email: string.isRequired,
+	isLoading: bool.isRequired,
+	completeUser: func.isRequired,
+	serverError: string.isRequired,
+	clearError: func.isRequired
+}
+
+PersonalInfoSubForm.defaultProps = {
+	buttonTitle: 'Sign Up',
+	isLoading: true
 }
 
 const mapStateToProps = state => ({

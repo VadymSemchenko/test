@@ -7,24 +7,15 @@ import { withRouter } from 'react-router-dom'
 import Stepper from '../../components/Stepper/Stepper'
 import EmailSubForm from './EmailSubForm/EmailSubForm'
 import PersonalInfoSubForm from './PersonalInfoSubForm/PersonalInfoSubForm'
-import { isEmailConfirmedSelector } from '../../store/user/selectors'
+import { isActivatedSelector } from '../../store/user/selectors'
 import './sign-up-form.scss'
 
 class SignUpForm extends Component {
-	static propTypes = {
-		formTitle: string.isRequired,
-		isEmailConfirmed: bool.isRequired
-	}
-
-	static defaultProps = {
-		formTitle: 'Sign Up'
-	}
-
 	state = {
 		activeStepIndex: 0
 	}
-	static getDerivedStateFromProps({ isEmailConfirmed }) {
-		if (isEmailConfirmed) return { activeStepIndex: 1 }
+	static getDerivedStateFromProps({ isActivated }) {
+		if (isActivated) return { activeStepIndex: 1 }
 		return null
 	}
 
@@ -41,8 +32,8 @@ class SignUpForm extends Component {
 	]
 
 	renderSubForm = () => {
-		const { formTitle, isEmailConfirmed } = this.props
-		if (isEmailConfirmed) {
+		const { formTitle, isActivated } = this.props
+		if (isActivated) {
 			return <PersonalInfoSubForm />
 		}
 		return <EmailSubForm buttonTitle={formTitle} />
@@ -71,13 +62,18 @@ class SignUpForm extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	isEmailConfirmed: isEmailConfirmedSelector(state)
-})
+SignUpForm.propTypes = {
+	formTitle: string.isRequired,
+	isActivated: bool.isRequired
+}
 
-// const mapStateToProps = () => ({
-// 	isEmailConfirmed: true
-// })
+SignUpForm.defaultProps = {
+	formTitle: 'Sign Up'
+}
+
+const mapStateToProps = state => ({
+	isActivated: isActivatedSelector(state)
+})
 
 export default compose(
 	connect(mapStateToProps),

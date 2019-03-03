@@ -1,6 +1,16 @@
 import get from 'lodash/get'
 import set from 'lodash/set'
-import { rest, auth } from '../../api/rest'
+
+import {
+	createResponseErrorMessage,
+	extractResponseErrorStatus
+} from '../../utils/reponseErrorHandler'
+import {
+	createUser,
+	loginUserForToken,
+	readUserData,
+	fulfillUser
+} from './apiCalls'
 import { LOCAL_ACCESS_TOKEN_KEY } from '../../enums'
 import {
 	startLoading,
@@ -12,37 +22,27 @@ import {
 import history from '../../history'
 import { loginSuccess } from '../../store/auth/actions'
 
-export const createUser = email => rest.post('/v2/users', { email })
-
-export const loginUserForToken = email =>
-	auth.post(`v2/auth/login`, { username: email, password: 'VeryLongDefP@SS' })
-
-export const fulfillUser = ({ email, firstName, lastName }) => {
-	const path = `/v2/users/${email}`
-	return rest.put(path, { email, firstName, lastName })
-}
-
 export const registerEmail = email => async dispatch => {
 	dispatch(startLoading())
 	try {
-		const { data } = await createUser(email)
+		const result = await createUser(email)
+		console.log('RESULT AT REGISTER EMAIL', result)
+		const { data } = result
+		// const { data } = await createUser(email)
 		dispatch(setUser(data))
 	} catch (error) {
-		const status = get(error, ['response', 'status'], null)
-		switch (+status) {
-			case 409:
-				return dispatch(setError('This email is already taken!'))
-			case 400:
-				return dispatch(setError('Wrong payload, missing email!'))
-			case 422:
-				return dispatch(setError('Request payload is invalid!'))
-			case 500:
-				return dispatch(setError('Internal server error!'))
-			case 522:
-				return dispatch(setError('Gateway connection timeout!'))
-			default:
-				return dispatch(setError('Error while registering email!'))
+		console.dir(error)
+		const status = extractResponseErrorStatus(error)
+		const specificErrorHandler = {
+			409: 'This email is already taken!',
+			400: 'Wrong payload, missing email!',
+			default: 'Error while registering email!'
 		}
+		const errorMessage = createResponseErrorMessage({
+			status,
+			specificErrorHandler
+		})
+		dispatch(setError(errorMessage))
 	} finally {
 		dispatch(finishLoading())
 	}
@@ -65,62 +65,52 @@ export const completeUser = creds => async (dispatch, getState) => {
 			})
 		)
 	} catch (error) {
-		const status = get(error, ['response', 'status'], null)
-		dispatch(finishLoading())
-		switch (+status) {
-			case 400:
-				return dispatch(setError('Wrong payload, missing username or password'))
-			case 401:
-				return dispatch(setError('Invalid username or password!'))
-			case 404:
-				return dispatch(
-					setError('No username, wrong username, wrong password!')
-				)
-			case 500:
-				return dispatch(setError('Internal server error!'))
-			case 522:
-				return dispatch(setError('Gateway connection timeout!'))
-			default:
-				return dispatch(setError('Error while authorising user!'))
+		const status = extractResponseErrorStatus(error)
+		const specificErrorHandler = {
+			400: 'Wrong payload, missing username or password',
+			401: 'Invalid username or password!',
+			404: 'No username, wrong username, wrong password!',
+			default: 'Error while authorising user!'
 		}
+		const errorMessage = createResponseErrorMessage({
+			specificErrorHandler,
+			status
+		})
+		dispatch(setError(errorMessage))
+	} finally {
+		dispatch(finishLoading())
 	}
 	try {
 		const user = await fulfillUser(creds)
 		dispatch(setUser(user))
 		history.replace('/auth/customers/new')
 	} catch (error) {
-		const status = get(error, ['response', 'status'], null)
-		switch (+status) {
-			case 400:
-				return dispatch(
-					setError('Wrong payload, missing first name, last name or password!')
-				)
-			case 401:
-				return dispatch(setError('Invalid first name, last name or password!'))
-			case 403:
-				return dispatch(
-					setError('You don`t have permissions to provide this operation!')
-				)
-			case 500:
-				return dispatch(setError('Internal server error!'))
-			case 522:
-				return dispatch(setError('Gateway connection timeout!'))
-			default:
-				return dispatch(setError('Error while registering user!'))
+		const status = extractResponseErrorStatus(error)
+		const specificErrorHandler = {
+			400: 'Wrong payload, missing username or password',
+			401: 'Invalid username or password!',
+			404: 'No username, wrong username, wrong password!',
+			default: 'Error while registering user!'
 		}
+		const errorMessage = createResponseErrorMessage({
+			specificErrorHandler,
+			status
+		})
+		dispatch(setError(errorMessage))
 	} finally {
 		dispatch(finishLoading())
 	}
 }
 
 export const checkIfTheTokenIsValid = username => async dispatch => {
+	console.log('USERNAME AT CHECK IF THE TOKEN IS VALID', username)
 	dispatch(startLoading())
 	try {
 		const result = await loginUserForToken(username)
 		const accessToken = get(result, ['data', 'accessToken'], '')
 		console.log('ACCESS_TOKEN', accessToken)
 		localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, accessToken)
-		const response = await rest.get(`users/${username}`)
+		const response = await readUserData(username)
 		console.log('RESPONE AT CHECK TOKEN FOR VALIDITY', response)
 		dispatch(confirmEmail())
 		console.log('RESPONSE AT CHECK IF TOKEN IS VALID', response)

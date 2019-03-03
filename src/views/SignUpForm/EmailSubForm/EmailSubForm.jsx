@@ -9,7 +9,7 @@ import qs from 'query-string'
 import { withRouter } from 'react-router-dom'
 
 import ErrorPanel from '../../../components/ErrorPanel/ErrorPanel'
-import { emailValidationSchema } from '../../../utils/validationSchemas'
+import { emailValidationSchema } from '../../../validationSchemas'
 import { LOGIN_EMAIL } from '../../../assets/Icons'
 import { checkIfTheTokenIsValid } from '../scenario-actions'
 import { registerEmail } from '../scenario-actions'
@@ -24,20 +24,7 @@ import SuccessPanel from '../../../components/SuccessPanel/SuccessPanel'
 
 class EmailSubForm extends Component {
 	state = {
-		showError: false,
-		token: '',
-		username: '',
-		needsTokenCheck: true
-	}
-
-	constructor(props) {
-		super(props)
-		const {
-			location: { search }
-		} = props
-		const { token, username } = qs.parse(search)
-		this.username = username || ''
-		this.token = token || ''
+		showError: false
 	}
 
 	static getDerivedStateFromProps({ serverError }) {
@@ -45,45 +32,15 @@ class EmailSubForm extends Component {
 		return null
 	}
 
-	static propTypes = {
-		buttonTitle: string,
-		handleSubmit: func.isRequired,
-		values: shape({
-			email: string
-		}).isRequired,
-		errors: shape({
-			email: string
-		}),
-		isValid: bool.isRequired,
-		setFieldTouched: func.isRequired,
-		handleChange: func.isRequired,
-		registerEmail: func.isRequired,
-		serverError: string.isRequired,
-		clearError: func.isRequired,
-		isLoading: bool.isRequired,
-		location: object.isRequired,
-		email: string.isRequired
-	}
-
-	static defaultProps = {
-		buttonTitle: 'Sign Up'
-	}
-
-	componentDidUpdate(prevProps, prevState) {
-		const { checkIfTheTokenIsValid, serverError, isLoading } = prevProps
-		const { needsTokenCheck } = prevState
-
-		const shouldCheckToken =
-			this.token &&
-			this.username &&
-			!serverError &&
-			!isLoading &&
-			needsTokenCheck
+	componentDidMount() {
+		const { checkIfTheTokenIsValid } = this.props
+		const {
+			location: { search }
+		} = this.props
+		const { token, username } = qs.parse(search)
+		const shouldCheckToken = token && username
 		if (shouldCheckToken) {
 			checkIfTheTokenIsValid({ token: this.token, username: this.username })
-			this.setState(() => ({
-				needsTokenCheck: false
-			}))
 		}
 	}
 
@@ -96,6 +53,8 @@ class EmailSubForm extends Component {
 		this.setState({
 			showError: false
 		})
+		const { clearError } = this.props
+		clearError()
 	}
 
 	onSubmit = event => {
@@ -130,7 +89,7 @@ class EmailSubForm extends Component {
 		} = this.props
 		const { showError } = this.state
 		const error = errors.email || serverError
-		const shouldErrorBeDisplayed = showError && error
+		const shouldErrorBeDisplayed = showError && !!error
 		return (
 			<form onSubmit={this.onSubmit} className={'form-container'}>
 				{shouldErrorBeDisplayed && (
@@ -169,7 +128,7 @@ class EmailSubForm extends Component {
 						</>
 					</>
 				)}
-				{email && !this.username && (
+				{email && (
 					<SuccessPanel message="Confirmation link has been sent to your email" />
 				)}
 				<div>
@@ -178,6 +137,31 @@ class EmailSubForm extends Component {
 			</form>
 		)
 	}
+}
+
+EmailSubForm.propTypes = {
+	buttonTitle: string,
+	handleSubmit: func.isRequired,
+	values: shape({
+		email: string
+	}).isRequired,
+	errors: shape({
+		email: string
+	}),
+	isValid: bool.isRequired,
+	setFieldTouched: func.isRequired,
+	handleChange: func.isRequired,
+	registerEmail: func.isRequired,
+	serverError: string.isRequired,
+	clearError: func.isRequired,
+	isLoading: bool.isRequired,
+	location: object.isRequired,
+	email: string.isRequired,
+	checkIfTheTokenIsValid: func.isRequired
+}
+
+EmailSubForm.defaultProps = {
+	buttonTitle: 'Sign Up'
 }
 
 const mapStateToProps = state => ({
