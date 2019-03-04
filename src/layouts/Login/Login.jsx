@@ -33,18 +33,6 @@ class Login extends Component {
 		const {
 			location: { pathname }
 		} = this.props
-		// const linkTitle =
-		// 	pathname === this.linkRoutes.signUp
-		// 		? this.titles.login
-		// 		: this.titles.signUp
-		// const linkRoute =
-		// 	pathname === this.linkRoutes.signUp
-		// 		? this.linkRoutes.login
-		// 		: this.linkRoutes.signUp
-		// const formTitle =
-		// 	!pathname === this.linkRoutes.signUp
-		// 		? this.titles.login
-		// 		: this.titles.signUp
 		const currentConfig =
 			pathname === this.configs.signup.linkRoute
 				? this.configs.login
@@ -53,7 +41,6 @@ class Login extends Component {
 
 		return (
 			<div className="login-page">
-				{/* <ToastContainer /> */}
 				<div className={'login-page--header header'}>
 					<img src={ACRETO_LOGO} alt={'acreto-logo'} className={'logo'} />
 					<Link to={linkRoute} className={'button component-coming-soon'}>
