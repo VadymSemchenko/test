@@ -49,7 +49,7 @@ export const completeUser = creds => async (dispatch, getState) => {
 	try {
 		const user = await fulfillUser(creds)
 		dispatch(setUser(user))
-		history.replace('billing')
+		history.replace('/auth/sign-up/billing')
 	} catch (error) {
 		const status = extractResponseErrorStatus(error)
 		const specificErrorHandler = {
@@ -74,11 +74,11 @@ export const checkIfTheTokenIsValid = ({
 }) => async dispatch => {
 	dispatch(startLoading())
 	try {
+		localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, token)
 		const { data } = await readUserData(username)
 		dispatch(setUser(data))
-		localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, token)
 		dispatch(confirmEmail())
-		history.replace('personal-info')
+		history.replace('/auth/sign-up/personal-info')
 	} catch (error) {
 		const status = extractResponseErrorStatus(error)
 		const specificErrorHandler = {
