@@ -17,15 +17,6 @@ import SignUpForm from '../../views/SignUpForm/SignUpForm'
 import './login.scss'
 
 class Login extends Component {
-	// linkRoutes = {
-	// 	login: '/auth/login',
-	// 	signUp: '/auth/sign-up'
-	// }
-	// titles = {
-	// 	login: 'Log In',
-	// 	signUp: 'Sign Up'
-	// }
-
 	configs = {
 		signup: {
 			linkRoute: '/auth/sign-up',
