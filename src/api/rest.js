@@ -52,7 +52,7 @@ rest.interceptors.response.use(
 	}
 )
 
-if (process.env.REACT_APP_ENABLE_MOCK) {
+if (process.env.REACT_APP_ENABLE_MOCK === true) {
 	const restMock = new MockAdapter(rest, { delayResponse: 300 })
 	restMock
 		.onGet('/ecosystems/00790f55-a0a5-f4a4-6041-f291324f89a1/objects')
