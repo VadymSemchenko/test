@@ -23,7 +23,6 @@ class App extends React.Component {
 	}
 
 	render() {
-		console.log('ENV VARIABLE', process.env.REACT_APP_ENABLE_MOCK)
 		const { startupFinished } = this.props
 		return (
 			<React.Fragment>

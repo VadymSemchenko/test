@@ -5,7 +5,7 @@ const defaultErrorHandler = {
 	403: 'You don`t have permissions to provide this operation!',
 	422: 'Request payload is invalid!',
 	500: 'Internal server error!',
-	522: 'Gateway connection timeout!',
+	504: 'Gateway connection timeout!',
 	default: 'An error occured'
 }
 

@@ -43,14 +43,15 @@
 				width: 9999px;
 				z-index: -1;
 			}
-			&.last:after {
-				background-color: $wedge-white-two;
-			}
 			&.active:after {
 				background-color: $wedge-primary-blue;
 			}
 			&.done:after {
 				background-color: $wedge-secondary-gray;
+			}
+			&.last:after {
+				background-color: $wedge-white-two;
+				height: 2px;
 			}
 
 			.round-step {

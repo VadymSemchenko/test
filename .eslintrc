@@ -6,7 +6,8 @@
 	"plugins": ["react"],
 	"extends": ["eslint:recommended", "plugin:react/recommended"],
 	"rules": {
-		"no-console": 1
+		"no-console": 1,
+		"no-inline-comments": "warn"
 	},
 	"globals": {
 		"__DEV__": true,

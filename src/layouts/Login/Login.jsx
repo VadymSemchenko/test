@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import connect from 'react-redux/es/connect/connect'
 import { Redirect, Route, Switch, withRouter, Link } from 'react-router-dom'
-// import { ToastContainer } from 'react-toastify'
 import { ACRETO_LOGO, LOGIN_FOOTER } from '../../assets/Icons'
 import ProtectedRoute from '../../components/ProtectedRoute/ProtectedRoute'
 import UnauthorizedRoute from '../../components/UnauthorizedRoute/UnauthorizedRoute'
@@ -19,7 +18,7 @@ import './login.scss'
 class Login extends Component {
 	configs = {
 		signup: {
-			linkRoute: '/auth/sign-up',
+			linkRoute: '/auth/sign-up/email',
 			formTitle: 'Sign Up',
 			authButtonTitle: 'Sign Up'
 		},
@@ -33,10 +32,9 @@ class Login extends Component {
 		const {
 			location: { pathname }
 		} = this.props
-		const currentConfig =
-			pathname === this.configs.signup.linkRoute
-				? this.configs.login
-				: this.configs.signup
+		const currentConfig = pathname.includes(this.configs.signup.linkRoute)
+			? this.configs.login
+			: this.configs.signup
 		const { linkRoute, formTitle, authButtonTitle } = currentConfig
 
 		return (
@@ -52,7 +50,6 @@ class Login extends Component {
 					<Route exact path={'/auth/login'} render={LoginForm} />
 					<ProtectedRoute path={'/auth/customers'} component={CustomersForm} />
 					<UnauthorizedRoute
-						exact
 						path={'/auth/sign-up'}
 						component={SignUpForm}
 						formTitle={formTitle}

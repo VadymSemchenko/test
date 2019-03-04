@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { string, number, shape, arrayOf } from 'prop-types'
+import './stepper.scss'
 
 const Stepper = ({ steps, activeStepIndex }) => {
 	return (

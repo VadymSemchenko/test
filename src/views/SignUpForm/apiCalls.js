@@ -9,9 +9,9 @@ export const loginUserForToken = email => {
 	})
 }
 
-export const fulfillUser = ({ email, firstName, lastName }) => {
+export const fulfillUser = ({ email, fullName }) => {
 	const path = `/v2/users/${email}`
-	return rest.put(path, { email, firstName, lastName })
+	return rest.put(path, { email, fullName })
 }
 
 export const readUserData = username => rest.get(`v2/users/${username}`)

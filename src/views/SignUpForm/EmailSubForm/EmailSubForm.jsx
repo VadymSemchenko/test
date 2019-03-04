@@ -5,8 +5,6 @@ import { withFormik } from 'formik'
 import { func, string, shape, bool, object } from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import qs from 'query-string'
-import { withRouter } from 'react-router-dom'
 
 import ErrorPanel from '../../../components/ErrorPanel/ErrorPanel'
 import { emailValidationSchema } from '../../../validationSchemas'
@@ -20,7 +18,6 @@ import {
 	emailSelector
 } from '../../../store/user/selectors'
 import '../sign-up-form.scss'
-import SuccessPanel from '../../../components/SuccessPanel/SuccessPanel'
 
 class EmailSubForm extends Component {
 	state = {
@@ -30,18 +27,6 @@ class EmailSubForm extends Component {
 	static getDerivedStateFromProps({ serverError }) {
 		if (serverError) return { showError: true }
 		return null
-	}
-
-	componentDidMount() {
-		const { checkIfTheTokenIsValid } = this.props
-		const {
-			location: { search }
-		} = this.props
-		const { token, username } = qs.parse(search)
-		const shouldCheckToken = token && username
-		if (shouldCheckToken) {
-			checkIfTheTokenIsValid({ token, username })
-		}
 	}
 
 	resetError = () => {
@@ -79,12 +64,10 @@ class EmailSubForm extends Component {
 
 	render() {
 		const {
-			buttonTitle,
 			values,
 			setFieldTouched,
 			isLoading,
 			errors,
-			email,
 			serverError
 		} = this.props
 		const { showError } = this.state
@@ -95,41 +78,28 @@ class EmailSubForm extends Component {
 				{shouldErrorBeDisplayed && (
 					<ErrorPanel message={error} buttonClickHandler={this.disableError} />
 				)}
-				{!email && (
-					<>
-						<div className={'input-container'}>
-							<div className={'icon-container'}>
-								<img
-									src={LOGIN_EMAIL}
-									className={'input-icon'}
-									alt={'input-icon'}
-								/>
-							</div>
-							<input
-								value={values.email}
-								name={'email'}
-								placeholder={'Email'}
-								required={true}
-								onFocus={this.resetError}
-								onChange={this.handleInputChange}
-								onBlur={() => setFieldTouched('email')}
-							/>
-						</div>
-						<>
-							{isLoading ? (
-								<Spinner spinnerColor="#4986c5" className="spinner" />
-							) : (
-								<input
-									type="submit"
-									className="signup-button"
-									value={buttonTitle}
-								/>
-							)}
-						</>
-					</>
-				)}
-				{email && (
-					<SuccessPanel message="Confirmation link has been sent to your email" />
+				<div className={'input-container'}>
+					<div className={'icon-container'}>
+						<img
+							src={LOGIN_EMAIL}
+							className={'input-icon'}
+							alt={'input-icon'}
+						/>
+					</div>
+					<input
+						value={values.email}
+						name={'email'}
+						placeholder={'Email'}
+						required={true}
+						onFocus={this.resetError}
+						onChange={this.handleInputChange}
+						onBlur={() => setFieldTouched('email')}
+					/>
+				</div>
+				{isLoading ? (
+					<Spinner spinnerColor="#4986c5" className="spinner" />
+				) : (
+					<input type="submit" className="signup-button" value="Sign Up" />
 				)}
 				<div>
 					<span />
@@ -140,7 +110,6 @@ class EmailSubForm extends Component {
 }
 
 EmailSubForm.propTypes = {
-	buttonTitle: string,
 	handleSubmit: func.isRequired,
 	values: shape({
 		email: string
@@ -160,16 +129,11 @@ EmailSubForm.propTypes = {
 	checkIfTheTokenIsValid: func.isRequired
 }
 
-EmailSubForm.defaultProps = {
-	buttonTitle: 'Sign Up'
-}
-
 const mapStateToProps = state => ({
 	serverError: errorSelector(state),
 	isLoading: isLoadingSelector(state),
 	error: errorSelector(state),
 	email: emailSelector(state)
-	// email: 'test@email.com'
 })
 
 const mapDispatchToProps = dispatch =>
@@ -183,7 +147,6 @@ const mapDispatchToProps = dispatch =>
 	)
 
 export default compose(
-	withRouter,
 	connect(
 		mapStateToProps,
 		mapDispatchToProps

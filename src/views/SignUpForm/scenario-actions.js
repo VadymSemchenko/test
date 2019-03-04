@@ -1,16 +1,10 @@
-import get from 'lodash/get'
 import set from 'lodash/set'
 
 import {
 	createResponseErrorMessage,
 	extractResponseErrorStatus
 } from '../../utils/reponseErrorHandler'
-import {
-	createUser,
-	loginUserForToken,
-	readUserData,
-	fulfillUser
-} from './apiCalls'
+import { createUser, readUserData, fulfillUser } from './apiCalls'
 import { LOCAL_ACCESS_TOKEN_KEY } from '../../enums'
 import {
 	startLoading,
@@ -20,7 +14,6 @@ import {
 	confirmEmail
 } from '../../store/user/actions'
 import history from '../../history'
-import { loginSuccess } from '../../store/auth/actions'
 
 export const registerEmail = email => async dispatch => {
 	dispatch(startLoading())
@@ -28,6 +21,7 @@ export const registerEmail = email => async dispatch => {
 		const result = await createUser(email)
 		const { data } = result
 		dispatch(setUser(data))
+		history.replace('/auth/sign-up/email-entered')
 	} catch (error) {
 		const status = extractResponseErrorStatus(error)
 		const specificErrorHandler = {
@@ -53,34 +47,9 @@ export const completeUser = creds => async (dispatch, getState) => {
 	set(creds, 'email', email)
 	set(creds, 'uuid', uuid)
 	try {
-		const result = await loginUserForToken(email)
-		const accessToken = get(result, ['data', 'accessToken'], '')
-		dispatch(
-			loginSuccess({
-				accessToken,
-				customers: []
-			})
-		)
-	} catch (error) {
-		const status = extractResponseErrorStatus(error)
-		const specificErrorHandler = {
-			400: 'Wrong payload, missing username or password',
-			401: 'Invalid username or password!',
-			404: 'No username, wrong username, wrong password!',
-			default: 'Error while authorising user!'
-		}
-		const errorMessage = createResponseErrorMessage({
-			specificErrorHandler,
-			status
-		})
-		dispatch(setError(errorMessage))
-	} finally {
-		dispatch(finishLoading())
-	}
-	try {
 		const user = await fulfillUser(creds)
 		dispatch(setUser(user))
-		history.replace('/auth/customers/new')
+		history.replace('billing')
 	} catch (error) {
 		const status = extractResponseErrorStatus(error)
 		const specificErrorHandler = {
@@ -109,6 +78,7 @@ export const checkIfTheTokenIsValid = ({
 		const { data } = await readUserData(username)
 		dispatch(setUser(data))
 		dispatch(confirmEmail())
+		history.replace('personal-info')
 	} catch (error) {
 		const status = extractResponseErrorStatus(error)
 		const specificErrorHandler = {

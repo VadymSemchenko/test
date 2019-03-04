@@ -1,47 +1,49 @@
-import { string, bool } from 'prop-types'
+import { object } from 'prop-types'
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'recompose'
-import { withRouter } from 'react-router-dom'
+import { Switch, withRouter, Redirect } from 'react-router-dom'
+import findIndex from 'lodash/findIndex'
 
 import Stepper from '../../components/Stepper/Stepper'
 import EmailSubForm from './EmailSubForm/EmailSubForm'
+import BillingSubForm from './BillingInfoSubForm/BillingInfoSubForm'
 import PersonalInfoSubForm from './PersonalInfoSubForm/PersonalInfoSubForm'
-import { isEmailConfirmedSelector } from '../../store/user/selectors'
+import UnauthorizedRoute from '../../components/UnauthorizedRoute/UnauthorizedRoute'
+import EmailConfirmation from './EmailConfirmation/EmailConfirmation'
+import EmailEntered from './EmailEntered/EmailEntered'
 import './sign-up-form.scss'
+import { extractLastValueFromPathname } from '../../utils/routeLocationParsers'
 
 class SignUpForm extends Component {
 	state = {
-		activeStepIndex: 0
-	}
-	static getDerivedStateFromProps({ isEmailConfirmed }) {
-		if (isEmailConfirmed) return { activeStepIndex: 1 }
-		return null
+		stateStepIndex: 0
 	}
 
 	steps = [
 		{
-			title: 'SIGN UP'
+			title: 'SIGN UP',
+			endpoint: '/email'
 		},
 		{
-			title: 'PERSONAL INFORMATION'
+			title: 'PERSONAL INFORMATION',
+			endpoint: '/personal-info'
 		},
 		{
-			title: 'BILLING'
+			title: 'BILLING',
+			endpoint: '/billing'
 		}
 	]
 
-	renderSubForm = () => {
-		const { formTitle, isEmailConfirmed } = this.props
-		if (isEmailConfirmed) {
-			return <PersonalInfoSubForm />
-		}
-		return <EmailSubForm buttonTitle={formTitle} />
-	}
+	basePath = '/auth/sign-up'
 
 	render() {
-		const { formTitle } = this.props
-		const { activeStepIndex } = this.state
+		const { location } = this.props
+		const endpoint = `/${extractLastValueFromPathname(location)}`
+		const endpointStepIndex = findIndex(this.steps, step => {
+			return step.endpoint === endpoint
+		})
+		const { stateStepIndex } = this.state
+		const activeStepIndex =
+			endpointStepIndex >= 0 ? endpointStepIndex : stateStepIndex
 		const shouldStepsBeDisplayed = activeStepIndex !== 0
 		const shouldFormTitleBeDisplayed = !shouldStepsBeDisplayed
 		return (
@@ -52,10 +54,38 @@ class SignUpForm extends Component {
 				<div className={'login-form'}>
 					{shouldFormTitleBeDisplayed && (
 						<div className="form-title-container">
-							<h2 className={'title'}>{formTitle}</h2>
+							<h2 className={'title'}>Sign Up</h2>
 						</div>
 					)}
-					{this.renderSubForm()}
+					<Switch>
+						<UnauthorizedRoute
+							exact
+							path={`${this.basePath}${this.steps[1].endpoint}`}
+							component={PersonalInfoSubForm}
+						/>
+						<UnauthorizedRoute
+							exact
+							path={`${this.basePath}${this.steps[2].endpoint}`}
+							component={BillingSubForm}
+						/>
+						<UnauthorizedRoute
+							exact
+							path={`${this.basePath}/email-confirmation`}
+							component={EmailConfirmation}
+						/>
+						<UnauthorizedRoute
+							exact
+							path={`${this.basePath}/email-entered`}
+							component={EmailEntered}
+						/>
+						<UnauthorizedRoute
+							exact
+							path={`${this.basePath}/billing`}
+							component={BillingSubForm}
+						/>
+						<UnauthorizedRoute path={this.basePath} component={EmailSubForm} />
+						<Redirect to={`${this.basePath}`} />
+					</Switch>
 				</div>
 			</div>
 		)
@@ -63,19 +93,7 @@ class SignUpForm extends Component {
 }
 
 SignUpForm.propTypes = {
-	formTitle: string.isRequired,
-	isEmailConfirmed: bool.isRequired
+	location: object.isRequired
 }
 
-SignUpForm.defaultProps = {
-	formTitle: 'Sign Up'
-}
-
-const mapStateToProps = state => ({
-	isEmailConfirmed: isEmailConfirmedSelector(state)
-})
-
-export default compose(
-	connect(mapStateToProps),
-	withRouter
-)(SignUpForm)
+export default withRouter(SignUpForm)
