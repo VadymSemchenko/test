@@ -77,7 +77,6 @@ class PersonalInfoSubForm extends Component {
 	}
 
 	render() {
-		console.log('PERSONAL INFO SUB FORM')
 		const {
 			values,
 			setFieldTouched,

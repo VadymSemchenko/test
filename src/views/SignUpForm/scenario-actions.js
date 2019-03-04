@@ -72,11 +72,11 @@ export const checkIfTheTokenIsValid = ({
 	token,
 	username
 }) => async dispatch => {
-	localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, token)
 	dispatch(startLoading())
 	try {
 		const { data } = await readUserData(username)
 		dispatch(setUser(data))
+		localStorage.setItem(LOCAL_ACCESS_TOKEN_KEY, token)
 		dispatch(confirmEmail())
 		history.replace('personal-info')
 	} catch (error) {

@@ -4,13 +4,7 @@ import {
 } from '../../utils/axiosMockHelpers'
 
 const fulfillUserMockResponse = config => {
-	console.log('FULFILL USER AXIOS COMFIG', config)
 	const { email, fullName } = extractDataFromConfig(config)
-	console.log(
-		'FULLNAME FRON AXIOS CONFIG IN FULLFILL USER MOCK RESPONSE',
-		fullName
-	)
-	console.log('EMAIL FRON AXIOS CONFIG IN FULLFILL USER MOCK RESPONSE', email)
 	return randomResponseCreator({
 		success: {
 			code: 201,
