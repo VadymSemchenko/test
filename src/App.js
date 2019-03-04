@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Router, Switch } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import history from './history'
@@ -12,6 +13,9 @@ import { startup } from './store/common-scenario-actions'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import GlobalLoader from './components/GlobalLoader/GlobalLoader'
+import addFontAwesomeIcons from './utils/addFontIcons'
+
+addFontAwesomeIcons()
 
 class App extends React.Component {
 	componentDidMount() {

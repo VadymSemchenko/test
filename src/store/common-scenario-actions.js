@@ -6,6 +6,7 @@ import {
 	fetchingEcosystemsFailure
 } from './ecosystems/actions'
 import { finishStartup } from './global/actions'
+import { setError } from './user/actions'
 
 export function startup() {
 	return async (dispatch, getState) => {
@@ -33,6 +34,7 @@ export function logout() {
 			await REST.logout()
 		} finally {
 			dispatch(logoutUser())
+			dispatch(setError('You have been logged out'))
 			dispatch(clearData())
 		}
 	}
