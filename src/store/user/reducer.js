@@ -15,8 +15,7 @@ import {
 const initialState = {
 	email: '',
 	uuid: '',
-	firstName: '',
-	lastName: '',
+	fullName: '',
 	isActivated: false,
 	isLoading: false,
 	error: '',

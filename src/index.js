@@ -1,8 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
+import { Elements, StripeProvider } from 'react-stripe-elements'
 import { Provider } from 'react-redux'
+
+import App from './App'
 import './assets/css/animate.min.css'
 import './assets/css/demo.css'
 import './assets/css/pe-icon-7-stroke.css'
@@ -13,7 +15,11 @@ const store = configureStore
 
 ReactDOM.render(
 	<Provider store={store}>
-		<App />
+		<StripeProvider apiKey={process.env.REACT_APP_STRIPE_PUB_KEY}>
+			<Elements>
+				<App />
+			</Elements>
+		</StripeProvider>
 	</Provider>,
 	document.getElementById('root')
 )
