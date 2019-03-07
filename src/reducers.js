@@ -8,6 +8,7 @@ import { policyReducer } from './store/policies/reducer'
 import { reportsReducer } from './store/reports'
 import { globalReducer } from './store/global/reducer'
 import { userReducer } from './store/user/reducer'
+import paymentReducer from './store/payment/reducer'
 
 export default combineReducers({
 	auth: authReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
 	loading: loadingReducer,
 	errors: errorReducer,
 	global: globalReducer,
-	user: userReducer
+	user: userReducer,
+	payment: paymentReducer
 })

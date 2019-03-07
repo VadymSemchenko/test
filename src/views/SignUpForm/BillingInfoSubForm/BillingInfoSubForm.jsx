@@ -1,55 +1,54 @@
-import React, { Component, createRef } from 'react'
-import { injectStripe } from 'react-stripe-elements'
-import { compose } from 'recompose'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { CardElement } from 'react-stripe-elements'
-import Button from 'react-bootstrap/lib/Button'
-import { object } from 'prop-types'
+import React, { Component } from 'react'
+import StripeSourceRegistration from '../../../components/StripeSourceRegistration/StripeSourceRegistration'
+import PayPalRegistration from '../../../components/PayPalRegistration/PayPalRegistration'
+import ContractIdRegistration from '../../../components/ContractIdRegistration/ContractIdRegistration'
+import TabsHeader from '../../../components/TabsHeader/TabsHeader'
 
 import '../sign-up-form.scss'
 
 class BillingSubForm extends Component {
-	handleSubmit = () => {
-		const { stripe } = this.props
-		stripe
-			.createSource({
-				type: 'card',
-				owner: {
-					name: 'Hello World',
-					email: 'test@a.a'
-				}
-			})
-			.then(response => console.log('RESPONSE', response))
-			.catch(error => console.log('ERROR', error))
+	state = {
+		selectedIndex: 0
 	}
 
-	billingForm = createRef()
-	input = null
-	cardRef = createRef()
+	tabs = [
+		{
+			name: 'Stripe'
+		},
+		{
+			name: 'PayPal'
+		},
+		{
+			name: 'Contract ID'
+		}
+	]
+
+	selectTab = index => {
+		this.setState(() => ({
+			selectedIndex: index
+		}))
+	}
 
 	render() {
+		const { selectedIndex } = this.state
 		return (
-			<form onSubmit={this.onSubmit} className="form-container">
-				<div>Billing Info Sub Form</div>
-				<CardElement />
-				<Button onClick={this.handleSubmit}>Submit</Button>
-			</form>
+			<div className="form-container">
+				<TabsHeader
+					selectedIndex={selectedIndex}
+					onSelect={this.selectTab}
+					tabs={this.tabs}
+				/>
+				<StripeSourceRegistration
+					selectedIndex={selectedIndex}
+					componentIndex={0}
+				/>
+				<PayPalRegistration selectedIndex={selectedIndex} componentIndex={1} />
+				<ContractIdRegistration
+					selectedIndex={selectedIndex}
+					componentIndex={2}
+				/>
+			</div>
 		)
 	}
 }
-
-BillingSubForm.propTypes = {
-	stripe: object.isRequired
-}
-
-const mapStateToProps = state => state
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
-
-export default compose(
-	injectStripe,
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)
-)(BillingSubForm)
+export default BillingSubForm

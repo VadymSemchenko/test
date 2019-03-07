@@ -120,7 +120,9 @@ class PersonalInfoSubForm extends Component {
 				{isLoading ? (
 					<Spinner spinnerColor="#4986c5" className="spinner" />
 				) : (
-					<input type="submit" className="signup-button" value="Next" />
+					<div className="submit-button-container">
+						<input type="submit" className="signup-button" value="Next" />
+					</div>
 				)}
 			</form>
 		)

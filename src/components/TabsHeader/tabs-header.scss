@@ -1,0 +1,19 @@
+@import '../../assets/sass/lbd/variables.scss';
+
+.tabs-header-container {
+	height: 70px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+
+	.single-tab-container {
+		width: 100%;
+		display: flex;
+		border-bottom: 1px solid $wedge-secondary-gray;
+		flex: 1 1 50px;
+		&.--active {
+			color: $wedge-primary-blue;
+			border-bottom-color: $wedge-primary-blue;
+		}
+	}
+}

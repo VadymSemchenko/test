@@ -1,6 +1,8 @@
 import React from 'react'
 import { Route, Router, Switch } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import { injectStripe } from 'react-stripe-elements'
+import { compose } from 'recompose'
 
 import 'react-toastify/dist/ReactToastify.css'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
@@ -10,16 +12,18 @@ import Ecosystems from './layouts/Ecosystems/Ecosystems'
 import Login from './layouts/Login/Login'
 import './reset.scss'
 import { startup } from './store/common-scenario-actions'
+import { setStripe } from './store/payment/actions'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { func, bool } from 'prop-types'
 import GlobalLoader from './components/GlobalLoader/GlobalLoader'
 import addFontAwesomeIcons from './utils/addFontIcons'
 
-addFontAwesomeIcons()
-
 class App extends React.Component {
 	componentDidMount() {
-		this.props.startup()
+		const { startup, setStripe } = this.props
+		addFontAwesomeIcons()
+		startup()
+		setStripe()
 	}
 
 	render() {
@@ -44,8 +48,9 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-	startup: PropTypes.func.isRequired,
-	startupFinished: PropTypes.bool.isRequired
+	startup: func.isRequired,
+	startupFinished: bool.isRequired,
+	setStripe: func.isRequired
 }
 
 const mapStateToProps = state => {
@@ -54,13 +59,17 @@ const mapStateToProps = state => {
 	}
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, { stripe }) => {
 	return {
-		startup: () => dispatch(startup())
+		startup: () => dispatch(startup()),
+		setStripe: () => dispatch(setStripe(stripe))
 	}
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+export default compose(
+	injectStripe,
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)
 )(App)

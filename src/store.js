@@ -3,8 +3,13 @@ import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import reducers from './reducers'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import createSagaMiddleware from 'redux-saga'
 
-let middlewares = [thunk]
+import rootSaga from './store/sagas/rootSaga'
+
+const sagaMiddleware = createSagaMiddleware()
+
+let middlewares = [thunk, sagaMiddleware]
 
 if (process.env.NODE_ENV === `development`) {
 	const logger = createLogger({
@@ -20,3 +25,4 @@ const configureStore = (initialState = {}) => {
 }
 
 export default configureStore()
+sagaMiddleware.run(rootSaga)

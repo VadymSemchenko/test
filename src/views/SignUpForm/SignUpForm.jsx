@@ -2,6 +2,7 @@ import { object } from 'prop-types'
 import React, { Component } from 'react'
 import { Switch, withRouter, Redirect } from 'react-router-dom'
 import findIndex from 'lodash/findIndex'
+import cx from 'classnames'
 
 import Stepper from '../../components/Stepper/Stepper'
 import EmailSubForm from './EmailSubForm/EmailSubForm'
@@ -46,14 +47,20 @@ class SignUpForm extends Component {
 			endpointStepIndex >= 0 ? endpointStepIndex : stateStepIndex
 		const shouldStepsBeDisplayed = activeStepIndex !== 0
 		const shouldFormTitleBeDisplayed = !shouldStepsBeDisplayed
+		const isBillingForm = activeStepIndex === 2
+		const loginFormWrapperClasses = cx({
+			'sign-up-form': true,
+			'payment-form': isBillingForm
+		})
+		// console.log('IS BILLING FORM', isBillingForm)
 		return (
 			<div className={'signup-form-page--content'}>
 				{shouldStepsBeDisplayed && (
 					<Stepper steps={this.steps} activeStepIndex={activeStepIndex} />
 				)}
-				<div className={'login-form'}>
+				<div className={loginFormWrapperClasses}>
 					{shouldFormTitleBeDisplayed && (
-						<div className="form-title-container">
+						<div>
 							<h2 className={'title'}>Sign Up</h2>
 						</div>
 					)}

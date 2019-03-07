@@ -99,7 +99,9 @@ class EmailSubForm extends Component {
 				{isLoading ? (
 					<Spinner spinnerColor="#4986c5" className="spinner" />
 				) : (
-					<input type="submit" className="signup-button" value="Sign Up" />
+					<div className="submit-button-container">
+						<input type="submit" className="signup-button" value="Sign Up" />
+					</div>
 				)}
 				<div>
 					<span />
