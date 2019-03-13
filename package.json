@@ -97,12 +97,6 @@
       "**/**.json"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "CI=true npm run test && lint-staged",
-      "post-merge": "npm install"
-    }
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
