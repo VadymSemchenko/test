@@ -1,0 +1,108 @@
+{
+  "name": "light-bootstrap-dashboard-react",
+  "version": "1.2.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bootstrap": "^3.3.7",
+    "chance": "^1.0.18",
+    "chartist": "0.10.1",
+    "classnames": "latest",
+    "cross-env": "^5.2.0",
+    "elasticsearch-browser": "^15.2.0",
+    "formik": "^1.5.1",
+    "history": "^4.7.2",
+    "humps": "^2.0.1",
+    "js-cookie": "^2.2.0",
+    "jsonwebtoken": "^8.4.0",
+    "leaflet": "^1.3.4",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
+    "node-sass": "4.6.1",
+    "node-sass-chokidar": "0.0.3",
+    "npm-run-all": "4.1.2",
+    "prop-types": "latest",
+    "query-string": "^6.2.0",
+    "react": "16.6.0",
+    "react-bootstrap": "0.32.4",
+    "react-chartist": "0.13.1",
+    "react-dom": "16.6.0",
+    "react-google-maps": "9.4.5",
+    "react-leaflet": "^2.1.3",
+    "react-loadable": "^5.5.0",
+    "react-loading-overlay": "^1.0.1",
+    "react-modal": "^3.7.1",
+    "react-notification-system": "0.2.17",
+    "react-redux": "^5.1.1",
+    "react-responsive": "^6.0.1",
+    "react-router-dom": "4.2.2",
+    "react-scripts": "^2.1.3",
+    "react-select": "^2.1.2",
+    "react-spinner-material": "^1.0.19",
+    "react-stripe-elements": "^2.0.3",
+    "react-toastify": "^4.5.2",
+    "redux": "^4.0.1",
+    "redux-actions": "^2.6.4",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^1.0.2",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
+    "yup": "^0.26.10"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.15.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "23.6.0",
+    "babel-preset-env": "^1.7.0",
+    "env-cmd": "^8.0.2",
+    "eslint": "^5.15.1",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.11.1",
+    "eslint-watch": "^4.0.2",
+    "husky": "^1.1.2",
+    "lint-staged": "^8.0.3",
+    "prettier": "^1.14.3",
+    "pretty-quick": "^1.8.0",
+    "redux-devtools-extension": "^2.13.8"
+  },
+  "scripts": {
+    "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "start-mocked-back-end": "cross-env REACT_APP_ENABLE_MOCK=true npm-run-all -p watch-css start-js",
+    "start-real-back-end": "REACT_APP_ENABLE_MOCK=false npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "build:latest": "env-cmd ./.env.latest npm run build",
+    "build:staging": "env-cmd ./.env.staging npm run build",
+    "build:production": "env-cmd ./.env.production npm run build"
+  },
+  "lint-staged": {
+    "linters": {
+      "*.{js,jsx}": [
+        "pretty-quick --staged",
+        "eslint --fix",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "**/**.json"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "CI=true npm run test && lint-staged",
+      "post-merge": "npm install"
+    }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
